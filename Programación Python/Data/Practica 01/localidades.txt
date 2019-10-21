@@ -1,0 +1,162 @@
+Nombre localidad|Teléfono Ayuntamiento|Teléfono Información | Teléfono emergencias
+La Acebeda|9286 |2855 |
+Ajalvir||9097 |
+El Álamo|9375 |8420 |
+Alcalá de Henares|8350 ||7261 
+Alcobendas||3115 |
+Alcorcón|||9861 
+Aldea del Fresno|||4043 
+Alpedrete|1705 |6251 |2198 
+Ambite||9037 |
+Anchuelo|4973 |5257 |
+Aranjuez||4805 |
+Arganda del Rey|3111 ||3035 
+Arroyomolinos|2926 ||8481 
+El Atazar|9650 |7157 |
+Batres|8800 |1164 |6059 
+Becerril de la Sierra||7251 |1875 
+Belmonte de Tajo|||3419 
+El Berrueco|2476 ||6650 
+Berzosa del Lozoya|4787 |2913 |2478 
+Boadilla del Monte|1428 |5557 |
+El Boalo|5632 |8008 |8019 
+Brea de Tajo|||8496 
+Brunete|3731 |8510 |
+Buitrago del Lozoya|6917 |2243 |3178 
+Bustarviejo||6323 |5048 
+Cabanillas de la Sierra||8537 |
+La Cabrera||7061 |
+Cadalso de los Vidrios|1525 ||3811 
+Camarma de Esteruelas||6306 |
+Campo Real|5948 ||6869 
+Canencia||3642 |
+Carabaña|7429 |3229 |3824 
+Casarrubuelos|||9868 
+Cenicientos|||3535 
+Cercedilla|5951 ||4381 
+Cervera de Buitrago|8204 |7544 |7888 
+Chapinería|3309 ||6356 
+Chinchón||8625 |4951 
+Ciempozuelos|9342 ||5329 
+Cobeña|7469 |5442 |7997 
+Collado Mediano|||3959 
+Collado Villalba|6803 ||9073 
+Colmenar de Oreja||1087 |7879 
+Colmenar del Arroyo|2160 |8707 |
+Colmenar Viejo|9666 ||
+Coslada|1785 |1329 |4249 
+Cubas de la Sagra|6723 ||
+El Escorial||4217 |1383 
+Estremera|5940 |2757 |1302 
+Fresnedillas de la Oliva||3859 |1188 
+Fresno de Torote||4211 |5417 
+Fuenlabrada|||1792 
+Fuente el Saz de Jarama||6708 |6663 
+Fuentidueña de Tajo||2465 |5934 
+Garganta de los Montes|9175 |2960 |
+Gargantilla del Lozoya y Pinilla de Buitrago||2009 |1051 
+Gascones||4412 |1008 
+Getafe|3961 |2375 |
+Griñón|1403 ||
+Guadalix de la Sierra|8545 |7950 |
+Guadarrama|4235 |8862 |
+La Hiruela||3872 |5047 
+Horcajo de la Sierra-Aoslos||2934 |
+Horcajuelo de la Sierra||2301 |9201 
+Hoyo de Manzanares|1957 ||1166 
+Humanes de Madrid|||6626 
+Leganés|6988 |4252 |
+Loeches|4299 |8357 |
+Lozoya||2105 |
+Madarcos||9374 |4670 
+Madrid||8364 |5654 
+Majadahonda|6472 ||
+Manzanares el Real|2722 ||
+Meco|9795 |5167 |1371 
+Mejorada del Campo||6626 |6207 
+Miraflores de la Sierra|6707 ||8817 
+El Molar|3917 |4017 |8453 
+Montejo de la Sierra|8909 ||4449 
+Moraleja de Enmedio|||8186 
+Moralzarzal|8395 ||
+Morata de Tajuña||6902 |2568 
+Móstoles||7478 |
+Navacerrada||4656 |1879 
+Navalafuente|5930 |8503 |5025 
+Navalagamella|8069 ||4266 
+Navarredonda y San Mamés||8217 |9026 
+Navas del Rey|1968 |1822 |
+Nuevo Baztán|3921 |8820 |9022 
+Olmeda de las Fuentes|1686 |9027 |6807 
+Orusco de Tajuña|1441 |3232 |
+Paracuellos de Jarama|2725 ||
+Parla||7343 |
+Patones|6989 |8254 |
+Pedrezuela|6178 ||4419 
+Pelayos de la Presa|4819 |7781 |
+Perales de Tajuña|7083 |5941 |8831 
+Pezuela de las Torres|9057 ||
+Pinilla del Valle||7406 |
+Pinto||4937 |9777 
+Piñuécar-Gandullas|||3212 
+Pozuelo de Alarcón|5020 |5677 |
+Pozuelo del Rey|8517 |2681 |1992 
+Prádena del Rincón|7311 ||
+Puebla de la Sierra|8465 ||7208 
+Puentes Viejas|4810 ||9311 
+Quijorna|2955 |3847 |6584 
+Rascafría||2517 |
+Redueña|1697 |9153 |2294 
+Ribatejada|7743 |7984 |
+Rivas-Vaciamadrid|5772 ||8543 
+Robledillo de la Jara|6010 |8884 |
+Robledo de Chavela|3370 |3012 |1483 
+Las Rozas de Madrid|4613 |8600 |
+Rozas de Puerto Real|5923 ||
+San Agustín del Guadalix|||7481 
+San Fernando de Henares|9757 ||
+San Lorenzo de El Escorial||8768 |4994 
+San Martín de la Vega||8170 |9757 
+San Martín de Valdeiglesias||7580 |7601 
+San Sebastián de los Reyes|6214 |2003 |
+Santa María de la Alameda|6150 |4360 |
+La Serna del Monte||9793 |
+Serranillos del Valle|6634 |4039 |5521 
+Sevilla la Nueva||5915 |2169 
+Somosierra|||8464 
+Soto del Real|4957 |1931 |
+Talamanca de Jarama||8877 |
+Tielmes|1990 ||2548 
+Torrejón de la Calzada|7768 ||
+Torrejón de Velasco|3004 |2922 |
+Torrelaguna|||1217 
+Torrelodones|7985 |8890 |
+Torres de la Alameda|||4479 
+Tres Cantos|||7377 
+Valdaracete|9116 ||
+Valdeavero|||1588 
+Valdelaguna|6780 ||9741 
+Valdemanco||6281 |1655 
+Valdemaqueda||7048 |7044 
+Valdemorillo|5771 |9142 |
+Valdemoro|8494 |2649 |6937 
+Valdeolmos-Alalpardo|9798 ||
+Valdepiélagos|2772 ||4486 
+Valdetorres de Jarama|7714 |3833 |6464 
+Valdilecha||7484 |
+Valverde de Alcalá|8862 ||2659 
+Velilla de San Antonio|4018 ||7163 
+El Vellón|7021 ||1788 
+Villa del Prado||6080 |
+Villaconejos|5160 ||7071 
+Villalbilla|5229 ||1291 
+Villamanrique de Tajo|2573 ||7708 
+Villamanta|6789 |8392 |9865 
+Villamantilla|1031 |4450 |
+Villanueva de la Cañada|5320 ||5261 
+Villanueva de Perales|9567 ||6800 
+Villanueva del Pardillo|||3241 
+Villar del Olmo|9281 ||3595 
+Villaviciosa de Odón|2647 |5440 |
+Villavieja del Lozoya|5913 |8741 |5713 
+Zarzalejo|5046 |1283 |

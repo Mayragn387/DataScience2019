@@ -1,0 +1,3223 @@
+municipio_codigo;municipio_nombre;sexo;rango_edad_de_la_madre;numero_nacimientos
+001; Acebeda (La);Hombre;Menores de 15 años;0
+001; Acebeda (La);Hombre;De 15 a 19 años;0
+001; Acebeda (La);Hombre;De 20 a 24 años;0
+001; Acebeda (La);Hombre;De 25 a 29 años;0
+001; Acebeda (La);Hombre;De 30 a 34 años;0
+001; Acebeda (La);Hombre;De 35 a 39 años;0
+001; Acebeda (La);Hombre;De 40 a 44 años;0
+001; Acebeda (La);Hombre;De 45 a 49 años;0
+001; Acebeda (La);Hombre;De 50 años y más;0
+001; Acebeda (La);Mujer;Menores de 15 años;0
+001; Acebeda (La);Mujer;De 15 a 19 años;0
+001; Acebeda (La);Mujer;De 20 a 24 años;0
+001; Acebeda (La);Mujer;De 25 a 29 años;0
+001; Acebeda (La);Mujer;De 30 a 34 años;0
+001; Acebeda (La);Mujer;De 35 a 39 años;0
+001; Acebeda (La);Mujer;De 40 a 44 años;0
+001; Acebeda (La);Mujer;De 45 a 49 años;0
+001; Acebeda (La);Mujer;De 50 años y más;0
+002; Ajalvir;Hombre;Menores de 15 años;0
+002; Ajalvir;Hombre;De 15 a 19 años;0
+002; Ajalvir;Hombre;De 20 a 24 años;0
+002; Ajalvir;Hombre;De 25 a 29 años;3
+002; Ajalvir;Hombre;De 30 a 34 años;8
+002; Ajalvir;Hombre;De 35 a 39 años;5
+002; Ajalvir;Hombre;De 40 a 44 años;4
+002; Ajalvir;Hombre;De 45 a 49 años;0
+002; Ajalvir;Hombre;De 50 años y más;0
+002; Ajalvir;Mujer;Menores de 15 años;0
+002; Ajalvir;Mujer;De 15 a 19 años;0
+002; Ajalvir;Mujer;De 20 a 24 años;1
+002; Ajalvir;Mujer;De 25 a 29 años;1
+002; Ajalvir;Mujer;De 30 a 34 años;9
+002; Ajalvir;Mujer;De 35 a 39 años;5
+002; Ajalvir;Mujer;De 40 a 44 años;0
+002; Ajalvir;Mujer;De 45 a 49 años;0
+002; Ajalvir;Mujer;De 50 años y más;0
+003; Alameda del Valle;Hombre;Menores de 15 años;0
+003; Alameda del Valle;Hombre;De 15 a 19 años;0
+003; Alameda del Valle;Hombre;De 20 a 24 años;0
+003; Alameda del Valle;Hombre;De 25 a 29 años;0
+003; Alameda del Valle;Hombre;De 30 a 34 años;0
+003; Alameda del Valle;Hombre;De 35 a 39 años;0
+003; Alameda del Valle;Hombre;De 40 a 44 años;0
+003; Alameda del Valle;Hombre;De 45 a 49 años;0
+003; Alameda del Valle;Hombre;De 50 años y más;0
+003; Alameda del Valle;Mujer;Menores de 15 años;0
+003; Alameda del Valle;Mujer;De 15 a 19 años;0
+003; Alameda del Valle;Mujer;De 20 a 24 años;0
+003; Alameda del Valle;Mujer;De 25 a 29 años;0
+003; Alameda del Valle;Mujer;De 30 a 34 años;0
+003; Alameda del Valle;Mujer;De 35 a 39 años;0
+003; Alameda del Valle;Mujer;De 40 a 44 años;0
+003; Alameda del Valle;Mujer;De 45 a 49 años;0
+003; Alameda del Valle;Mujer;De 50 años y más;0
+004; Álamo (El);Hombre;Menores de 15 años;0
+004; Álamo (El);Hombre;De 15 a 19 años;2
+004; Álamo (El);Hombre;De 20 a 24 años;5
+004; Álamo (El);Hombre;De 25 a 29 años;12
+004; Álamo (El);Hombre;De 30 a 34 años;14
+004; Álamo (El);Hombre;De 35 a 39 años;8
+004; Álamo (El);Hombre;De 40 a 44 años;3
+004; Álamo (El);Hombre;De 45 a 49 años;0
+004; Álamo (El);Hombre;De 50 años y más;0
+004; Álamo (El);Mujer;Menores de 15 años;0
+004; Álamo (El);Mujer;De 15 a 19 años;0
+004; Álamo (El);Mujer;De 20 a 24 años;7
+004; Álamo (El);Mujer;De 25 a 29 años;13
+004; Álamo (El);Mujer;De 30 a 34 años;14
+004; Álamo (El);Mujer;De 35 a 39 años;11
+004; Álamo (El);Mujer;De 40 a 44 años;1
+004; Álamo (El);Mujer;De 45 a 49 años;0
+004; Álamo (El);Mujer;De 50 años y más;0
+005; Alcalá de Henares;Hombre;Menores de 15 años;0
+005; Alcalá de Henares;Hombre;De 15 a 19 años;19
+005; Alcalá de Henares;Hombre;De 20 a 24 años;54
+005; Alcalá de Henares;Hombre;De 25 a 29 años;137
+005; Alcalá de Henares;Hombre;De 30 a 34 años;285
+005; Alcalá de Henares;Hombre;De 35 a 39 años;253
+005; Alcalá de Henares;Hombre;De 40 a 44 años;57
+005; Alcalá de Henares;Hombre;De 45 a 49 años;3
+005; Alcalá de Henares;Hombre;De 50 años y más;1
+005; Alcalá de Henares;Mujer;Menores de 15 años;0
+005; Alcalá de Henares;Mujer;De 15 a 19 años;18
+005; Alcalá de Henares;Mujer;De 20 a 24 años;55
+005; Alcalá de Henares;Mujer;De 25 a 29 años;125
+005; Alcalá de Henares;Mujer;De 30 a 34 años;285
+005; Alcalá de Henares;Mujer;De 35 a 39 años;246
+005; Alcalá de Henares;Mujer;De 40 a 44 años;64
+005; Alcalá de Henares;Mujer;De 45 a 49 años;7
+005; Alcalá de Henares;Mujer;De 50 años y más;0
+006; Alcobendas;Hombre;Menores de 15 años;0
+006; Alcobendas;Hombre;De 15 a 19 años;6
+006; Alcobendas;Hombre;De 20 a 24 años;28
+006; Alcobendas;Hombre;De 25 a 29 años;68
+006; Alcobendas;Hombre;De 30 a 34 años;163
+006; Alcobendas;Hombre;De 35 a 39 años;177
+006; Alcobendas;Hombre;De 40 a 44 años;51
+006; Alcobendas;Hombre;De 45 a 49 años;7
+006; Alcobendas;Hombre;De 50 años y más;0
+006; Alcobendas;Mujer;Menores de 15 años;0
+006; Alcobendas;Mujer;De 15 a 19 años;10
+006; Alcobendas;Mujer;De 20 a 24 años;28
+006; Alcobendas;Mujer;De 25 a 29 años;70
+006; Alcobendas;Mujer;De 30 a 34 años;159
+006; Alcobendas;Mujer;De 35 a 39 años;163
+006; Alcobendas;Mujer;De 40 a 44 años;51
+006; Alcobendas;Mujer;De 45 a 49 años;4
+006; Alcobendas;Mujer;De 50 años y más;0
+007; Alcorcón;Hombre;Menores de 15 años;0
+007; Alcorcón;Hombre;De 15 a 19 años;8
+007; Alcorcón;Hombre;De 20 a 24 años;36
+007; Alcorcón;Hombre;De 25 a 29 años;104
+007; Alcorcón;Hombre;De 30 a 34 años;212
+007; Alcorcón;Hombre;De 35 a 39 años;268
+007; Alcorcón;Hombre;De 40 a 44 años;88
+007; Alcorcón;Hombre;De 45 a 49 años;5
+007; Alcorcón;Hombre;De 50 años y más;1
+007; Alcorcón;Mujer;Menores de 15 años;0
+007; Alcorcón;Mujer;De 15 a 19 años;6
+007; Alcorcón;Mujer;De 20 a 24 años;33
+007; Alcorcón;Mujer;De 25 a 29 años;96
+007; Alcorcón;Mujer;De 30 a 34 años;229
+007; Alcorcón;Mujer;De 35 a 39 años;269
+007; Alcorcón;Mujer;De 40 a 44 años;88
+007; Alcorcón;Mujer;De 45 a 49 años;6
+007; Alcorcón;Mujer;De 50 años y más;0
+008; Aldea del Fresno;Hombre;Menores de 15 años;0
+008; Aldea del Fresno;Hombre;De 15 a 19 años;0
+008; Aldea del Fresno;Hombre;De 20 a 24 años;1
+008; Aldea del Fresno;Hombre;De 25 a 29 años;5
+008; Aldea del Fresno;Hombre;De 30 a 34 años;1
+008; Aldea del Fresno;Hombre;De 35 a 39 años;2
+008; Aldea del Fresno;Hombre;De 40 a 44 años;0
+008; Aldea del Fresno;Hombre;De 45 a 49 años;1
+008; Aldea del Fresno;Hombre;De 50 años y más;0
+008; Aldea del Fresno;Mujer;Menores de 15 años;0
+008; Aldea del Fresno;Mujer;De 15 a 19 años;0
+008; Aldea del Fresno;Mujer;De 20 a 24 años;0
+008; Aldea del Fresno;Mujer;De 25 a 29 años;3
+008; Aldea del Fresno;Mujer;De 30 a 34 años;9
+008; Aldea del Fresno;Mujer;De 35 a 39 años;1
+008; Aldea del Fresno;Mujer;De 40 a 44 años;1
+008; Aldea del Fresno;Mujer;De 45 a 49 años;0
+008; Aldea del Fresno;Mujer;De 50 años y más;0
+009; Algete;Hombre;Menores de 15 años;0
+009; Algete;Hombre;De 15 a 19 años;0
+009; Algete;Hombre;De 20 a 24 años;2
+009; Algete;Hombre;De 25 a 29 años;16
+009; Algete;Hombre;De 30 a 34 años;28
+009; Algete;Hombre;De 35 a 39 años;20
+009; Algete;Hombre;De 40 a 44 años;6
+009; Algete;Hombre;De 45 a 49 años;0
+009; Algete;Hombre;De 50 años y más;0
+009; Algete;Mujer;Menores de 15 años;0
+009; Algete;Mujer;De 15 a 19 años;0
+009; Algete;Mujer;De 20 a 24 años;3
+009; Algete;Mujer;De 25 a 29 años;17
+009; Algete;Mujer;De 30 a 34 años;31
+009; Algete;Mujer;De 35 a 39 años;34
+009; Algete;Mujer;De 40 a 44 años;3
+009; Algete;Mujer;De 45 a 49 años;0
+009; Algete;Mujer;De 50 años y más;0
+010; Alpedrete;Hombre;Menores de 15 años;0
+010; Alpedrete;Hombre;De 15 a 19 años;0
+010; Alpedrete;Hombre;De 20 a 24 años;2
+010; Alpedrete;Hombre;De 25 a 29 años;11
+010; Alpedrete;Hombre;De 30 a 34 años;20
+010; Alpedrete;Hombre;De 35 a 39 años;22
+010; Alpedrete;Hombre;De 40 a 44 años;6
+010; Alpedrete;Hombre;De 45 a 49 años;0
+010; Alpedrete;Hombre;De 50 años y más;0
+010; Alpedrete;Mujer;Menores de 15 años;0
+010; Alpedrete;Mujer;De 15 a 19 años;0
+010; Alpedrete;Mujer;De 20 a 24 años;0
+010; Alpedrete;Mujer;De 25 a 29 años;5
+010; Alpedrete;Mujer;De 30 a 34 años;20
+010; Alpedrete;Mujer;De 35 a 39 años;21
+010; Alpedrete;Mujer;De 40 a 44 años;4
+010; Alpedrete;Mujer;De 45 a 49 años;1
+010; Alpedrete;Mujer;De 50 años y más;0
+011; Ambite;Hombre;Menores de 15 años;0
+011; Ambite;Hombre;De 15 a 19 años;0
+011; Ambite;Hombre;De 20 a 24 años;0
+011; Ambite;Hombre;De 25 a 29 años;1
+011; Ambite;Hombre;De 30 a 34 años;0
+011; Ambite;Hombre;De 35 a 39 años;0
+011; Ambite;Hombre;De 40 a 44 años;0
+011; Ambite;Hombre;De 45 a 49 años;0
+011; Ambite;Hombre;De 50 años y más;0
+011; Ambite;Mujer;Menores de 15 años;0
+011; Ambite;Mujer;De 15 a 19 años;0
+011; Ambite;Mujer;De 20 a 24 años;0
+011; Ambite;Mujer;De 25 a 29 años;1
+011; Ambite;Mujer;De 30 a 34 años;1
+011; Ambite;Mujer;De 35 a 39 años;1
+011; Ambite;Mujer;De 40 a 44 años;0
+011; Ambite;Mujer;De 45 a 49 años;0
+011; Ambite;Mujer;De 50 años y más;0
+012; Anchuelo;Hombre;Menores de 15 años;0
+012; Anchuelo;Hombre;De 15 a 19 años;0
+012; Anchuelo;Hombre;De 20 a 24 años;0
+012; Anchuelo;Hombre;De 25 a 29 años;2
+012; Anchuelo;Hombre;De 30 a 34 años;2
+012; Anchuelo;Hombre;De 35 a 39 años;9
+012; Anchuelo;Hombre;De 40 a 44 años;0
+012; Anchuelo;Hombre;De 45 a 49 años;0
+012; Anchuelo;Hombre;De 50 años y más;0
+012; Anchuelo;Mujer;Menores de 15 años;0
+012; Anchuelo;Mujer;De 15 a 19 años;0
+012; Anchuelo;Mujer;De 20 a 24 años;0
+012; Anchuelo;Mujer;De 25 a 29 años;3
+012; Anchuelo;Mujer;De 30 a 34 años;3
+012; Anchuelo;Mujer;De 35 a 39 años;1
+012; Anchuelo;Mujer;De 40 a 44 años;0
+012; Anchuelo;Mujer;De 45 a 49 años;0
+012; Anchuelo;Mujer;De 50 años y más;0
+013; Aranjuez;Hombre;Menores de 15 años;0
+013; Aranjuez;Hombre;De 15 a 19 años;9
+013; Aranjuez;Hombre;De 20 a 24 años;25
+013; Aranjuez;Hombre;De 25 a 29 años;54
+013; Aranjuez;Hombre;De 30 a 34 años;106
+013; Aranjuez;Hombre;De 35 a 39 años;104
+013; Aranjuez;Hombre;De 40 a 44 años;14
+013; Aranjuez;Hombre;De 45 a 49 años;4
+013; Aranjuez;Hombre;De 50 años y más;0
+013; Aranjuez;Mujer;Menores de 15 años;0
+013; Aranjuez;Mujer;De 15 a 19 años;8
+013; Aranjuez;Mujer;De 20 a 24 años;20
+013; Aranjuez;Mujer;De 25 a 29 años;53
+013; Aranjuez;Mujer;De 30 a 34 años;88
+013; Aranjuez;Mujer;De 35 a 39 años;71
+013; Aranjuez;Mujer;De 40 a 44 años;21
+013; Aranjuez;Mujer;De 45 a 49 años;2
+013; Aranjuez;Mujer;De 50 años y más;0
+014; Arganda del Rey;Hombre;Menores de 15 años;0
+014; Arganda del Rey;Hombre;De 15 a 19 años;2
+014; Arganda del Rey;Hombre;De 20 a 24 años;12
+014; Arganda del Rey;Hombre;De 25 a 29 años;58
+014; Arganda del Rey;Hombre;De 30 a 34 años;118
+014; Arganda del Rey;Hombre;De 35 a 39 años;95
+014; Arganda del Rey;Hombre;De 40 a 44 años;17
+014; Arganda del Rey;Hombre;De 45 a 49 años;0
+014; Arganda del Rey;Hombre;De 50 años y más;0
+014; Arganda del Rey;Mujer;Menores de 15 años;0
+014; Arganda del Rey;Mujer;De 15 a 19 años;1
+014; Arganda del Rey;Mujer;De 20 a 24 años;18
+014; Arganda del Rey;Mujer;De 25 a 29 años;52
+014; Arganda del Rey;Mujer;De 30 a 34 años;90
+014; Arganda del Rey;Mujer;De 35 a 39 años;75
+014; Arganda del Rey;Mujer;De 40 a 44 años;25
+014; Arganda del Rey;Mujer;De 45 a 49 años;1
+014; Arganda del Rey;Mujer;De 50 años y más;0
+015; Arroyomolinos;Hombre;Menores de 15 años;0
+015; Arroyomolinos;Hombre;De 15 a 19 años;2
+015; Arroyomolinos;Hombre;De 20 a 24 años;5
+015; Arroyomolinos;Hombre;De 25 a 29 años;28
+015; Arroyomolinos;Hombre;De 30 a 34 años;98
+015; Arroyomolinos;Hombre;De 35 a 39 años;101
+015; Arroyomolinos;Hombre;De 40 a 44 años;24
+015; Arroyomolinos;Hombre;De 45 a 49 años;3
+015; Arroyomolinos;Hombre;De 50 años y más;0
+015; Arroyomolinos;Mujer;Menores de 15 años;0
+015; Arroyomolinos;Mujer;De 15 a 19 años;1
+015; Arroyomolinos;Mujer;De 20 a 24 años;2
+015; Arroyomolinos;Mujer;De 25 a 29 años;21
+015; Arroyomolinos;Mujer;De 30 a 34 años;81
+015; Arroyomolinos;Mujer;De 35 a 39 años;85
+015; Arroyomolinos;Mujer;De 40 a 44 años;14
+015; Arroyomolinos;Mujer;De 45 a 49 años;4
+015; Arroyomolinos;Mujer;De 50 años y más;0
+016; Atazar (El);Hombre;Menores de 15 años;0
+016; Atazar (El);Hombre;De 15 a 19 años;0
+016; Atazar (El);Hombre;De 20 a 24 años;0
+016; Atazar (El);Hombre;De 25 a 29 años;0
+016; Atazar (El);Hombre;De 30 a 34 años;0
+016; Atazar (El);Hombre;De 35 a 39 años;0
+016; Atazar (El);Hombre;De 40 a 44 años;0
+016; Atazar (El);Hombre;De 45 a 49 años;0
+016; Atazar (El);Hombre;De 50 años y más;0
+016; Atazar (El);Mujer;Menores de 15 años;0
+016; Atazar (El);Mujer;De 15 a 19 años;0
+016; Atazar (El);Mujer;De 20 a 24 años;0
+016; Atazar (El);Mujer;De 25 a 29 años;0
+016; Atazar (El);Mujer;De 30 a 34 años;0
+016; Atazar (El);Mujer;De 35 a 39 años;0
+016; Atazar (El);Mujer;De 40 a 44 años;0
+016; Atazar (El);Mujer;De 45 a 49 años;0
+016; Atazar (El);Mujer;De 50 años y más;0
+017; Batres;Hombre;Menores de 15 años;0
+017; Batres;Hombre;De 15 a 19 años;0
+017; Batres;Hombre;De 20 a 24 años;0
+017; Batres;Hombre;De 25 a 29 años;1
+017; Batres;Hombre;De 30 a 34 años;3
+017; Batres;Hombre;De 35 a 39 años;3
+017; Batres;Hombre;De 40 a 44 años;2
+017; Batres;Hombre;De 45 a 49 años;0
+017; Batres;Hombre;De 50 años y más;0
+017; Batres;Mujer;Menores de 15 años;0
+017; Batres;Mujer;De 15 a 19 años;0
+017; Batres;Mujer;De 20 a 24 años;1
+017; Batres;Mujer;De 25 a 29 años;2
+017; Batres;Mujer;De 30 a 34 años;0
+017; Batres;Mujer;De 35 a 39 años;0
+017; Batres;Mujer;De 40 a 44 años;3
+017; Batres;Mujer;De 45 a 49 años;0
+017; Batres;Mujer;De 50 años y más;0
+018; Becerril de la Sierra;Hombre;Menores de 15 años;0
+018; Becerril de la Sierra;Hombre;De 15 a 19 años;0
+018; Becerril de la Sierra;Hombre;De 20 a 24 años;1
+018; Becerril de la Sierra;Hombre;De 25 a 29 años;5
+018; Becerril de la Sierra;Hombre;De 30 a 34 años;8
+018; Becerril de la Sierra;Hombre;De 35 a 39 años;7
+018; Becerril de la Sierra;Hombre;De 40 a 44 años;0
+018; Becerril de la Sierra;Hombre;De 45 a 49 años;0
+018; Becerril de la Sierra;Hombre;De 50 años y más;0
+018; Becerril de la Sierra;Mujer;Menores de 15 años;0
+018; Becerril de la Sierra;Mujer;De 15 a 19 años;0
+018; Becerril de la Sierra;Mujer;De 20 a 24 años;4
+018; Becerril de la Sierra;Mujer;De 25 a 29 años;2
+018; Becerril de la Sierra;Mujer;De 30 a 34 años;6
+018; Becerril de la Sierra;Mujer;De 35 a 39 años;10
+018; Becerril de la Sierra;Mujer;De 40 a 44 años;1
+018; Becerril de la Sierra;Mujer;De 45 a 49 años;0
+018; Becerril de la Sierra;Mujer;De 50 años y más;0
+019; Belmonte de Tajo;Hombre;Menores de 15 años;0
+019; Belmonte de Tajo;Hombre;De 15 a 19 años;0
+019; Belmonte de Tajo;Hombre;De 20 a 24 años;0
+019; Belmonte de Tajo;Hombre;De 25 a 29 años;0
+019; Belmonte de Tajo;Hombre;De 30 a 34 años;1
+019; Belmonte de Tajo;Hombre;De 35 a 39 años;1
+019; Belmonte de Tajo;Hombre;De 40 a 44 años;1
+019; Belmonte de Tajo;Hombre;De 45 a 49 años;0
+019; Belmonte de Tajo;Hombre;De 50 años y más;0
+019; Belmonte de Tajo;Mujer;Menores de 15 años;0
+019; Belmonte de Tajo;Mujer;De 15 a 19 años;0
+019; Belmonte de Tajo;Mujer;De 20 a 24 años;1
+019; Belmonte de Tajo;Mujer;De 25 a 29 años;1
+019; Belmonte de Tajo;Mujer;De 30 a 34 años;3
+019; Belmonte de Tajo;Mujer;De 35 a 39 años;4
+019; Belmonte de Tajo;Mujer;De 40 a 44 años;0
+019; Belmonte de Tajo;Mujer;De 45 a 49 años;0
+019; Belmonte de Tajo;Mujer;De 50 años y más;0
+021; Berrueco (El);Hombre;Menores de 15 años;0
+021; Berrueco (El);Hombre;De 15 a 19 años;0
+021; Berrueco (El);Hombre;De 20 a 24 años;1
+021; Berrueco (El);Hombre;De 25 a 29 años;1
+021; Berrueco (El);Hombre;De 30 a 34 años;0
+021; Berrueco (El);Hombre;De 35 a 39 años;0
+021; Berrueco (El);Hombre;De 40 a 44 años;1
+021; Berrueco (El);Hombre;De 45 a 49 años;0
+021; Berrueco (El);Hombre;De 50 años y más;0
+021; Berrueco (El);Mujer;Menores de 15 años;0
+021; Berrueco (El);Mujer;De 15 a 19 años;0
+021; Berrueco (El);Mujer;De 20 a 24 años;0
+021; Berrueco (El);Mujer;De 25 a 29 años;0
+021; Berrueco (El);Mujer;De 30 a 34 años;2
+021; Berrueco (El);Mujer;De 35 a 39 años;0
+021; Berrueco (El);Mujer;De 40 a 44 años;1
+021; Berrueco (El);Mujer;De 45 a 49 años;0
+021; Berrueco (El);Mujer;De 50 años y más;0
+020; Berzosa del Lozoya;Hombre;Menores de 15 años;0
+020; Berzosa del Lozoya;Hombre;De 15 a 19 años;0
+020; Berzosa del Lozoya;Hombre;De 20 a 24 años;0
+020; Berzosa del Lozoya;Hombre;De 25 a 29 años;0
+020; Berzosa del Lozoya;Hombre;De 30 a 34 años;0
+020; Berzosa del Lozoya;Hombre;De 35 a 39 años;0
+020; Berzosa del Lozoya;Hombre;De 40 a 44 años;0
+020; Berzosa del Lozoya;Hombre;De 45 a 49 años;0
+020; Berzosa del Lozoya;Hombre;De 50 años y más;0
+020; Berzosa del Lozoya;Mujer;Menores de 15 años;0
+020; Berzosa del Lozoya;Mujer;De 15 a 19 años;0
+020; Berzosa del Lozoya;Mujer;De 20 a 24 años;0
+020; Berzosa del Lozoya;Mujer;De 25 a 29 años;0
+020; Berzosa del Lozoya;Mujer;De 30 a 34 años;0
+020; Berzosa del Lozoya;Mujer;De 35 a 39 años;1
+020; Berzosa del Lozoya;Mujer;De 40 a 44 años;0
+020; Berzosa del Lozoya;Mujer;De 45 a 49 años;0
+020; Berzosa del Lozoya;Mujer;De 50 años y más;0
+022; Boadilla del Monte;Hombre;Menores de 15 años;0
+022; Boadilla del Monte;Hombre;De 15 a 19 años;1
+022; Boadilla del Monte;Hombre;De 20 a 24 años;4
+022; Boadilla del Monte;Hombre;De 25 a 29 años;17
+022; Boadilla del Monte;Hombre;De 30 a 34 años;64
+022; Boadilla del Monte;Hombre;De 35 a 39 años;108
+022; Boadilla del Monte;Hombre;De 40 a 44 años;40
+022; Boadilla del Monte;Hombre;De 45 a 49 años;1
+022; Boadilla del Monte;Hombre;De 50 años y más;0
+022; Boadilla del Monte;Mujer;Menores de 15 años;0
+022; Boadilla del Monte;Mujer;De 15 a 19 años;0
+022; Boadilla del Monte;Mujer;De 20 a 24 años;3
+022; Boadilla del Monte;Mujer;De 25 a 29 años;20
+022; Boadilla del Monte;Mujer;De 30 a 34 años;62
+022; Boadilla del Monte;Mujer;De 35 a 39 años;82
+022; Boadilla del Monte;Mujer;De 40 a 44 años;39
+022; Boadilla del Monte;Mujer;De 45 a 49 años;6
+022; Boadilla del Monte;Mujer;De 50 años y más;0
+023; Boalo (El);Hombre;Menores de 15 años;0
+023; Boalo (El);Hombre;De 15 a 19 años;0
+023; Boalo (El);Hombre;De 20 a 24 años;1
+023; Boalo (El);Hombre;De 25 a 29 años;4
+023; Boalo (El);Hombre;De 30 a 34 años;7
+023; Boalo (El);Hombre;De 35 a 39 años;7
+023; Boalo (El);Hombre;De 40 a 44 años;2
+023; Boalo (El);Hombre;De 45 a 49 años;5
+023; Boalo (El);Hombre;De 50 años y más;0
+023; Boalo (El);Mujer;Menores de 15 años;0
+023; Boalo (El);Mujer;De 15 a 19 años;1
+023; Boalo (El);Mujer;De 20 a 24 años;0
+023; Boalo (El);Mujer;De 25 a 29 años;3
+023; Boalo (El);Mujer;De 30 a 34 años;8
+023; Boalo (El);Mujer;De 35 a 39 años;5
+023; Boalo (El);Mujer;De 40 a 44 años;2
+023; Boalo (El);Mujer;De 45 a 49 años;1
+023; Boalo (El);Mujer;De 50 años y más;0
+024; Braojos;Hombre;Menores de 15 años;0
+024; Braojos;Hombre;De 15 a 19 años;0
+024; Braojos;Hombre;De 20 a 24 años;1
+024; Braojos;Hombre;De 25 a 29 años;0
+024; Braojos;Hombre;De 30 a 34 años;1
+024; Braojos;Hombre;De 35 a 39 años;0
+024; Braojos;Hombre;De 40 a 44 años;0
+024; Braojos;Hombre;De 45 a 49 años;0
+024; Braojos;Hombre;De 50 años y más;0
+024; Braojos;Mujer;Menores de 15 años;0
+024; Braojos;Mujer;De 15 a 19 años;0
+024; Braojos;Mujer;De 20 a 24 años;0
+024; Braojos;Mujer;De 25 a 29 años;0
+024; Braojos;Mujer;De 30 a 34 años;0
+024; Braojos;Mujer;De 35 a 39 años;0
+024; Braojos;Mujer;De 40 a 44 años;0
+024; Braojos;Mujer;De 45 a 49 años;0
+024; Braojos;Mujer;De 50 años y más;0
+025; Brea de Tajo;Hombre;Menores de 15 años;0
+025; Brea de Tajo;Hombre;De 15 a 19 años;0
+025; Brea de Tajo;Hombre;De 20 a 24 años;0
+025; Brea de Tajo;Hombre;De 25 a 29 años;1
+025; Brea de Tajo;Hombre;De 30 a 34 años;1
+025; Brea de Tajo;Hombre;De 35 a 39 años;1
+025; Brea de Tajo;Hombre;De 40 a 44 años;0
+025; Brea de Tajo;Hombre;De 45 a 49 años;0
+025; Brea de Tajo;Hombre;De 50 años y más;0
+025; Brea de Tajo;Mujer;Menores de 15 años;0
+025; Brea de Tajo;Mujer;De 15 a 19 años;0
+025; Brea de Tajo;Mujer;De 20 a 24 años;0
+025; Brea de Tajo;Mujer;De 25 a 29 años;0
+025; Brea de Tajo;Mujer;De 30 a 34 años;2
+025; Brea de Tajo;Mujer;De 35 a 39 años;0
+025; Brea de Tajo;Mujer;De 40 a 44 años;0
+025; Brea de Tajo;Mujer;De 45 a 49 años;0
+025; Brea de Tajo;Mujer;De 50 años y más;0
+026; Brunete;Hombre;Menores de 15 años;0
+026; Brunete;Hombre;De 15 a 19 años;0
+026; Brunete;Hombre;De 20 a 24 años;1
+026; Brunete;Hombre;De 25 a 29 años;10
+026; Brunete;Hombre;De 30 a 34 años;20
+026; Brunete;Hombre;De 35 a 39 años;16
+026; Brunete;Hombre;De 40 a 44 años;10
+026; Brunete;Hombre;De 45 a 49 años;0
+026; Brunete;Hombre;De 50 años y más;0
+026; Brunete;Mujer;Menores de 15 años;0
+026; Brunete;Mujer;De 15 a 19 años;0
+026; Brunete;Mujer;De 20 a 24 años;3
+026; Brunete;Mujer;De 25 a 29 años;5
+026; Brunete;Mujer;De 30 a 34 años;10
+026; Brunete;Mujer;De 35 a 39 años;25
+026; Brunete;Mujer;De 40 a 44 años;2
+026; Brunete;Mujer;De 45 a 49 años;1
+026; Brunete;Mujer;De 50 años y más;0
+027; Buitrago del Lozoya;Hombre;Menores de 15 años;0
+027; Buitrago del Lozoya;Hombre;De 15 a 19 años;0
+027; Buitrago del Lozoya;Hombre;De 20 a 24 años;0
+027; Buitrago del Lozoya;Hombre;De 25 a 29 años;1
+027; Buitrago del Lozoya;Hombre;De 30 a 34 años;2
+027; Buitrago del Lozoya;Hombre;De 35 a 39 años;2
+027; Buitrago del Lozoya;Hombre;De 40 a 44 años;2
+027; Buitrago del Lozoya;Hombre;De 45 a 49 años;0
+027; Buitrago del Lozoya;Hombre;De 50 años y más;0
+027; Buitrago del Lozoya;Mujer;Menores de 15 años;0
+027; Buitrago del Lozoya;Mujer;De 15 a 19 años;0
+027; Buitrago del Lozoya;Mujer;De 20 a 24 años;0
+027; Buitrago del Lozoya;Mujer;De 25 a 29 años;1
+027; Buitrago del Lozoya;Mujer;De 30 a 34 años;1
+027; Buitrago del Lozoya;Mujer;De 35 a 39 años;1
+027; Buitrago del Lozoya;Mujer;De 40 a 44 años;0
+027; Buitrago del Lozoya;Mujer;De 45 a 49 años;0
+027; Buitrago del Lozoya;Mujer;De 50 años y más;0
+028; Bustarviejo;Hombre;Menores de 15 años;0
+028; Bustarviejo;Hombre;De 15 a 19 años;0
+028; Bustarviejo;Hombre;De 20 a 24 años;0
+028; Bustarviejo;Hombre;De 25 a 29 años;2
+028; Bustarviejo;Hombre;De 30 a 34 años;0
+028; Bustarviejo;Hombre;De 35 a 39 años;5
+028; Bustarviejo;Hombre;De 40 a 44 años;1
+028; Bustarviejo;Hombre;De 45 a 49 años;0
+028; Bustarviejo;Hombre;De 50 años y más;0
+028; Bustarviejo;Mujer;Menores de 15 años;0
+028; Bustarviejo;Mujer;De 15 a 19 años;0
+028; Bustarviejo;Mujer;De 20 a 24 años;3
+028; Bustarviejo;Mujer;De 25 a 29 años;3
+028; Bustarviejo;Mujer;De 30 a 34 años;3
+028; Bustarviejo;Mujer;De 35 a 39 años;3
+028; Bustarviejo;Mujer;De 40 a 44 años;1
+028; Bustarviejo;Mujer;De 45 a 49 años;0
+028; Bustarviejo;Mujer;De 50 años y más;0
+029; Cabanillas de la Sierra;Hombre;Menores de 15 años;0
+029; Cabanillas de la Sierra;Hombre;De 15 a 19 años;0
+029; Cabanillas de la Sierra;Hombre;De 20 a 24 años;0
+029; Cabanillas de la Sierra;Hombre;De 25 a 29 años;1
+029; Cabanillas de la Sierra;Hombre;De 30 a 34 años;1
+029; Cabanillas de la Sierra;Hombre;De 35 a 39 años;0
+029; Cabanillas de la Sierra;Hombre;De 40 a 44 años;1
+029; Cabanillas de la Sierra;Hombre;De 45 a 49 años;0
+029; Cabanillas de la Sierra;Hombre;De 50 años y más;0
+029; Cabanillas de la Sierra;Mujer;Menores de 15 años;0
+029; Cabanillas de la Sierra;Mujer;De 15 a 19 años;0
+029; Cabanillas de la Sierra;Mujer;De 20 a 24 años;0
+029; Cabanillas de la Sierra;Mujer;De 25 a 29 años;0
+029; Cabanillas de la Sierra;Mujer;De 30 a 34 años;0
+029; Cabanillas de la Sierra;Mujer;De 35 a 39 años;2
+029; Cabanillas de la Sierra;Mujer;De 40 a 44 años;1
+029; Cabanillas de la Sierra;Mujer;De 45 a 49 años;0
+029; Cabanillas de la Sierra;Mujer;De 50 años y más;0
+030; Cabrera (La);Hombre;Menores de 15 años;0
+030; Cabrera (La);Hombre;De 15 a 19 años;0
+030; Cabrera (La);Hombre;De 20 a 24 años;1
+030; Cabrera (La);Hombre;De 25 a 29 años;1
+030; Cabrera (La);Hombre;De 30 a 34 años;4
+030; Cabrera (La);Hombre;De 35 a 39 años;1
+030; Cabrera (La);Hombre;De 40 a 44 años;0
+030; Cabrera (La);Hombre;De 45 a 49 años;1
+030; Cabrera (La);Hombre;De 50 años y más;0
+030; Cabrera (La);Mujer;Menores de 15 años;0
+030; Cabrera (La);Mujer;De 15 a 19 años;0
+030; Cabrera (La);Mujer;De 20 a 24 años;1
+030; Cabrera (La);Mujer;De 25 a 29 años;2
+030; Cabrera (La);Mujer;De 30 a 34 años;1
+030; Cabrera (La);Mujer;De 35 a 39 años;1
+030; Cabrera (La);Mujer;De 40 a 44 años;3
+030; Cabrera (La);Mujer;De 45 a 49 años;0
+030; Cabrera (La);Mujer;De 50 años y más;0
+031; Cadalso de los Vidrios;Hombre;Menores de 15 años;0
+031; Cadalso de los Vidrios;Hombre;De 15 a 19 años;0
+031; Cadalso de los Vidrios;Hombre;De 20 a 24 años;2
+031; Cadalso de los Vidrios;Hombre;De 25 a 29 años;6
+031; Cadalso de los Vidrios;Hombre;De 30 a 34 años;4
+031; Cadalso de los Vidrios;Hombre;De 35 a 39 años;4
+031; Cadalso de los Vidrios;Hombre;De 40 a 44 años;0
+031; Cadalso de los Vidrios;Hombre;De 45 a 49 años;0
+031; Cadalso de los Vidrios;Hombre;De 50 años y más;0
+031; Cadalso de los Vidrios;Mujer;Menores de 15 años;0
+031; Cadalso de los Vidrios;Mujer;De 15 a 19 años;0
+031; Cadalso de los Vidrios;Mujer;De 20 a 24 años;2
+031; Cadalso de los Vidrios;Mujer;De 25 a 29 años;6
+031; Cadalso de los Vidrios;Mujer;De 30 a 34 años;6
+031; Cadalso de los Vidrios;Mujer;De 35 a 39 años;5
+031; Cadalso de los Vidrios;Mujer;De 40 a 44 años;1
+031; Cadalso de los Vidrios;Mujer;De 45 a 49 años;0
+031; Cadalso de los Vidrios;Mujer;De 50 años y más;0
+032; Camarma de Esteruelas;Hombre;Menores de 15 años;0
+032; Camarma de Esteruelas;Hombre;De 15 a 19 años;0
+032; Camarma de Esteruelas;Hombre;De 20 a 24 años;1
+032; Camarma de Esteruelas;Hombre;De 25 a 29 años;6
+032; Camarma de Esteruelas;Hombre;De 30 a 34 años;7
+032; Camarma de Esteruelas;Hombre;De 35 a 39 años;12
+032; Camarma de Esteruelas;Hombre;De 40 a 44 años;3
+032; Camarma de Esteruelas;Hombre;De 45 a 49 años;0
+032; Camarma de Esteruelas;Hombre;De 50 años y más;0
+032; Camarma de Esteruelas;Mujer;Menores de 15 años;0
+032; Camarma de Esteruelas;Mujer;De 15 a 19 años;0
+032; Camarma de Esteruelas;Mujer;De 20 a 24 años;1
+032; Camarma de Esteruelas;Mujer;De 25 a 29 años;3
+032; Camarma de Esteruelas;Mujer;De 30 a 34 años;12
+032; Camarma de Esteruelas;Mujer;De 35 a 39 años;13
+032; Camarma de Esteruelas;Mujer;De 40 a 44 años;3
+032; Camarma de Esteruelas;Mujer;De 45 a 49 años;0
+032; Camarma de Esteruelas;Mujer;De 50 años y más;0
+033; Campo Real;Hombre;Menores de 15 años;0
+033; Campo Real;Hombre;De 15 a 19 años;0
+033; Campo Real;Hombre;De 20 a 24 años;1
+033; Campo Real;Hombre;De 25 a 29 años;9
+033; Campo Real;Hombre;De 30 a 34 años;10
+033; Campo Real;Hombre;De 35 a 39 años;9
+033; Campo Real;Hombre;De 40 a 44 años;4
+033; Campo Real;Hombre;De 45 a 49 años;1
+033; Campo Real;Hombre;De 50 años y más;0
+033; Campo Real;Mujer;Menores de 15 años;0
+033; Campo Real;Mujer;De 15 a 19 años;0
+033; Campo Real;Mujer;De 20 a 24 años;4
+033; Campo Real;Mujer;De 25 a 29 años;10
+033; Campo Real;Mujer;De 30 a 34 años;9
+033; Campo Real;Mujer;De 35 a 39 años;9
+033; Campo Real;Mujer;De 40 a 44 años;3
+033; Campo Real;Mujer;De 45 a 49 años;1
+033; Campo Real;Mujer;De 50 años y más;0
+034; Canencia;Hombre;Menores de 15 años;0
+034; Canencia;Hombre;De 15 a 19 años;0
+034; Canencia;Hombre;De 20 a 24 años;0
+034; Canencia;Hombre;De 25 a 29 años;0
+034; Canencia;Hombre;De 30 a 34 años;0
+034; Canencia;Hombre;De 35 a 39 años;1
+034; Canencia;Hombre;De 40 a 44 años;0
+034; Canencia;Hombre;De 45 a 49 años;0
+034; Canencia;Hombre;De 50 años y más;0
+034; Canencia;Mujer;Menores de 15 años;0
+034; Canencia;Mujer;De 15 a 19 años;0
+034; Canencia;Mujer;De 20 a 24 años;0
+034; Canencia;Mujer;De 25 a 29 años;0
+034; Canencia;Mujer;De 30 a 34 años;0
+034; Canencia;Mujer;De 35 a 39 años;0
+034; Canencia;Mujer;De 40 a 44 años;0
+034; Canencia;Mujer;De 45 a 49 años;0
+034; Canencia;Mujer;De 50 años y más;0
+035; Carabaña;Hombre;Menores de 15 años;0
+035; Carabaña;Hombre;De 15 a 19 años;0
+035; Carabaña;Hombre;De 20 a 24 años;0
+035; Carabaña;Hombre;De 25 a 29 años;0
+035; Carabaña;Hombre;De 30 a 34 años;5
+035; Carabaña;Hombre;De 35 a 39 años;3
+035; Carabaña;Hombre;De 40 a 44 años;1
+035; Carabaña;Hombre;De 45 a 49 años;0
+035; Carabaña;Hombre;De 50 años y más;0
+035; Carabaña;Mujer;Menores de 15 años;0
+035; Carabaña;Mujer;De 15 a 19 años;0
+035; Carabaña;Mujer;De 20 a 24 años;0
+035; Carabaña;Mujer;De 25 a 29 años;0
+035; Carabaña;Mujer;De 30 a 34 años;1
+035; Carabaña;Mujer;De 35 a 39 años;3
+035; Carabaña;Mujer;De 40 a 44 años;0
+035; Carabaña;Mujer;De 45 a 49 años;0
+035; Carabaña;Mujer;De 50 años y más;0
+036; Casarrubuelos;Hombre;Menores de 15 años;0
+036; Casarrubuelos;Hombre;De 15 a 19 años;0
+036; Casarrubuelos;Hombre;De 20 a 24 años;1
+036; Casarrubuelos;Hombre;De 25 a 29 años;5
+036; Casarrubuelos;Hombre;De 30 a 34 años;2
+036; Casarrubuelos;Hombre;De 35 a 39 años;6
+036; Casarrubuelos;Hombre;De 40 a 44 años;0
+036; Casarrubuelos;Hombre;De 45 a 49 años;0
+036; Casarrubuelos;Hombre;De 50 años y más;0
+036; Casarrubuelos;Mujer;Menores de 15 años;0
+036; Casarrubuelos;Mujer;De 15 a 19 años;0
+036; Casarrubuelos;Mujer;De 20 a 24 años;0
+036; Casarrubuelos;Mujer;De 25 a 29 años;3
+036; Casarrubuelos;Mujer;De 30 a 34 años;7
+036; Casarrubuelos;Mujer;De 35 a 39 años;2
+036; Casarrubuelos;Mujer;De 40 a 44 años;0
+036; Casarrubuelos;Mujer;De 45 a 49 años;0
+036; Casarrubuelos;Mujer;De 50 años y más;0
+037; Cenicientos;Hombre;Menores de 15 años;0
+037; Cenicientos;Hombre;De 15 a 19 años;0
+037; Cenicientos;Hombre;De 20 a 24 años;1
+037; Cenicientos;Hombre;De 25 a 29 años;0
+037; Cenicientos;Hombre;De 30 a 34 años;2
+037; Cenicientos;Hombre;De 35 a 39 años;5
+037; Cenicientos;Hombre;De 40 a 44 años;1
+037; Cenicientos;Hombre;De 45 a 49 años;0
+037; Cenicientos;Hombre;De 50 años y más;0
+037; Cenicientos;Mujer;Menores de 15 años;0
+037; Cenicientos;Mujer;De 15 a 19 años;1
+037; Cenicientos;Mujer;De 20 a 24 años;0
+037; Cenicientos;Mujer;De 25 a 29 años;3
+037; Cenicientos;Mujer;De 30 a 34 años;4
+037; Cenicientos;Mujer;De 35 a 39 años;2
+037; Cenicientos;Mujer;De 40 a 44 años;0
+037; Cenicientos;Mujer;De 45 a 49 años;0
+037; Cenicientos;Mujer;De 50 años y más;0
+038; Cercedilla;Hombre;Menores de 15 años;0
+038; Cercedilla;Hombre;De 15 a 19 años;0
+038; Cercedilla;Hombre;De 20 a 24 años;2
+038; Cercedilla;Hombre;De 25 a 29 años;4
+038; Cercedilla;Hombre;De 30 a 34 años;16
+038; Cercedilla;Hombre;De 35 a 39 años;12
+038; Cercedilla;Hombre;De 40 a 44 años;5
+038; Cercedilla;Hombre;De 45 a 49 años;2
+038; Cercedilla;Hombre;De 50 años y más;0
+038; Cercedilla;Mujer;Menores de 15 años;0
+038; Cercedilla;Mujer;De 15 a 19 años;2
+038; Cercedilla;Mujer;De 20 a 24 años;2
+038; Cercedilla;Mujer;De 25 a 29 años;2
+038; Cercedilla;Mujer;De 30 a 34 años;10
+038; Cercedilla;Mujer;De 35 a 39 años;11
+038; Cercedilla;Mujer;De 40 a 44 años;3
+038; Cercedilla;Mujer;De 45 a 49 años;0
+038; Cercedilla;Mujer;De 50 años y más;0
+039; Cervera de Buitrago;Hombre;Menores de 15 años;0
+039; Cervera de Buitrago;Hombre;De 15 a 19 años;0
+039; Cervera de Buitrago;Hombre;De 20 a 24 años;0
+039; Cervera de Buitrago;Hombre;De 25 a 29 años;0
+039; Cervera de Buitrago;Hombre;De 30 a 34 años;0
+039; Cervera de Buitrago;Hombre;De 35 a 39 años;0
+039; Cervera de Buitrago;Hombre;De 40 a 44 años;0
+039; Cervera de Buitrago;Hombre;De 45 a 49 años;0
+039; Cervera de Buitrago;Hombre;De 50 años y más;0
+039; Cervera de Buitrago;Mujer;Menores de 15 años;0
+039; Cervera de Buitrago;Mujer;De 15 a 19 años;0
+039; Cervera de Buitrago;Mujer;De 20 a 24 años;0
+039; Cervera de Buitrago;Mujer;De 25 a 29 años;0
+039; Cervera de Buitrago;Mujer;De 30 a 34 años;0
+039; Cervera de Buitrago;Mujer;De 35 a 39 años;0
+039; Cervera de Buitrago;Mujer;De 40 a 44 años;0
+039; Cervera de Buitrago;Mujer;De 45 a 49 años;0
+039; Cervera de Buitrago;Mujer;De 50 años y más;0
+051; Chapinería;Hombre;Menores de 15 años;0
+051; Chapinería;Hombre;De 15 a 19 años;0
+051; Chapinería;Hombre;De 20 a 24 años;0
+051; Chapinería;Hombre;De 25 a 29 años;1
+051; Chapinería;Hombre;De 30 a 34 años;3
+051; Chapinería;Hombre;De 35 a 39 años;3
+051; Chapinería;Hombre;De 40 a 44 años;0
+051; Chapinería;Hombre;De 45 a 49 años;0
+051; Chapinería;Hombre;De 50 años y más;0
+051; Chapinería;Mujer;Menores de 15 años;0
+051; Chapinería;Mujer;De 15 a 19 años;1
+051; Chapinería;Mujer;De 20 a 24 años;1
+051; Chapinería;Mujer;De 25 a 29 años;2
+051; Chapinería;Mujer;De 30 a 34 años;2
+051; Chapinería;Mujer;De 35 a 39 años;3
+051; Chapinería;Mujer;De 40 a 44 años;0
+051; Chapinería;Mujer;De 45 a 49 años;0
+051; Chapinería;Mujer;De 50 años y más;0
+052; Chinchón;Hombre;Menores de 15 años;0
+052; Chinchón;Hombre;De 15 a 19 años;1
+052; Chinchón;Hombre;De 20 a 24 años;3
+052; Chinchón;Hombre;De 25 a 29 años;6
+052; Chinchón;Hombre;De 30 a 34 años;10
+052; Chinchón;Hombre;De 35 a 39 años;8
+052; Chinchón;Hombre;De 40 a 44 años;0
+052; Chinchón;Hombre;De 45 a 49 años;0
+052; Chinchón;Hombre;De 50 años y más;0
+052; Chinchón;Mujer;Menores de 15 años;0
+052; Chinchón;Mujer;De 15 a 19 años;2
+052; Chinchón;Mujer;De 20 a 24 años;0
+052; Chinchón;Mujer;De 25 a 29 años;2
+052; Chinchón;Mujer;De 30 a 34 años;12
+052; Chinchón;Mujer;De 35 a 39 años;7
+052; Chinchón;Mujer;De 40 a 44 años;0
+052; Chinchón;Mujer;De 45 a 49 años;0
+052; Chinchón;Mujer;De 50 años y más;0
+040; Ciempozuelos;Hombre;Menores de 15 años;0
+040; Ciempozuelos;Hombre;De 15 a 19 años;2
+040; Ciempozuelos;Hombre;De 20 a 24 años;8
+040; Ciempozuelos;Hombre;De 25 a 29 años;30
+040; Ciempozuelos;Hombre;De 30 a 34 años;52
+040; Ciempozuelos;Hombre;De 35 a 39 años;30
+040; Ciempozuelos;Hombre;De 40 a 44 años;13
+040; Ciempozuelos;Hombre;De 45 a 49 años;2
+040; Ciempozuelos;Hombre;De 50 años y más;0
+040; Ciempozuelos;Mujer;Menores de 15 años;0
+040; Ciempozuelos;Mujer;De 15 a 19 años;4
+040; Ciempozuelos;Mujer;De 20 a 24 años;11
+040; Ciempozuelos;Mujer;De 25 a 29 años;28
+040; Ciempozuelos;Mujer;De 30 a 34 años;43
+040; Ciempozuelos;Mujer;De 35 a 39 años;39
+040; Ciempozuelos;Mujer;De 40 a 44 años;9
+040; Ciempozuelos;Mujer;De 45 a 49 años;2
+040; Ciempozuelos;Mujer;De 50 años y más;0
+041; Cobeña;Hombre;Menores de 15 años;0
+041; Cobeña;Hombre;De 15 a 19 años;0
+041; Cobeña;Hombre;De 20 a 24 años;1
+041; Cobeña;Hombre;De 25 a 29 años;3
+041; Cobeña;Hombre;De 30 a 34 años;21
+041; Cobeña;Hombre;De 35 a 39 años;17
+041; Cobeña;Hombre;De 40 a 44 años;4
+041; Cobeña;Hombre;De 45 a 49 años;0
+041; Cobeña;Hombre;De 50 años y más;0
+041; Cobeña;Mujer;Menores de 15 años;0
+041; Cobeña;Mujer;De 15 a 19 años;0
+041; Cobeña;Mujer;De 20 a 24 años;0
+041; Cobeña;Mujer;De 25 a 29 años;6
+041; Cobeña;Mujer;De 30 a 34 años;16
+041; Cobeña;Mujer;De 35 a 39 años;16
+041; Cobeña;Mujer;De 40 a 44 años;3
+041; Cobeña;Mujer;De 45 a 49 años;0
+041; Cobeña;Mujer;De 50 años y más;0
+046; Collado Mediano;Hombre;Menores de 15 años;0
+046; Collado Mediano;Hombre;De 15 a 19 años;1
+046; Collado Mediano;Hombre;De 20 a 24 años;3
+046; Collado Mediano;Hombre;De 25 a 29 años;5
+046; Collado Mediano;Hombre;De 30 a 34 años;8
+046; Collado Mediano;Hombre;De 35 a 39 años;5
+046; Collado Mediano;Hombre;De 40 a 44 años;2
+046; Collado Mediano;Hombre;De 45 a 49 años;1
+046; Collado Mediano;Hombre;De 50 años y más;0
+046; Collado Mediano;Mujer;Menores de 15 años;0
+046; Collado Mediano;Mujer;De 15 a 19 años;0
+046; Collado Mediano;Mujer;De 20 a 24 años;3
+046; Collado Mediano;Mujer;De 25 a 29 años;4
+046; Collado Mediano;Mujer;De 30 a 34 años;5
+046; Collado Mediano;Mujer;De 35 a 39 años;9
+046; Collado Mediano;Mujer;De 40 a 44 años;4
+046; Collado Mediano;Mujer;De 45 a 49 años;1
+046; Collado Mediano;Mujer;De 50 años y más;0
+047; Collado Villalba;Hombre;Menores de 15 años;0
+047; Collado Villalba;Hombre;De 15 a 19 años;3
+047; Collado Villalba;Hombre;De 20 a 24 años;25
+047; Collado Villalba;Hombre;De 25 a 29 años;44
+047; Collado Villalba;Hombre;De 30 a 34 años;119
+047; Collado Villalba;Hombre;De 35 a 39 años;97
+047; Collado Villalba;Hombre;De 40 a 44 años;23
+047; Collado Villalba;Hombre;De 45 a 49 años;3
+047; Collado Villalba;Hombre;De 50 años y más;0
+047; Collado Villalba;Mujer;Menores de 15 años;1
+047; Collado Villalba;Mujer;De 15 a 19 años;6
+047; Collado Villalba;Mujer;De 20 a 24 años;27
+047; Collado Villalba;Mujer;De 25 a 29 años;49
+047; Collado Villalba;Mujer;De 30 a 34 años;108
+047; Collado Villalba;Mujer;De 35 a 39 años;80
+047; Collado Villalba;Mujer;De 40 a 44 años;27
+047; Collado Villalba;Mujer;De 45 a 49 años;2
+047; Collado Villalba;Mujer;De 50 años y más;0
+043; Colmenar de Oreja;Hombre;Menores de 15 años;0
+043; Colmenar de Oreja;Hombre;De 15 a 19 años;0
+043; Colmenar de Oreja;Hombre;De 20 a 24 años;1
+043; Colmenar de Oreja;Hombre;De 25 a 29 años;11
+043; Colmenar de Oreja;Hombre;De 30 a 34 años;16
+043; Colmenar de Oreja;Hombre;De 35 a 39 años;8
+043; Colmenar de Oreja;Hombre;De 40 a 44 años;0
+043; Colmenar de Oreja;Hombre;De 45 a 49 años;0
+043; Colmenar de Oreja;Hombre;De 50 años y más;0
+043; Colmenar de Oreja;Mujer;Menores de 15 años;0
+043; Colmenar de Oreja;Mujer;De 15 a 19 años;0
+043; Colmenar de Oreja;Mujer;De 20 a 24 años;3
+043; Colmenar de Oreja;Mujer;De 25 a 29 años;5
+043; Colmenar de Oreja;Mujer;De 30 a 34 años;9
+043; Colmenar de Oreja;Mujer;De 35 a 39 años;5
+043; Colmenar de Oreja;Mujer;De 40 a 44 años;1
+043; Colmenar de Oreja;Mujer;De 45 a 49 años;0
+043; Colmenar de Oreja;Mujer;De 50 años y más;0
+042; Colmenar del Arroyo;Hombre;Menores de 15 años;0
+042; Colmenar del Arroyo;Hombre;De 15 a 19 años;0
+042; Colmenar del Arroyo;Hombre;De 20 a 24 años;1
+042; Colmenar del Arroyo;Hombre;De 25 a 29 años;0
+042; Colmenar del Arroyo;Hombre;De 30 a 34 años;0
+042; Colmenar del Arroyo;Hombre;De 35 a 39 años;1
+042; Colmenar del Arroyo;Hombre;De 40 a 44 años;1
+042; Colmenar del Arroyo;Hombre;De 45 a 49 años;0
+042; Colmenar del Arroyo;Hombre;De 50 años y más;0
+042; Colmenar del Arroyo;Mujer;Menores de 15 años;0
+042; Colmenar del Arroyo;Mujer;De 15 a 19 años;0
+042; Colmenar del Arroyo;Mujer;De 20 a 24 años;1
+042; Colmenar del Arroyo;Mujer;De 25 a 29 años;3
+042; Colmenar del Arroyo;Mujer;De 30 a 34 años;1
+042; Colmenar del Arroyo;Mujer;De 35 a 39 años;4
+042; Colmenar del Arroyo;Mujer;De 40 a 44 años;0
+042; Colmenar del Arroyo;Mujer;De 45 a 49 años;0
+042; Colmenar del Arroyo;Mujer;De 50 años y más;0
+045; Colmenar Viejo;Hombre;Menores de 15 años;0
+045; Colmenar Viejo;Hombre;De 15 a 19 años;4
+045; Colmenar Viejo;Hombre;De 20 a 24 años;11
+045; Colmenar Viejo;Hombre;De 25 a 29 años;25
+045; Colmenar Viejo;Hombre;De 30 a 34 años;79
+045; Colmenar Viejo;Hombre;De 35 a 39 años;88
+045; Colmenar Viejo;Hombre;De 40 a 44 años;20
+045; Colmenar Viejo;Hombre;De 45 a 49 años;1
+045; Colmenar Viejo;Hombre;De 50 años y más;0
+045; Colmenar Viejo;Mujer;Menores de 15 años;0
+045; Colmenar Viejo;Mujer;De 15 a 19 años;4
+045; Colmenar Viejo;Mujer;De 20 a 24 años;9
+045; Colmenar Viejo;Mujer;De 25 a 29 años;38
+045; Colmenar Viejo;Mujer;De 30 a 34 años;104
+045; Colmenar Viejo;Mujer;De 35 a 39 años;77
+045; Colmenar Viejo;Mujer;De 40 a 44 años;26
+045; Colmenar Viejo;Mujer;De 45 a 49 años;4
+045; Colmenar Viejo;Mujer;De 50 años y más;1
+044; Colmenarejo;Hombre;Menores de 15 años;0
+044; Colmenarejo;Hombre;De 15 a 19 años;0
+044; Colmenarejo;Hombre;De 20 a 24 años;0
+044; Colmenarejo;Hombre;De 25 a 29 años;8
+044; Colmenarejo;Hombre;De 30 a 34 años;13
+044; Colmenarejo;Hombre;De 35 a 39 años;3
+044; Colmenarejo;Hombre;De 40 a 44 años;3
+044; Colmenarejo;Hombre;De 45 a 49 años;0
+044; Colmenarejo;Hombre;De 50 años y más;0
+044; Colmenarejo;Mujer;Menores de 15 años;0
+044; Colmenarejo;Mujer;De 15 a 19 años;1
+044; Colmenarejo;Mujer;De 20 a 24 años;2
+044; Colmenarejo;Mujer;De 25 a 29 años;3
+044; Colmenarejo;Mujer;De 30 a 34 años;18
+044; Colmenarejo;Mujer;De 35 a 39 años;10
+044; Colmenarejo;Mujer;De 40 a 44 años;2
+044; Colmenarejo;Mujer;De 45 a 49 años;3
+044; Colmenarejo;Mujer;De 50 años y más;0
+048; Corpa;Hombre;Menores de 15 años;0
+048; Corpa;Hombre;De 15 a 19 años;0
+048; Corpa;Hombre;De 20 a 24 años;0
+048; Corpa;Hombre;De 25 a 29 años;0
+048; Corpa;Hombre;De 30 a 34 años;1
+048; Corpa;Hombre;De 35 a 39 años;1
+048; Corpa;Hombre;De 40 a 44 años;0
+048; Corpa;Hombre;De 45 a 49 años;0
+048; Corpa;Hombre;De 50 años y más;0
+048; Corpa;Mujer;Menores de 15 años;0
+048; Corpa;Mujer;De 15 a 19 años;0
+048; Corpa;Mujer;De 20 a 24 años;0
+048; Corpa;Mujer;De 25 a 29 años;0
+048; Corpa;Mujer;De 30 a 34 años;0
+048; Corpa;Mujer;De 35 a 39 años;1
+048; Corpa;Mujer;De 40 a 44 años;1
+048; Corpa;Mujer;De 45 a 49 años;0
+048; Corpa;Mujer;De 50 años y más;0
+049; Coslada;Hombre;Menores de 15 años;0
+049; Coslada;Hombre;De 15 a 19 años;3
+049; Coslada;Hombre;De 20 a 24 años;20
+049; Coslada;Hombre;De 25 a 29 años;74
+049; Coslada;Hombre;De 30 a 34 años;115
+049; Coslada;Hombre;De 35 a 39 años;99
+049; Coslada;Hombre;De 40 a 44 años;25
+049; Coslada;Hombre;De 45 a 49 años;2
+049; Coslada;Hombre;De 50 años y más;1
+049; Coslada;Mujer;Menores de 15 años;0
+049; Coslada;Mujer;De 15 a 19 años;3
+049; Coslada;Mujer;De 20 a 24 años;17
+049; Coslada;Mujer;De 25 a 29 años;62
+049; Coslada;Mujer;De 30 a 34 años;109
+049; Coslada;Mujer;De 35 a 39 años;95
+049; Coslada;Mujer;De 40 a 44 años;23
+049; Coslada;Mujer;De 45 a 49 años;3
+049; Coslada;Mujer;De 50 años y más;0
+050; Cubas de la Sagra;Hombre;Menores de 15 años;0
+050; Cubas de la Sagra;Hombre;De 15 a 19 años;0
+050; Cubas de la Sagra;Hombre;De 20 a 24 años;2
+050; Cubas de la Sagra;Hombre;De 25 a 29 años;3
+050; Cubas de la Sagra;Hombre;De 30 a 34 años;10
+050; Cubas de la Sagra;Hombre;De 35 a 39 años;9
+050; Cubas de la Sagra;Hombre;De 40 a 44 años;4
+050; Cubas de la Sagra;Hombre;De 45 a 49 años;0
+050; Cubas de la Sagra;Hombre;De 50 años y más;0
+050; Cubas de la Sagra;Mujer;Menores de 15 años;0
+050; Cubas de la Sagra;Mujer;De 15 a 19 años;0
+050; Cubas de la Sagra;Mujer;De 20 a 24 años;1
+050; Cubas de la Sagra;Mujer;De 25 a 29 años;2
+050; Cubas de la Sagra;Mujer;De 30 a 34 años;11
+050; Cubas de la Sagra;Mujer;De 35 a 39 años;15
+050; Cubas de la Sagra;Mujer;De 40 a 44 años;6
+050; Cubas de la Sagra;Mujer;De 45 a 49 años;0
+050; Cubas de la Sagra;Mujer;De 50 años y más;0
+053; Daganzo de Arriba;Hombre;Menores de 15 años;0
+053; Daganzo de Arriba;Hombre;De 15 a 19 años;0
+053; Daganzo de Arriba;Hombre;De 20 a 24 años;4
+053; Daganzo de Arriba;Hombre;De 25 a 29 años;4
+053; Daganzo de Arriba;Hombre;De 30 a 34 años;14
+053; Daganzo de Arriba;Hombre;De 35 a 39 años;14
+053; Daganzo de Arriba;Hombre;De 40 a 44 años;5
+053; Daganzo de Arriba;Hombre;De 45 a 49 años;1
+053; Daganzo de Arriba;Hombre;De 50 años y más;0
+053; Daganzo de Arriba;Mujer;Menores de 15 años;0
+053; Daganzo de Arriba;Mujer;De 15 a 19 años;0
+053; Daganzo de Arriba;Mujer;De 20 a 24 años;1
+053; Daganzo de Arriba;Mujer;De 25 a 29 años;2
+053; Daganzo de Arriba;Mujer;De 30 a 34 años;22
+053; Daganzo de Arriba;Mujer;De 35 a 39 años;12
+053; Daganzo de Arriba;Mujer;De 40 a 44 años;3
+053; Daganzo de Arriba;Mujer;De 45 a 49 años;0
+053; Daganzo de Arriba;Mujer;De 50 años y más;0
+054; Escorial (El);Hombre;Menores de 15 años;0
+054; Escorial (El);Hombre;De 15 a 19 años;0
+054; Escorial (El);Hombre;De 20 a 24 años;1
+054; Escorial (El);Hombre;De 25 a 29 años;14
+054; Escorial (El);Hombre;De 30 a 34 años;25
+054; Escorial (El);Hombre;De 35 a 39 años;20
+054; Escorial (El);Hombre;De 40 a 44 años;6
+054; Escorial (El);Hombre;De 45 a 49 años;0
+054; Escorial (El);Hombre;De 50 años y más;0
+054; Escorial (El);Mujer;Menores de 15 años;0
+054; Escorial (El);Mujer;De 15 a 19 años;1
+054; Escorial (El);Mujer;De 20 a 24 años;2
+054; Escorial (El);Mujer;De 25 a 29 años;13
+054; Escorial (El);Mujer;De 30 a 34 años;23
+054; Escorial (El);Mujer;De 35 a 39 años;19
+054; Escorial (El);Mujer;De 40 a 44 años;7
+054; Escorial (El);Mujer;De 45 a 49 años;0
+054; Escorial (El);Mujer;De 50 años y más;0
+055; Estremera;Hombre;Menores de 15 años;0
+055; Estremera;Hombre;De 15 a 19 años;0
+055; Estremera;Hombre;De 20 a 24 años;0
+055; Estremera;Hombre;De 25 a 29 años;0
+055; Estremera;Hombre;De 30 a 34 años;0
+055; Estremera;Hombre;De 35 a 39 años;0
+055; Estremera;Hombre;De 40 a 44 años;0
+055; Estremera;Hombre;De 45 a 49 años;0
+055; Estremera;Hombre;De 50 años y más;0
+055; Estremera;Mujer;Menores de 15 años;0
+055; Estremera;Mujer;De 15 a 19 años;0
+055; Estremera;Mujer;De 20 a 24 años;1
+055; Estremera;Mujer;De 25 a 29 años;0
+055; Estremera;Mujer;De 30 a 34 años;1
+055; Estremera;Mujer;De 35 a 39 años;3
+055; Estremera;Mujer;De 40 a 44 años;0
+055; Estremera;Mujer;De 45 a 49 años;0
+055; Estremera;Mujer;De 50 años y más;0
+056; Fresnedillas de la Oliva;Hombre;Menores de 15 años;0
+056; Fresnedillas de la Oliva;Hombre;De 15 a 19 años;0
+056; Fresnedillas de la Oliva;Hombre;De 20 a 24 años;1
+056; Fresnedillas de la Oliva;Hombre;De 25 a 29 años;0
+056; Fresnedillas de la Oliva;Hombre;De 30 a 34 años;1
+056; Fresnedillas de la Oliva;Hombre;De 35 a 39 años;1
+056; Fresnedillas de la Oliva;Hombre;De 40 a 44 años;1
+056; Fresnedillas de la Oliva;Hombre;De 45 a 49 años;0
+056; Fresnedillas de la Oliva;Hombre;De 50 años y más;0
+056; Fresnedillas de la Oliva;Mujer;Menores de 15 años;0
+056; Fresnedillas de la Oliva;Mujer;De 15 a 19 años;1
+056; Fresnedillas de la Oliva;Mujer;De 20 a 24 años;1
+056; Fresnedillas de la Oliva;Mujer;De 25 a 29 años;1
+056; Fresnedillas de la Oliva;Mujer;De 30 a 34 años;1
+056; Fresnedillas de la Oliva;Mujer;De 35 a 39 años;2
+056; Fresnedillas de la Oliva;Mujer;De 40 a 44 años;0
+056; Fresnedillas de la Oliva;Mujer;De 45 a 49 años;0
+056; Fresnedillas de la Oliva;Mujer;De 50 años y más;0
+057; Fresno de Torote;Hombre;Menores de 15 años;0
+057; Fresno de Torote;Hombre;De 15 a 19 años;0
+057; Fresno de Torote;Hombre;De 20 a 24 años;2
+057; Fresno de Torote;Hombre;De 25 a 29 años;1
+057; Fresno de Torote;Hombre;De 30 a 34 años;2
+057; Fresno de Torote;Hombre;De 35 a 39 años;2
+057; Fresno de Torote;Hombre;De 40 a 44 años;0
+057; Fresno de Torote;Hombre;De 45 a 49 años;0
+057; Fresno de Torote;Hombre;De 50 años y más;0
+057; Fresno de Torote;Mujer;Menores de 15 años;0
+057; Fresno de Torote;Mujer;De 15 a 19 años;1
+057; Fresno de Torote;Mujer;De 20 a 24 años;0
+057; Fresno de Torote;Mujer;De 25 a 29 años;6
+057; Fresno de Torote;Mujer;De 30 a 34 años;4
+057; Fresno de Torote;Mujer;De 35 a 39 años;1
+057; Fresno de Torote;Mujer;De 40 a 44 años;0
+057; Fresno de Torote;Mujer;De 45 a 49 años;0
+057; Fresno de Torote;Mujer;De 50 años y más;0
+058; Fuenlabrada;Hombre;Menores de 15 años;0
+058; Fuenlabrada;Hombre;De 15 a 19 años;16
+058; Fuenlabrada;Hombre;De 20 a 24 años;54
+058; Fuenlabrada;Hombre;De 25 a 29 años;158
+058; Fuenlabrada;Hombre;De 30 a 34 años;326
+058; Fuenlabrada;Hombre;De 35 a 39 años;256
+058; Fuenlabrada;Hombre;De 40 a 44 años;46
+058; Fuenlabrada;Hombre;De 45 a 49 años;3
+058; Fuenlabrada;Hombre;De 50 años y más;0
+058; Fuenlabrada;Mujer;Menores de 15 años;0
+058; Fuenlabrada;Mujer;De 15 a 19 años;8
+058; Fuenlabrada;Mujer;De 20 a 24 años;37
+058; Fuenlabrada;Mujer;De 25 a 29 años;153
+058; Fuenlabrada;Mujer;De 30 a 34 años;324
+058; Fuenlabrada;Mujer;De 35 a 39 años;244
+058; Fuenlabrada;Mujer;De 40 a 44 años;50
+058; Fuenlabrada;Mujer;De 45 a 49 años;2
+058; Fuenlabrada;Mujer;De 50 años y más;0
+059; Fuente el Saz de Jarama;Hombre;Menores de 15 años;0
+059; Fuente el Saz de Jarama;Hombre;De 15 a 19 años;1
+059; Fuente el Saz de Jarama;Hombre;De 20 a 24 años;5
+059; Fuente el Saz de Jarama;Hombre;De 25 a 29 años;6
+059; Fuente el Saz de Jarama;Hombre;De 30 a 34 años;5
+059; Fuente el Saz de Jarama;Hombre;De 35 a 39 años;13
+059; Fuente el Saz de Jarama;Hombre;De 40 a 44 años;4
+059; Fuente el Saz de Jarama;Hombre;De 45 a 49 años;0
+059; Fuente el Saz de Jarama;Hombre;De 50 años y más;0
+059; Fuente el Saz de Jarama;Mujer;Menores de 15 años;0
+059; Fuente el Saz de Jarama;Mujer;De 15 a 19 años;0
+059; Fuente el Saz de Jarama;Mujer;De 20 a 24 años;4
+059; Fuente el Saz de Jarama;Mujer;De 25 a 29 años;3
+059; Fuente el Saz de Jarama;Mujer;De 30 a 34 años;5
+059; Fuente el Saz de Jarama;Mujer;De 35 a 39 años;6
+059; Fuente el Saz de Jarama;Mujer;De 40 a 44 años;1
+059; Fuente el Saz de Jarama;Mujer;De 45 a 49 años;0
+059; Fuente el Saz de Jarama;Mujer;De 50 años y más;0
+060; Fuentidueña de Tajo;Hombre;Menores de 15 años;0
+060; Fuentidueña de Tajo;Hombre;De 15 a 19 años;0
+060; Fuentidueña de Tajo;Hombre;De 20 a 24 años;0
+060; Fuentidueña de Tajo;Hombre;De 25 a 29 años;1
+060; Fuentidueña de Tajo;Hombre;De 30 a 34 años;2
+060; Fuentidueña de Tajo;Hombre;De 35 a 39 años;4
+060; Fuentidueña de Tajo;Hombre;De 40 a 44 años;2
+060; Fuentidueña de Tajo;Hombre;De 45 a 49 años;0
+060; Fuentidueña de Tajo;Hombre;De 50 años y más;0
+060; Fuentidueña de Tajo;Mujer;Menores de 15 años;0
+060; Fuentidueña de Tajo;Mujer;De 15 a 19 años;0
+060; Fuentidueña de Tajo;Mujer;De 20 a 24 años;0
+060; Fuentidueña de Tajo;Mujer;De 25 a 29 años;4
+060; Fuentidueña de Tajo;Mujer;De 30 a 34 años;2
+060; Fuentidueña de Tajo;Mujer;De 35 a 39 años;1
+060; Fuentidueña de Tajo;Mujer;De 40 a 44 años;0
+060; Fuentidueña de Tajo;Mujer;De 45 a 49 años;0
+060; Fuentidueña de Tajo;Mujer;De 50 años y más;0
+061; Galapagar;Hombre;Menores de 15 años;0
+061; Galapagar;Hombre;De 15 a 19 años;3
+061; Galapagar;Hombre;De 20 a 24 años;9
+061; Galapagar;Hombre;De 25 a 29 años;36
+061; Galapagar;Hombre;De 30 a 34 años;37
+061; Galapagar;Hombre;De 35 a 39 años;58
+061; Galapagar;Hombre;De 40 a 44 años;22
+061; Galapagar;Hombre;De 45 a 49 años;1
+061; Galapagar;Hombre;De 50 años y más;0
+061; Galapagar;Mujer;Menores de 15 años;0
+061; Galapagar;Mujer;De 15 a 19 años;0
+061; Galapagar;Mujer;De 20 a 24 años;8
+061; Galapagar;Mujer;De 25 a 29 años;35
+061; Galapagar;Mujer;De 30 a 34 años;38
+061; Galapagar;Mujer;De 35 a 39 años;37
+061; Galapagar;Mujer;De 40 a 44 años;16
+061; Galapagar;Mujer;De 45 a 49 años;0
+061; Galapagar;Mujer;De 50 años y más;0
+062; Garganta de los Montes;Hombre;Menores de 15 años;0
+062; Garganta de los Montes;Hombre;De 15 a 19 años;0
+062; Garganta de los Montes;Hombre;De 20 a 24 años;0
+062; Garganta de los Montes;Hombre;De 25 a 29 años;0
+062; Garganta de los Montes;Hombre;De 30 a 34 años;0
+062; Garganta de los Montes;Hombre;De 35 a 39 años;0
+062; Garganta de los Montes;Hombre;De 40 a 44 años;0
+062; Garganta de los Montes;Hombre;De 45 a 49 años;0
+062; Garganta de los Montes;Hombre;De 50 años y más;0
+062; Garganta de los Montes;Mujer;Menores de 15 años;0
+062; Garganta de los Montes;Mujer;De 15 a 19 años;0
+062; Garganta de los Montes;Mujer;De 20 a 24 años;0
+062; Garganta de los Montes;Mujer;De 25 a 29 años;0
+062; Garganta de los Montes;Mujer;De 30 a 34 años;0
+062; Garganta de los Montes;Mujer;De 35 a 39 años;0
+062; Garganta de los Montes;Mujer;De 40 a 44 años;1
+062; Garganta de los Montes;Mujer;De 45 a 49 años;0
+062; Garganta de los Montes;Mujer;De 50 años y más;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Hombre;Menores de 15 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Hombre;De 15 a 19 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Hombre;De 20 a 24 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Hombre;De 25 a 29 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Hombre;De 30 a 34 años;1
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Hombre;De 35 a 39 años;1
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Hombre;De 40 a 44 años;1
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Hombre;De 45 a 49 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Hombre;De 50 años y más;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Mujer;Menores de 15 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Mujer;De 15 a 19 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Mujer;De 20 a 24 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Mujer;De 25 a 29 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Mujer;De 30 a 34 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Mujer;De 35 a 39 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Mujer;De 40 a 44 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Mujer;De 45 a 49 años;0
+063; Gargantilla del Lozoya y Pinilla de Buitrago;Mujer;De 50 años y más;0
+064; Gascones;Hombre;Menores de 15 años;0
+064; Gascones;Hombre;De 15 a 19 años;0
+064; Gascones;Hombre;De 20 a 24 años;0
+064; Gascones;Hombre;De 25 a 29 años;0
+064; Gascones;Hombre;De 30 a 34 años;0
+064; Gascones;Hombre;De 35 a 39 años;1
+064; Gascones;Hombre;De 40 a 44 años;0
+064; Gascones;Hombre;De 45 a 49 años;0
+064; Gascones;Hombre;De 50 años y más;0
+064; Gascones;Mujer;Menores de 15 años;0
+064; Gascones;Mujer;De 15 a 19 años;0
+064; Gascones;Mujer;De 20 a 24 años;0
+064; Gascones;Mujer;De 25 a 29 años;1
+064; Gascones;Mujer;De 30 a 34 años;0
+064; Gascones;Mujer;De 35 a 39 años;0
+064; Gascones;Mujer;De 40 a 44 años;0
+064; Gascones;Mujer;De 45 a 49 años;0
+064; Gascones;Mujer;De 50 años y más;0
+065; Getafe;Hombre;Menores de 15 años;0
+065; Getafe;Hombre;De 15 a 19 años;7
+065; Getafe;Hombre;De 20 a 24 años;49
+065; Getafe;Hombre;De 25 a 29 años;144
+065; Getafe;Hombre;De 30 a 34 años;337
+065; Getafe;Hombre;De 35 a 39 años;328
+065; Getafe;Hombre;De 40 a 44 años;83
+065; Getafe;Hombre;De 45 a 49 años;7
+065; Getafe;Hombre;De 50 años y más;0
+065; Getafe;Mujer;Menores de 15 años;0
+065; Getafe;Mujer;De 15 a 19 años;12
+065; Getafe;Mujer;De 20 a 24 años;48
+065; Getafe;Mujer;De 25 a 29 años;130
+065; Getafe;Mujer;De 30 a 34 años;353
+065; Getafe;Mujer;De 35 a 39 años;319
+065; Getafe;Mujer;De 40 a 44 años;86
+065; Getafe;Mujer;De 45 a 49 años;8
+065; Getafe;Mujer;De 50 años y más;0
+066; Griñón;Hombre;Menores de 15 años;0
+066; Griñón;Hombre;De 15 a 19 años;0
+066; Griñón;Hombre;De 20 a 24 años;1
+066; Griñón;Hombre;De 25 a 29 años;6
+066; Griñón;Hombre;De 30 a 34 años;14
+066; Griñón;Hombre;De 35 a 39 años;17
+066; Griñón;Hombre;De 40 a 44 años;3
+066; Griñón;Hombre;De 45 a 49 años;0
+066; Griñón;Hombre;De 50 años y más;0
+066; Griñón;Mujer;Menores de 15 años;0
+066; Griñón;Mujer;De 15 a 19 años;0
+066; Griñón;Mujer;De 20 a 24 años;2
+066; Griñón;Mujer;De 25 a 29 años;3
+066; Griñón;Mujer;De 30 a 34 años;12
+066; Griñón;Mujer;De 35 a 39 años;12
+066; Griñón;Mujer;De 40 a 44 años;0
+066; Griñón;Mujer;De 45 a 49 años;1
+066; Griñón;Mujer;De 50 años y más;0
+067; Guadalix de la Sierra;Hombre;Menores de 15 años;0
+067; Guadalix de la Sierra;Hombre;De 15 a 19 años;0
+067; Guadalix de la Sierra;Hombre;De 20 a 24 años;3
+067; Guadalix de la Sierra;Hombre;De 25 a 29 años;6
+067; Guadalix de la Sierra;Hombre;De 30 a 34 años;4
+067; Guadalix de la Sierra;Hombre;De 35 a 39 años;12
+067; Guadalix de la Sierra;Hombre;De 40 a 44 años;6
+067; Guadalix de la Sierra;Hombre;De 45 a 49 años;0
+067; Guadalix de la Sierra;Hombre;De 50 años y más;0
+067; Guadalix de la Sierra;Mujer;Menores de 15 años;0
+067; Guadalix de la Sierra;Mujer;De 15 a 19 años;0
+067; Guadalix de la Sierra;Mujer;De 20 a 24 años;4
+067; Guadalix de la Sierra;Mujer;De 25 a 29 años;5
+067; Guadalix de la Sierra;Mujer;De 30 a 34 años;6
+067; Guadalix de la Sierra;Mujer;De 35 a 39 años;8
+067; Guadalix de la Sierra;Mujer;De 40 a 44 años;0
+067; Guadalix de la Sierra;Mujer;De 45 a 49 años;0
+067; Guadalix de la Sierra;Mujer;De 50 años y más;0
+068; Guadarrama;Hombre;Menores de 15 años;0
+068; Guadarrama;Hombre;De 15 a 19 años;0
+068; Guadarrama;Hombre;De 20 a 24 años;5
+068; Guadarrama;Hombre;De 25 a 29 años;13
+068; Guadarrama;Hombre;De 30 a 34 años;27
+068; Guadarrama;Hombre;De 35 a 39 años;23
+068; Guadarrama;Hombre;De 40 a 44 años;8
+068; Guadarrama;Hombre;De 45 a 49 años;1
+068; Guadarrama;Hombre;De 50 años y más;0
+068; Guadarrama;Mujer;Menores de 15 años;0
+068; Guadarrama;Mujer;De 15 a 19 años;1
+068; Guadarrama;Mujer;De 20 a 24 años;5
+068; Guadarrama;Mujer;De 25 a 29 años;13
+068; Guadarrama;Mujer;De 30 a 34 años;17
+068; Guadarrama;Mujer;De 35 a 39 años;12
+068; Guadarrama;Mujer;De 40 a 44 años;7
+068; Guadarrama;Mujer;De 45 a 49 años;0
+068; Guadarrama;Mujer;De 50 años y más;0
+069; Hiruela (La);Hombre;Menores de 15 años;0
+069; Hiruela (La);Hombre;De 15 a 19 años;0
+069; Hiruela (La);Hombre;De 20 a 24 años;0
+069; Hiruela (La);Hombre;De 25 a 29 años;0
+069; Hiruela (La);Hombre;De 30 a 34 años;0
+069; Hiruela (La);Hombre;De 35 a 39 años;0
+069; Hiruela (La);Hombre;De 40 a 44 años;0
+069; Hiruela (La);Hombre;De 45 a 49 años;0
+069; Hiruela (La);Hombre;De 50 años y más;0
+069; Hiruela (La);Mujer;Menores de 15 años;0
+069; Hiruela (La);Mujer;De 15 a 19 años;0
+069; Hiruela (La);Mujer;De 20 a 24 años;0
+069; Hiruela (La);Mujer;De 25 a 29 años;0
+069; Hiruela (La);Mujer;De 30 a 34 años;0
+069; Hiruela (La);Mujer;De 35 a 39 años;0
+069; Hiruela (La);Mujer;De 40 a 44 años;0
+069; Hiruela (La);Mujer;De 45 a 49 años;0
+069; Hiruela (La);Mujer;De 50 años y más;0
+070; Horcajo de la Sierra;Hombre;Menores de 15 años;0
+070; Horcajo de la Sierra;Hombre;De 15 a 19 años;0
+070; Horcajo de la Sierra;Hombre;De 20 a 24 años;0
+070; Horcajo de la Sierra;Hombre;De 25 a 29 años;0
+070; Horcajo de la Sierra;Hombre;De 30 a 34 años;0
+070; Horcajo de la Sierra;Hombre;De 35 a 39 años;0
+070; Horcajo de la Sierra;Hombre;De 40 a 44 años;0
+070; Horcajo de la Sierra;Hombre;De 45 a 49 años;0
+070; Horcajo de la Sierra;Hombre;De 50 años y más;0
+070; Horcajo de la Sierra;Mujer;Menores de 15 años;0
+070; Horcajo de la Sierra;Mujer;De 15 a 19 años;0
+070; Horcajo de la Sierra;Mujer;De 20 a 24 años;0
+070; Horcajo de la Sierra;Mujer;De 25 a 29 años;0
+070; Horcajo de la Sierra;Mujer;De 30 a 34 años;0
+070; Horcajo de la Sierra;Mujer;De 35 a 39 años;0
+070; Horcajo de la Sierra;Mujer;De 40 a 44 años;0
+070; Horcajo de la Sierra;Mujer;De 45 a 49 años;0
+070; Horcajo de la Sierra;Mujer;De 50 años y más;0
+071; Horcajuelo de la Sierra;Hombre;Menores de 15 años;0
+071; Horcajuelo de la Sierra;Hombre;De 15 a 19 años;0
+071; Horcajuelo de la Sierra;Hombre;De 20 a 24 años;0
+071; Horcajuelo de la Sierra;Hombre;De 25 a 29 años;0
+071; Horcajuelo de la Sierra;Hombre;De 30 a 34 años;0
+071; Horcajuelo de la Sierra;Hombre;De 35 a 39 años;0
+071; Horcajuelo de la Sierra;Hombre;De 40 a 44 años;0
+071; Horcajuelo de la Sierra;Hombre;De 45 a 49 años;0
+071; Horcajuelo de la Sierra;Hombre;De 50 años y más;0
+071; Horcajuelo de la Sierra;Mujer;Menores de 15 años;0
+071; Horcajuelo de la Sierra;Mujer;De 15 a 19 años;0
+071; Horcajuelo de la Sierra;Mujer;De 20 a 24 años;0
+071; Horcajuelo de la Sierra;Mujer;De 25 a 29 años;1
+071; Horcajuelo de la Sierra;Mujer;De 30 a 34 años;0
+071; Horcajuelo de la Sierra;Mujer;De 35 a 39 años;0
+071; Horcajuelo de la Sierra;Mujer;De 40 a 44 años;0
+071; Horcajuelo de la Sierra;Mujer;De 45 a 49 años;0
+071; Horcajuelo de la Sierra;Mujer;De 50 años y más;0
+072; Hoyo de Manzanares;Hombre;Menores de 15 años;0
+072; Hoyo de Manzanares;Hombre;De 15 a 19 años;1
+072; Hoyo de Manzanares;Hombre;De 20 a 24 años;1
+072; Hoyo de Manzanares;Hombre;De 25 a 29 años;4
+072; Hoyo de Manzanares;Hombre;De 30 a 34 años;10
+072; Hoyo de Manzanares;Hombre;De 35 a 39 años;8
+072; Hoyo de Manzanares;Hombre;De 40 a 44 años;4
+072; Hoyo de Manzanares;Hombre;De 45 a 49 años;3
+072; Hoyo de Manzanares;Hombre;De 50 años y más;0
+072; Hoyo de Manzanares;Mujer;Menores de 15 años;0
+072; Hoyo de Manzanares;Mujer;De 15 a 19 años;0
+072; Hoyo de Manzanares;Mujer;De 20 a 24 años;0
+072; Hoyo de Manzanares;Mujer;De 25 a 29 años;2
+072; Hoyo de Manzanares;Mujer;De 30 a 34 años;5
+072; Hoyo de Manzanares;Mujer;De 35 a 39 años;12
+072; Hoyo de Manzanares;Mujer;De 40 a 44 años;6
+072; Hoyo de Manzanares;Mujer;De 45 a 49 años;0
+072; Hoyo de Manzanares;Mujer;De 50 años y más;0
+073; Humanes de Madrid;Hombre;Menores de 15 años;0
+073; Humanes de Madrid;Hombre;De 15 a 19 años;1
+073; Humanes de Madrid;Hombre;De 20 a 24 años;7
+073; Humanes de Madrid;Hombre;De 25 a 29 años;25
+073; Humanes de Madrid;Hombre;De 30 a 34 años;31
+073; Humanes de Madrid;Hombre;De 35 a 39 años;46
+073; Humanes de Madrid;Hombre;De 40 a 44 años;10
+073; Humanes de Madrid;Hombre;De 45 a 49 años;0
+073; Humanes de Madrid;Hombre;De 50 años y más;0
+073; Humanes de Madrid;Mujer;Menores de 15 años;0
+073; Humanes de Madrid;Mujer;De 15 a 19 años;1
+073; Humanes de Madrid;Mujer;De 20 a 24 años;8
+073; Humanes de Madrid;Mujer;De 25 a 29 años;20
+073; Humanes de Madrid;Mujer;De 30 a 34 años;33
+073; Humanes de Madrid;Mujer;De 35 a 39 años;31
+073; Humanes de Madrid;Mujer;De 40 a 44 años;4
+073; Humanes de Madrid;Mujer;De 45 a 49 años;0
+073; Humanes de Madrid;Mujer;De 50 años y más;0
+074; Leganés;Hombre;Menores de 15 años;0
+074; Leganés;Hombre;De 15 a 19 años;10
+074; Leganés;Hombre;De 20 a 24 años;52
+074; Leganés;Hombre;De 25 a 29 años;103
+074; Leganés;Hombre;De 30 a 34 años;258
+074; Leganés;Hombre;De 35 a 39 años;255
+074; Leganés;Hombre;De 40 a 44 años;90
+074; Leganés;Hombre;De 45 a 49 años;7
+074; Leganés;Hombre;De 50 años y más;0
+074; Leganés;Mujer;Menores de 15 años;0
+074; Leganés;Mujer;De 15 a 19 años;13
+074; Leganés;Mujer;De 20 a 24 años;55
+074; Leganés;Mujer;De 25 a 29 años;107
+074; Leganés;Mujer;De 30 a 34 años;240
+074; Leganés;Mujer;De 35 a 39 años;250
+074; Leganés;Mujer;De 40 a 44 años;75
+074; Leganés;Mujer;De 45 a 49 años;7
+074; Leganés;Mujer;De 50 años y más;0
+075; Loeches;Hombre;Menores de 15 años;0
+075; Loeches;Hombre;De 15 a 19 años;2
+075; Loeches;Hombre;De 20 a 24 años;0
+075; Loeches;Hombre;De 25 a 29 años;12
+075; Loeches;Hombre;De 30 a 34 años;18
+075; Loeches;Hombre;De 35 a 39 años;14
+075; Loeches;Hombre;De 40 a 44 años;3
+075; Loeches;Hombre;De 45 a 49 años;2
+075; Loeches;Hombre;De 50 años y más;0
+075; Loeches;Mujer;Menores de 15 años;0
+075; Loeches;Mujer;De 15 a 19 años;0
+075; Loeches;Mujer;De 20 a 24 años;5
+075; Loeches;Mujer;De 25 a 29 años;10
+075; Loeches;Mujer;De 30 a 34 años;23
+075; Loeches;Mujer;De 35 a 39 años;17
+075; Loeches;Mujer;De 40 a 44 años;3
+075; Loeches;Mujer;De 45 a 49 años;0
+075; Loeches;Mujer;De 50 años y más;0
+076; Lozoya;Hombre;Menores de 15 años;0
+076; Lozoya;Hombre;De 15 a 19 años;0
+076; Lozoya;Hombre;De 20 a 24 años;0
+076; Lozoya;Hombre;De 25 a 29 años;1
+076; Lozoya;Hombre;De 30 a 34 años;2
+076; Lozoya;Hombre;De 35 a 39 años;0
+076; Lozoya;Hombre;De 40 a 44 años;0
+076; Lozoya;Hombre;De 45 a 49 años;0
+076; Lozoya;Hombre;De 50 años y más;0
+076; Lozoya;Mujer;Menores de 15 años;0
+076; Lozoya;Mujer;De 15 a 19 años;0
+076; Lozoya;Mujer;De 20 a 24 años;0
+076; Lozoya;Mujer;De 25 a 29 años;1
+076; Lozoya;Mujer;De 30 a 34 años;0
+076; Lozoya;Mujer;De 35 a 39 años;0
+076; Lozoya;Mujer;De 40 a 44 años;0
+076; Lozoya;Mujer;De 45 a 49 años;0
+076; Lozoya;Mujer;De 50 años y más;0
+901; Lozoyuela-Navas-Sieteiglesias;Hombre;Menores de 15 años;0
+901; Lozoyuela-Navas-Sieteiglesias;Hombre;De 15 a 19 años;0
+901; Lozoyuela-Navas-Sieteiglesias;Hombre;De 20 a 24 años;0
+901; Lozoyuela-Navas-Sieteiglesias;Hombre;De 25 a 29 años;0
+901; Lozoyuela-Navas-Sieteiglesias;Hombre;De 30 a 34 años;1
+901; Lozoyuela-Navas-Sieteiglesias;Hombre;De 35 a 39 años;1
+901; Lozoyuela-Navas-Sieteiglesias;Hombre;De 40 a 44 años;0
+901; Lozoyuela-Navas-Sieteiglesias;Hombre;De 45 a 49 años;0
+901; Lozoyuela-Navas-Sieteiglesias;Hombre;De 50 años y más;0
+901; Lozoyuela-Navas-Sieteiglesias;Mujer;Menores de 15 años;0
+901; Lozoyuela-Navas-Sieteiglesias;Mujer;De 15 a 19 años;0
+901; Lozoyuela-Navas-Sieteiglesias;Mujer;De 20 a 24 años;0
+901; Lozoyuela-Navas-Sieteiglesias;Mujer;De 25 a 29 años;1
+901; Lozoyuela-Navas-Sieteiglesias;Mujer;De 30 a 34 años;2
+901; Lozoyuela-Navas-Sieteiglesias;Mujer;De 35 a 39 años;3
+901; Lozoyuela-Navas-Sieteiglesias;Mujer;De 40 a 44 años;0
+901; Lozoyuela-Navas-Sieteiglesias;Mujer;De 45 a 49 años;0
+901; Lozoyuela-Navas-Sieteiglesias;Mujer;De 50 años y más;0
+078; Madarcos;Hombre;Menores de 15 años;0
+078; Madarcos;Hombre;De 15 a 19 años;0
+078; Madarcos;Hombre;De 20 a 24 años;0
+078; Madarcos;Hombre;De 25 a 29 años;0
+078; Madarcos;Hombre;De 30 a 34 años;0
+078; Madarcos;Hombre;De 35 a 39 años;1
+078; Madarcos;Hombre;De 40 a 44 años;0
+078; Madarcos;Hombre;De 45 a 49 años;0
+078; Madarcos;Hombre;De 50 años y más;0
+078; Madarcos;Mujer;Menores de 15 años;0
+078; Madarcos;Mujer;De 15 a 19 años;0
+078; Madarcos;Mujer;De 20 a 24 años;0
+078; Madarcos;Mujer;De 25 a 29 años;0
+078; Madarcos;Mujer;De 30 a 34 años;0
+078; Madarcos;Mujer;De 35 a 39 años;0
+078; Madarcos;Mujer;De 40 a 44 años;0
+078; Madarcos;Mujer;De 45 a 49 años;0
+078; Madarcos;Mujer;De 50 años y más;0
+079; Madrid;Hombre;Menores de 15 años;5
+079; Madrid;Hombre;De 15 a 19 años;275
+079; Madrid;Hombre;De 20 a 24 años;901
+079; Madrid;Hombre;De 25 a 29 años;1969
+079; Madrid;Hombre;De 30 a 34 años;4826
+079; Madrid;Hombre;De 35 a 39 años;5145
+079; Madrid;Hombre;De 40 a 44 años;1634
+079; Madrid;Hombre;De 45 a 49 años;152
+079; Madrid;Hombre;De 50 años y más;9
+079; Madrid;Mujer;Menores de 15 años;5
+079; Madrid;Mujer;De 15 a 19 años;322
+079; Madrid;Mujer;De 20 a 24 años;803
+079; Madrid;Mujer;De 25 a 29 años;1917
+079; Madrid;Mujer;De 30 a 34 años;4577
+079; Madrid;Mujer;De 35 a 39 años;4826
+079; Madrid;Mujer;De 40 a 44 años;1518
+079; Madrid;Mujer;De 45 a 49 años;139
+079; Madrid;Mujer;De 50 años y más;9
+080; Majadahonda;Hombre;Menores de 15 años;0
+080; Majadahonda;Hombre;De 15 a 19 años;2
+080; Majadahonda;Hombre;De 20 a 24 años;9
+080; Majadahonda;Hombre;De 25 a 29 años;32
+080; Majadahonda;Hombre;De 30 a 34 años;119
+080; Majadahonda;Hombre;De 35 a 39 años;137
+080; Majadahonda;Hombre;De 40 a 44 años;37
+080; Majadahonda;Hombre;De 45 a 49 años;0
+080; Majadahonda;Hombre;De 50 años y más;0
+080; Majadahonda;Mujer;Menores de 15 años;0
+080; Majadahonda;Mujer;De 15 a 19 años;2
+080; Majadahonda;Mujer;De 20 a 24 años;6
+080; Majadahonda;Mujer;De 25 a 29 años;33
+080; Majadahonda;Mujer;De 30 a 34 años;109
+080; Majadahonda;Mujer;De 35 a 39 años;127
+080; Majadahonda;Mujer;De 40 a 44 años;26
+080; Majadahonda;Mujer;De 45 a 49 años;1
+080; Majadahonda;Mujer;De 50 años y más;0
+082; Manzanares el Real;Hombre;Menores de 15 años;0
+082; Manzanares el Real;Hombre;De 15 a 19 años;0
+082; Manzanares el Real;Hombre;De 20 a 24 años;1
+082; Manzanares el Real;Hombre;De 25 a 29 años;5
+082; Manzanares el Real;Hombre;De 30 a 34 años;14
+082; Manzanares el Real;Hombre;De 35 a 39 años;17
+082; Manzanares el Real;Hombre;De 40 a 44 años;4
+082; Manzanares el Real;Hombre;De 45 a 49 años;1
+082; Manzanares el Real;Hombre;De 50 años y más;0
+082; Manzanares el Real;Mujer;Menores de 15 años;0
+082; Manzanares el Real;Mujer;De 15 a 19 años;0
+082; Manzanares el Real;Mujer;De 20 a 24 años;2
+082; Manzanares el Real;Mujer;De 25 a 29 años;1
+082; Manzanares el Real;Mujer;De 30 a 34 años;11
+082; Manzanares el Real;Mujer;De 35 a 39 años;15
+082; Manzanares el Real;Mujer;De 40 a 44 años;10
+082; Manzanares el Real;Mujer;De 45 a 49 años;1
+082; Manzanares el Real;Mujer;De 50 años y más;0
+083; Meco;Hombre;Menores de 15 años;0
+083; Meco;Hombre;De 15 a 19 años;0
+083; Meco;Hombre;De 20 a 24 años;3
+083; Meco;Hombre;De 25 a 29 años;11
+083; Meco;Hombre;De 30 a 34 años;23
+083; Meco;Hombre;De 35 a 39 años;16
+083; Meco;Hombre;De 40 a 44 años;2
+083; Meco;Hombre;De 45 a 49 años;2
+083; Meco;Hombre;De 50 años y más;0
+083; Meco;Mujer;Menores de 15 años;0
+083; Meco;Mujer;De 15 a 19 años;0
+083; Meco;Mujer;De 20 a 24 años;6
+083; Meco;Mujer;De 25 a 29 años;13
+083; Meco;Mujer;De 30 a 34 años;18
+083; Meco;Mujer;De 35 a 39 años;17
+083; Meco;Mujer;De 40 a 44 años;3
+083; Meco;Mujer;De 45 a 49 años;0
+083; Meco;Mujer;De 50 años y más;0
+084; Mejorada del Campo;Hombre;Menores de 15 años;0
+084; Mejorada del Campo;Hombre;De 15 a 19 años;3
+084; Mejorada del Campo;Hombre;De 20 a 24 años;5
+084; Mejorada del Campo;Hombre;De 25 a 29 años;11
+084; Mejorada del Campo;Hombre;De 30 a 34 años;39
+084; Mejorada del Campo;Hombre;De 35 a 39 años;31
+084; Mejorada del Campo;Hombre;De 40 a 44 años;6
+084; Mejorada del Campo;Hombre;De 45 a 49 años;0
+084; Mejorada del Campo;Hombre;De 50 años y más;0
+084; Mejorada del Campo;Mujer;Menores de 15 años;0
+084; Mejorada del Campo;Mujer;De 15 a 19 años;2
+084; Mejorada del Campo;Mujer;De 20 a 24 años;9
+084; Mejorada del Campo;Mujer;De 25 a 29 años;19
+084; Mejorada del Campo;Mujer;De 30 a 34 años;51
+084; Mejorada del Campo;Mujer;De 35 a 39 años;32
+084; Mejorada del Campo;Mujer;De 40 a 44 años;9
+084; Mejorada del Campo;Mujer;De 45 a 49 años;1
+084; Mejorada del Campo;Mujer;De 50 años y más;0
+085; Miraflores de la Sierra;Hombre;Menores de 15 años;0
+085; Miraflores de la Sierra;Hombre;De 15 a 19 años;0
+085; Miraflores de la Sierra;Hombre;De 20 a 24 años;1
+085; Miraflores de la Sierra;Hombre;De 25 a 29 años;3
+085; Miraflores de la Sierra;Hombre;De 30 a 34 años;8
+085; Miraflores de la Sierra;Hombre;De 35 a 39 años;2
+085; Miraflores de la Sierra;Hombre;De 40 a 44 años;2
+085; Miraflores de la Sierra;Hombre;De 45 a 49 años;0
+085; Miraflores de la Sierra;Hombre;De 50 años y más;0
+085; Miraflores de la Sierra;Mujer;Menores de 15 años;0
+085; Miraflores de la Sierra;Mujer;De 15 a 19 años;0
+085; Miraflores de la Sierra;Mujer;De 20 a 24 años;0
+085; Miraflores de la Sierra;Mujer;De 25 a 29 años;2
+085; Miraflores de la Sierra;Mujer;De 30 a 34 años;8
+085; Miraflores de la Sierra;Mujer;De 35 a 39 años;5
+085; Miraflores de la Sierra;Mujer;De 40 a 44 años;2
+085; Miraflores de la Sierra;Mujer;De 45 a 49 años;0
+085; Miraflores de la Sierra;Mujer;De 50 años y más;0
+086; Molar (El);Hombre;Menores de 15 años;0
+086; Molar (El);Hombre;De 15 a 19 años;2
+086; Molar (El);Hombre;De 20 a 24 años;1
+086; Molar (El);Hombre;De 25 a 29 años;16
+086; Molar (El);Hombre;De 30 a 34 años;15
+086; Molar (El);Hombre;De 35 a 39 años;18
+086; Molar (El);Hombre;De 40 a 44 años;5
+086; Molar (El);Hombre;De 45 a 49 años;1
+086; Molar (El);Hombre;De 50 años y más;0
+086; Molar (El);Mujer;Menores de 15 años;0
+086; Molar (El);Mujer;De 15 a 19 años;0
+086; Molar (El);Mujer;De 20 a 24 años;3
+086; Molar (El);Mujer;De 25 a 29 años;10
+086; Molar (El);Mujer;De 30 a 34 años;14
+086; Molar (El);Mujer;De 35 a 39 años;14
+086; Molar (El);Mujer;De 40 a 44 años;4
+086; Molar (El);Mujer;De 45 a 49 años;1
+086; Molar (El);Mujer;De 50 años y más;1
+087; Molinos (Los);Hombre;Menores de 15 años;0
+087; Molinos (Los);Hombre;De 15 a 19 años;0
+087; Molinos (Los);Hombre;De 20 a 24 años;1
+087; Molinos (Los);Hombre;De 25 a 29 años;4
+087; Molinos (Los);Hombre;De 30 a 34 años;5
+087; Molinos (Los);Hombre;De 35 a 39 años;4
+087; Molinos (Los);Hombre;De 40 a 44 años;1
+087; Molinos (Los);Hombre;De 45 a 49 años;0
+087; Molinos (Los);Hombre;De 50 años y más;0
+087; Molinos (Los);Mujer;Menores de 15 años;0
+087; Molinos (Los);Mujer;De 15 a 19 años;0
+087; Molinos (Los);Mujer;De 20 a 24 años;0
+087; Molinos (Los);Mujer;De 25 a 29 años;5
+087; Molinos (Los);Mujer;De 30 a 34 años;4
+087; Molinos (Los);Mujer;De 35 a 39 años;3
+087; Molinos (Los);Mujer;De 40 a 44 años;0
+087; Molinos (Los);Mujer;De 45 a 49 años;0
+087; Molinos (Los);Mujer;De 50 años y más;0
+088; Montejo de la Sierra;Hombre;Menores de 15 años;0
+088; Montejo de la Sierra;Hombre;De 15 a 19 años;0
+088; Montejo de la Sierra;Hombre;De 20 a 24 años;0
+088; Montejo de la Sierra;Hombre;De 25 a 29 años;0
+088; Montejo de la Sierra;Hombre;De 30 a 34 años;0
+088; Montejo de la Sierra;Hombre;De 35 a 39 años;0
+088; Montejo de la Sierra;Hombre;De 40 a 44 años;0
+088; Montejo de la Sierra;Hombre;De 45 a 49 años;0
+088; Montejo de la Sierra;Hombre;De 50 años y más;0
+088; Montejo de la Sierra;Mujer;Menores de 15 años;0
+088; Montejo de la Sierra;Mujer;De 15 a 19 años;0
+088; Montejo de la Sierra;Mujer;De 20 a 24 años;0
+088; Montejo de la Sierra;Mujer;De 25 a 29 años;0
+088; Montejo de la Sierra;Mujer;De 30 a 34 años;0
+088; Montejo de la Sierra;Mujer;De 35 a 39 años;0
+088; Montejo de la Sierra;Mujer;De 40 a 44 años;0
+088; Montejo de la Sierra;Mujer;De 45 a 49 años;0
+088; Montejo de la Sierra;Mujer;De 50 años y más;0
+089; Moraleja de Enmedio;Hombre;Menores de 15 años;0
+089; Moraleja de Enmedio;Hombre;De 15 a 19 años;0
+089; Moraleja de Enmedio;Hombre;De 20 a 24 años;2
+089; Moraleja de Enmedio;Hombre;De 25 a 29 años;2
+089; Moraleja de Enmedio;Hombre;De 30 a 34 años;4
+089; Moraleja de Enmedio;Hombre;De 35 a 39 años;6
+089; Moraleja de Enmedio;Hombre;De 40 a 44 años;0
+089; Moraleja de Enmedio;Hombre;De 45 a 49 años;0
+089; Moraleja de Enmedio;Hombre;De 50 años y más;0
+089; Moraleja de Enmedio;Mujer;Menores de 15 años;0
+089; Moraleja de Enmedio;Mujer;De 15 a 19 años;0
+089; Moraleja de Enmedio;Mujer;De 20 a 24 años;1
+089; Moraleja de Enmedio;Mujer;De 25 a 29 años;4
+089; Moraleja de Enmedio;Mujer;De 30 a 34 años;8
+089; Moraleja de Enmedio;Mujer;De 35 a 39 años;5
+089; Moraleja de Enmedio;Mujer;De 40 a 44 años;0
+089; Moraleja de Enmedio;Mujer;De 45 a 49 años;0
+089; Moraleja de Enmedio;Mujer;De 50 años y más;0
+090; Moralzarzal;Hombre;Menores de 15 años;0
+090; Moralzarzal;Hombre;De 15 a 19 años;0
+090; Moralzarzal;Hombre;De 20 a 24 años;3
+090; Moralzarzal;Hombre;De 25 a 29 años;5
+090; Moralzarzal;Hombre;De 30 a 34 años;15
+090; Moralzarzal;Hombre;De 35 a 39 años;12
+090; Moralzarzal;Hombre;De 40 a 44 años;4
+090; Moralzarzal;Hombre;De 45 a 49 años;1
+090; Moralzarzal;Hombre;De 50 años y más;0
+090; Moralzarzal;Mujer;Menores de 15 años;0
+090; Moralzarzal;Mujer;De 15 a 19 años;0
+090; Moralzarzal;Mujer;De 20 a 24 años;2
+090; Moralzarzal;Mujer;De 25 a 29 años;6
+090; Moralzarzal;Mujer;De 30 a 34 años;13
+090; Moralzarzal;Mujer;De 35 a 39 años;11
+090; Moralzarzal;Mujer;De 40 a 44 años;5
+090; Moralzarzal;Mujer;De 45 a 49 años;0
+090; Moralzarzal;Mujer;De 50 años y más;0
+091; Morata de Tajuña;Hombre;Menores de 15 años;0
+091; Morata de Tajuña;Hombre;De 15 a 19 años;1
+091; Morata de Tajuña;Hombre;De 20 a 24 años;3
+091; Morata de Tajuña;Hombre;De 25 a 29 años;9
+091; Morata de Tajuña;Hombre;De 30 a 34 años;9
+091; Morata de Tajuña;Hombre;De 35 a 39 años;13
+091; Morata de Tajuña;Hombre;De 40 a 44 años;0
+091; Morata de Tajuña;Hombre;De 45 a 49 años;1
+091; Morata de Tajuña;Hombre;De 50 años y más;0
+091; Morata de Tajuña;Mujer;Menores de 15 años;0
+091; Morata de Tajuña;Mujer;De 15 a 19 años;0
+091; Morata de Tajuña;Mujer;De 20 a 24 años;1
+091; Morata de Tajuña;Mujer;De 25 a 29 años;12
+091; Morata de Tajuña;Mujer;De 30 a 34 años;14
+091; Morata de Tajuña;Mujer;De 35 a 39 años;5
+091; Morata de Tajuña;Mujer;De 40 a 44 años;1
+091; Morata de Tajuña;Mujer;De 45 a 49 años;0
+091; Morata de Tajuña;Mujer;De 50 años y más;0
+092; Móstoles;Hombre;Menores de 15 años;0
+092; Móstoles;Hombre;De 15 a 19 años;20
+092; Móstoles;Hombre;De 20 a 24 años;54
+092; Móstoles;Hombre;De 25 a 29 años;154
+092; Móstoles;Hombre;De 30 a 34 años;373
+092; Móstoles;Hombre;De 35 a 39 años;345
+092; Móstoles;Hombre;De 40 a 44 años;65
+092; Móstoles;Hombre;De 45 a 49 años;5
+092; Móstoles;Hombre;De 50 años y más;0
+092; Móstoles;Mujer;Menores de 15 años;0
+092; Móstoles;Mujer;De 15 a 19 años;10
+092; Móstoles;Mujer;De 20 a 24 años;53
+092; Móstoles;Mujer;De 25 a 29 años;138
+092; Móstoles;Mujer;De 30 a 34 años;314
+092; Móstoles;Mujer;De 35 a 39 años;295
+092; Móstoles;Mujer;De 40 a 44 años;68
+092; Móstoles;Mujer;De 45 a 49 años;5
+092; Móstoles;Mujer;De 50 años y más;0
+093; Navacerrada;Hombre;Menores de 15 años;0
+093; Navacerrada;Hombre;De 15 a 19 años;0
+093; Navacerrada;Hombre;De 20 a 24 años;1
+093; Navacerrada;Hombre;De 25 a 29 años;0
+093; Navacerrada;Hombre;De 30 a 34 años;2
+093; Navacerrada;Hombre;De 35 a 39 años;0
+093; Navacerrada;Hombre;De 40 a 44 años;2
+093; Navacerrada;Hombre;De 45 a 49 años;0
+093; Navacerrada;Hombre;De 50 años y más;0
+093; Navacerrada;Mujer;Menores de 15 años;0
+093; Navacerrada;Mujer;De 15 a 19 años;0
+093; Navacerrada;Mujer;De 20 a 24 años;1
+093; Navacerrada;Mujer;De 25 a 29 años;0
+093; Navacerrada;Mujer;De 30 a 34 años;0
+093; Navacerrada;Mujer;De 35 a 39 años;2
+093; Navacerrada;Mujer;De 40 a 44 años;0
+093; Navacerrada;Mujer;De 45 a 49 años;0
+093; Navacerrada;Mujer;De 50 años y más;0
+094; Navalafuente;Hombre;Menores de 15 años;0
+094; Navalafuente;Hombre;De 15 a 19 años;0
+094; Navalafuente;Hombre;De 20 a 24 años;0
+094; Navalafuente;Hombre;De 25 a 29 años;0
+094; Navalafuente;Hombre;De 30 a 34 años;5
+094; Navalafuente;Hombre;De 35 a 39 años;4
+094; Navalafuente;Hombre;De 40 a 44 años;0
+094; Navalafuente;Hombre;De 45 a 49 años;1
+094; Navalafuente;Hombre;De 50 años y más;0
+094; Navalafuente;Mujer;Menores de 15 años;0
+094; Navalafuente;Mujer;De 15 a 19 años;0
+094; Navalafuente;Mujer;De 20 a 24 años;0
+094; Navalafuente;Mujer;De 25 a 29 años;0
+094; Navalafuente;Mujer;De 30 a 34 años;3
+094; Navalafuente;Mujer;De 35 a 39 años;4
+094; Navalafuente;Mujer;De 40 a 44 años;1
+094; Navalafuente;Mujer;De 45 a 49 años;1
+094; Navalafuente;Mujer;De 50 años y más;0
+095; Navalagamella;Hombre;Menores de 15 años;0
+095; Navalagamella;Hombre;De 15 a 19 años;0
+095; Navalagamella;Hombre;De 20 a 24 años;3
+095; Navalagamella;Hombre;De 25 a 29 años;4
+095; Navalagamella;Hombre;De 30 a 34 años;4
+095; Navalagamella;Hombre;De 35 a 39 años;7
+095; Navalagamella;Hombre;De 40 a 44 años;1
+095; Navalagamella;Hombre;De 45 a 49 años;0
+095; Navalagamella;Hombre;De 50 años y más;0
+095; Navalagamella;Mujer;Menores de 15 años;0
+095; Navalagamella;Mujer;De 15 a 19 años;0
+095; Navalagamella;Mujer;De 20 a 24 años;0
+095; Navalagamella;Mujer;De 25 a 29 años;5
+095; Navalagamella;Mujer;De 30 a 34 años;4
+095; Navalagamella;Mujer;De 35 a 39 años;3
+095; Navalagamella;Mujer;De 40 a 44 años;2
+095; Navalagamella;Mujer;De 45 a 49 años;0
+095; Navalagamella;Mujer;De 50 años y más;0
+096; Navalcarnero;Hombre;Menores de 15 años;0
+096; Navalcarnero;Hombre;De 15 a 19 años;2
+096; Navalcarnero;Hombre;De 20 a 24 años;8
+096; Navalcarnero;Hombre;De 25 a 29 años;21
+096; Navalcarnero;Hombre;De 30 a 34 años;67
+096; Navalcarnero;Hombre;De 35 a 39 años;56
+096; Navalcarnero;Hombre;De 40 a 44 años;24
+096; Navalcarnero;Hombre;De 45 a 49 años;0
+096; Navalcarnero;Hombre;De 50 años y más;0
+096; Navalcarnero;Mujer;Menores de 15 años;0
+096; Navalcarnero;Mujer;De 15 a 19 años;3
+096; Navalcarnero;Mujer;De 20 a 24 años;12
+096; Navalcarnero;Mujer;De 25 a 29 años;30
+096; Navalcarnero;Mujer;De 30 a 34 años;56
+096; Navalcarnero;Mujer;De 35 a 39 años;71
+096; Navalcarnero;Mujer;De 40 a 44 años;16
+096; Navalcarnero;Mujer;De 45 a 49 años;1
+096; Navalcarnero;Mujer;De 50 años y más;0
+097; Navarredonda y San Mamés;Hombre;Menores de 15 años;0
+097; Navarredonda y San Mamés;Hombre;De 15 a 19 años;0
+097; Navarredonda y San Mamés;Hombre;De 20 a 24 años;0
+097; Navarredonda y San Mamés;Hombre;De 25 a 29 años;0
+097; Navarredonda y San Mamés;Hombre;De 30 a 34 años;0
+097; Navarredonda y San Mamés;Hombre;De 35 a 39 años;0
+097; Navarredonda y San Mamés;Hombre;De 40 a 44 años;0
+097; Navarredonda y San Mamés;Hombre;De 45 a 49 años;0
+097; Navarredonda y San Mamés;Hombre;De 50 años y más;0
+097; Navarredonda y San Mamés;Mujer;Menores de 15 años;0
+097; Navarredonda y San Mamés;Mujer;De 15 a 19 años;0
+097; Navarredonda y San Mamés;Mujer;De 20 a 24 años;0
+097; Navarredonda y San Mamés;Mujer;De 25 a 29 años;0
+097; Navarredonda y San Mamés;Mujer;De 30 a 34 años;1
+097; Navarredonda y San Mamés;Mujer;De 35 a 39 años;0
+097; Navarredonda y San Mamés;Mujer;De 40 a 44 años;0
+097; Navarredonda y San Mamés;Mujer;De 45 a 49 años;0
+097; Navarredonda y San Mamés;Mujer;De 50 años y más;0
+099; Navas del Rey;Hombre;Menores de 15 años;0
+099; Navas del Rey;Hombre;De 15 a 19 años;0
+099; Navas del Rey;Hombre;De 20 a 24 años;1
+099; Navas del Rey;Hombre;De 25 a 29 años;6
+099; Navas del Rey;Hombre;De 30 a 34 años;5
+099; Navas del Rey;Hombre;De 35 a 39 años;2
+099; Navas del Rey;Hombre;De 40 a 44 años;0
+099; Navas del Rey;Hombre;De 45 a 49 años;0
+099; Navas del Rey;Hombre;De 50 años y más;0
+099; Navas del Rey;Mujer;Menores de 15 años;0
+099; Navas del Rey;Mujer;De 15 a 19 años;0
+099; Navas del Rey;Mujer;De 20 a 24 años;5
+099; Navas del Rey;Mujer;De 25 a 29 años;1
+099; Navas del Rey;Mujer;De 30 a 34 años;4
+099; Navas del Rey;Mujer;De 35 a 39 años;5
+099; Navas del Rey;Mujer;De 40 a 44 años;1
+099; Navas del Rey;Mujer;De 45 a 49 años;0
+099; Navas del Rey;Mujer;De 50 años y más;0
+100; Nuevo Baztán;Hombre;Menores de 15 años;0
+100; Nuevo Baztán;Hombre;De 15 a 19 años;0
+100; Nuevo Baztán;Hombre;De 20 a 24 años;2
+100; Nuevo Baztán;Hombre;De 25 a 29 años;2
+100; Nuevo Baztán;Hombre;De 30 a 34 años;10
+100; Nuevo Baztán;Hombre;De 35 a 39 años;10
+100; Nuevo Baztán;Hombre;De 40 a 44 años;0
+100; Nuevo Baztán;Hombre;De 45 a 49 años;0
+100; Nuevo Baztán;Hombre;De 50 años y más;0
+100; Nuevo Baztán;Mujer;Menores de 15 años;0
+100; Nuevo Baztán;Mujer;De 15 a 19 años;0
+100; Nuevo Baztán;Mujer;De 20 a 24 años;2
+100; Nuevo Baztán;Mujer;De 25 a 29 años;2
+100; Nuevo Baztán;Mujer;De 30 a 34 años;10
+100; Nuevo Baztán;Mujer;De 35 a 39 años;5
+100; Nuevo Baztán;Mujer;De 40 a 44 años;0
+100; Nuevo Baztán;Mujer;De 45 a 49 años;0
+100; Nuevo Baztán;Mujer;De 50 años y más;0
+101; Olmeda de las Fuentes;Hombre;Menores de 15 años;0
+101; Olmeda de las Fuentes;Hombre;De 15 a 19 años;0
+101; Olmeda de las Fuentes;Hombre;De 20 a 24 años;0
+101; Olmeda de las Fuentes;Hombre;De 25 a 29 años;0
+101; Olmeda de las Fuentes;Hombre;De 30 a 34 años;2
+101; Olmeda de las Fuentes;Hombre;De 35 a 39 años;1
+101; Olmeda de las Fuentes;Hombre;De 40 a 44 años;1
+101; Olmeda de las Fuentes;Hombre;De 45 a 49 años;0
+101; Olmeda de las Fuentes;Hombre;De 50 años y más;0
+101; Olmeda de las Fuentes;Mujer;Menores de 15 años;0
+101; Olmeda de las Fuentes;Mujer;De 15 a 19 años;0
+101; Olmeda de las Fuentes;Mujer;De 20 a 24 años;0
+101; Olmeda de las Fuentes;Mujer;De 25 a 29 años;0
+101; Olmeda de las Fuentes;Mujer;De 30 a 34 años;0
+101; Olmeda de las Fuentes;Mujer;De 35 a 39 años;0
+101; Olmeda de las Fuentes;Mujer;De 40 a 44 años;1
+101; Olmeda de las Fuentes;Mujer;De 45 a 49 años;0
+101; Olmeda de las Fuentes;Mujer;De 50 años y más;0
+102; Orusco de Tajuña;Hombre;Menores de 15 años;0
+102; Orusco de Tajuña;Hombre;De 15 a 19 años;0
+102; Orusco de Tajuña;Hombre;De 20 a 24 años;1
+102; Orusco de Tajuña;Hombre;De 25 a 29 años;1
+102; Orusco de Tajuña;Hombre;De 30 a 34 años;3
+102; Orusco de Tajuña;Hombre;De 35 a 39 años;2
+102; Orusco de Tajuña;Hombre;De 40 a 44 años;0
+102; Orusco de Tajuña;Hombre;De 45 a 49 años;0
+102; Orusco de Tajuña;Hombre;De 50 años y más;0
+102; Orusco de Tajuña;Mujer;Menores de 15 años;0
+102; Orusco de Tajuña;Mujer;De 15 a 19 años;0
+102; Orusco de Tajuña;Mujer;De 20 a 24 años;0
+102; Orusco de Tajuña;Mujer;De 25 a 29 años;1
+102; Orusco de Tajuña;Mujer;De 30 a 34 años;3
+102; Orusco de Tajuña;Mujer;De 35 a 39 años;1
+102; Orusco de Tajuña;Mujer;De 40 a 44 años;0
+102; Orusco de Tajuña;Mujer;De 45 a 49 años;0
+102; Orusco de Tajuña;Mujer;De 50 años y más;0
+104; Paracuellos de Jarama;Hombre;Menores de 15 años;0
+104; Paracuellos de Jarama;Hombre;De 15 a 19 años;1
+104; Paracuellos de Jarama;Hombre;De 20 a 24 años;1
+104; Paracuellos de Jarama;Hombre;De 25 a 29 años;14
+104; Paracuellos de Jarama;Hombre;De 30 a 34 años;53
+104; Paracuellos de Jarama;Hombre;De 35 a 39 años;63
+104; Paracuellos de Jarama;Hombre;De 40 a 44 años;23
+104; Paracuellos de Jarama;Hombre;De 45 a 49 años;2
+104; Paracuellos de Jarama;Hombre;De 50 años y más;0
+104; Paracuellos de Jarama;Mujer;Menores de 15 años;0
+104; Paracuellos de Jarama;Mujer;De 15 a 19 años;1
+104; Paracuellos de Jarama;Mujer;De 20 a 24 años;2
+104; Paracuellos de Jarama;Mujer;De 25 a 29 años;20
+104; Paracuellos de Jarama;Mujer;De 30 a 34 años;47
+104; Paracuellos de Jarama;Mujer;De 35 a 39 años;79
+104; Paracuellos de Jarama;Mujer;De 40 a 44 años;20
+104; Paracuellos de Jarama;Mujer;De 45 a 49 años;1
+104; Paracuellos de Jarama;Mujer;De 50 años y más;0
+106; Parla;Hombre;Menores de 15 años;0
+106; Parla;Hombre;De 15 a 19 años;8
+106; Parla;Hombre;De 20 a 24 años;67
+106; Parla;Hombre;De 25 a 29 años;161
+106; Parla;Hombre;De 30 a 34 años;278
+106; Parla;Hombre;De 35 a 39 años;260
+106; Parla;Hombre;De 40 a 44 años;50
+106; Parla;Hombre;De 45 a 49 años;3
+106; Parla;Hombre;De 50 años y más;0
+106; Parla;Mujer;Menores de 15 años;0
+106; Parla;Mujer;De 15 a 19 años;19
+106; Parla;Mujer;De 20 a 24 años;64
+106; Parla;Mujer;De 25 a 29 años;164
+106; Parla;Mujer;De 30 a 34 años;234
+106; Parla;Mujer;De 35 a 39 años;234
+106; Parla;Mujer;De 40 a 44 años;70
+106; Parla;Mujer;De 45 a 49 años;2
+106; Parla;Mujer;De 50 años y más;1
+107; Patones;Hombre;Menores de 15 años;0
+107; Patones;Hombre;De 15 a 19 años;0
+107; Patones;Hombre;De 20 a 24 años;0
+107; Patones;Hombre;De 25 a 29 años;0
+107; Patones;Hombre;De 30 a 34 años;0
+107; Patones;Hombre;De 35 a 39 años;1
+107; Patones;Hombre;De 40 a 44 años;1
+107; Patones;Hombre;De 45 a 49 años;0
+107; Patones;Hombre;De 50 años y más;0
+107; Patones;Mujer;Menores de 15 años;0
+107; Patones;Mujer;De 15 a 19 años;0
+107; Patones;Mujer;De 20 a 24 años;1
+107; Patones;Mujer;De 25 a 29 años;0
+107; Patones;Mujer;De 30 a 34 años;1
+107; Patones;Mujer;De 35 a 39 años;0
+107; Patones;Mujer;De 40 a 44 años;0
+107; Patones;Mujer;De 45 a 49 años;0
+107; Patones;Mujer;De 50 años y más;0
+108; Pedrezuela;Hombre;Menores de 15 años;0
+108; Pedrezuela;Hombre;De 15 a 19 años;0
+108; Pedrezuela;Hombre;De 20 a 24 años;1
+108; Pedrezuela;Hombre;De 25 a 29 años;2
+108; Pedrezuela;Hombre;De 30 a 34 años;15
+108; Pedrezuela;Hombre;De 35 a 39 años;10
+108; Pedrezuela;Hombre;De 40 a 44 años;5
+108; Pedrezuela;Hombre;De 45 a 49 años;0
+108; Pedrezuela;Hombre;De 50 años y más;0
+108; Pedrezuela;Mujer;Menores de 15 años;0
+108; Pedrezuela;Mujer;De 15 a 19 años;0
+108; Pedrezuela;Mujer;De 20 a 24 años;2
+108; Pedrezuela;Mujer;De 25 a 29 años;6
+108; Pedrezuela;Mujer;De 30 a 34 años;6
+108; Pedrezuela;Mujer;De 35 a 39 años;16
+108; Pedrezuela;Mujer;De 40 a 44 años;3
+108; Pedrezuela;Mujer;De 45 a 49 años;0
+108; Pedrezuela;Mujer;De 50 años y más;0
+109; Pelayos de la Presa;Hombre;Menores de 15 años;0
+109; Pelayos de la Presa;Hombre;De 15 a 19 años;0
+109; Pelayos de la Presa;Hombre;De 20 a 24 años;0
+109; Pelayos de la Presa;Hombre;De 25 a 29 años;5
+109; Pelayos de la Presa;Hombre;De 30 a 34 años;3
+109; Pelayos de la Presa;Hombre;De 35 a 39 años;0
+109; Pelayos de la Presa;Hombre;De 40 a 44 años;2
+109; Pelayos de la Presa;Hombre;De 45 a 49 años;0
+109; Pelayos de la Presa;Hombre;De 50 años y más;0
+109; Pelayos de la Presa;Mujer;Menores de 15 años;0
+109; Pelayos de la Presa;Mujer;De 15 a 19 años;0
+109; Pelayos de la Presa;Mujer;De 20 a 24 años;1
+109; Pelayos de la Presa;Mujer;De 25 a 29 años;2
+109; Pelayos de la Presa;Mujer;De 30 a 34 años;1
+109; Pelayos de la Presa;Mujer;De 35 a 39 años;2
+109; Pelayos de la Presa;Mujer;De 40 a 44 años;0
+109; Pelayos de la Presa;Mujer;De 45 a 49 años;1
+109; Pelayos de la Presa;Mujer;De 50 años y más;0
+110; Perales de Tajuña;Hombre;Menores de 15 años;0
+110; Perales de Tajuña;Hombre;De 15 a 19 años;1
+110; Perales de Tajuña;Hombre;De 20 a 24 años;1
+110; Perales de Tajuña;Hombre;De 25 a 29 años;1
+110; Perales de Tajuña;Hombre;De 30 a 34 años;7
+110; Perales de Tajuña;Hombre;De 35 a 39 años;2
+110; Perales de Tajuña;Hombre;De 40 a 44 años;0
+110; Perales de Tajuña;Hombre;De 45 a 49 años;0
+110; Perales de Tajuña;Hombre;De 50 años y más;0
+110; Perales de Tajuña;Mujer;Menores de 15 años;1
+110; Perales de Tajuña;Mujer;De 15 a 19 años;3
+110; Perales de Tajuña;Mujer;De 20 a 24 años;2
+110; Perales de Tajuña;Mujer;De 25 a 29 años;4
+110; Perales de Tajuña;Mujer;De 30 a 34 años;4
+110; Perales de Tajuña;Mujer;De 35 a 39 años;2
+110; Perales de Tajuña;Mujer;De 40 a 44 años;0
+110; Perales de Tajuña;Mujer;De 45 a 49 años;0
+110; Perales de Tajuña;Mujer;De 50 años y más;0
+111; Pezuela de las Torres;Hombre;Menores de 15 años;0
+111; Pezuela de las Torres;Hombre;De 15 a 19 años;0
+111; Pezuela de las Torres;Hombre;De 20 a 24 años;0
+111; Pezuela de las Torres;Hombre;De 25 a 29 años;1
+111; Pezuela de las Torres;Hombre;De 30 a 34 años;3
+111; Pezuela de las Torres;Hombre;De 35 a 39 años;2
+111; Pezuela de las Torres;Hombre;De 40 a 44 años;0
+111; Pezuela de las Torres;Hombre;De 45 a 49 años;0
+111; Pezuela de las Torres;Hombre;De 50 años y más;0
+111; Pezuela de las Torres;Mujer;Menores de 15 años;0
+111; Pezuela de las Torres;Mujer;De 15 a 19 años;0
+111; Pezuela de las Torres;Mujer;De 20 a 24 años;0
+111; Pezuela de las Torres;Mujer;De 25 a 29 años;2
+111; Pezuela de las Torres;Mujer;De 30 a 34 años;1
+111; Pezuela de las Torres;Mujer;De 35 a 39 años;0
+111; Pezuela de las Torres;Mujer;De 40 a 44 años;0
+111; Pezuela de las Torres;Mujer;De 45 a 49 años;0
+111; Pezuela de las Torres;Mujer;De 50 años y más;0
+112; Pinilla del Valle;Hombre;Menores de 15 años;0
+112; Pinilla del Valle;Hombre;De 15 a 19 años;0
+112; Pinilla del Valle;Hombre;De 20 a 24 años;0
+112; Pinilla del Valle;Hombre;De 25 a 29 años;0
+112; Pinilla del Valle;Hombre;De 30 a 34 años;0
+112; Pinilla del Valle;Hombre;De 35 a 39 años;0
+112; Pinilla del Valle;Hombre;De 40 a 44 años;0
+112; Pinilla del Valle;Hombre;De 45 a 49 años;0
+112; Pinilla del Valle;Hombre;De 50 años y más;0
+112; Pinilla del Valle;Mujer;Menores de 15 años;0
+112; Pinilla del Valle;Mujer;De 15 a 19 años;0
+112; Pinilla del Valle;Mujer;De 20 a 24 años;0
+112; Pinilla del Valle;Mujer;De 25 a 29 años;0
+112; Pinilla del Valle;Mujer;De 30 a 34 años;0
+112; Pinilla del Valle;Mujer;De 35 a 39 años;0
+112; Pinilla del Valle;Mujer;De 40 a 44 años;0
+112; Pinilla del Valle;Mujer;De 45 a 49 años;0
+112; Pinilla del Valle;Mujer;De 50 años y más;0
+113; Pinto;Hombre;Menores de 15 años;0
+113; Pinto;Hombre;De 15 a 19 años;5
+113; Pinto;Hombre;De 20 a 24 años;13
+113; Pinto;Hombre;De 25 a 29 años;50
+113; Pinto;Hombre;De 30 a 34 años;127
+113; Pinto;Hombre;De 35 a 39 años;119
+113; Pinto;Hombre;De 40 a 44 años;25
+113; Pinto;Hombre;De 45 a 49 años;3
+113; Pinto;Hombre;De 50 años y más;0
+113; Pinto;Mujer;Menores de 15 años;0
+113; Pinto;Mujer;De 15 a 19 años;2
+113; Pinto;Mujer;De 20 a 24 años;12
+113; Pinto;Mujer;De 25 a 29 años;37
+113; Pinto;Mujer;De 30 a 34 años;96
+113; Pinto;Mujer;De 35 a 39 años;83
+113; Pinto;Mujer;De 40 a 44 años;23
+113; Pinto;Mujer;De 45 a 49 años;2
+113; Pinto;Mujer;De 50 años y más;0
+114; Piñuécar;Hombre;Menores de 15 años;0
+114; Piñuécar;Hombre;De 15 a 19 años;0
+114; Piñuécar;Hombre;De 20 a 24 años;0
+114; Piñuécar;Hombre;De 25 a 29 años;0
+114; Piñuécar;Hombre;De 30 a 34 años;0
+114; Piñuécar;Hombre;De 35 a 39 años;0
+114; Piñuécar;Hombre;De 40 a 44 años;0
+114; Piñuécar;Hombre;De 45 a 49 años;0
+114; Piñuécar;Hombre;De 50 años y más;0
+114; Piñuécar;Mujer;Menores de 15 años;0
+114; Piñuécar;Mujer;De 15 a 19 años;0
+114; Piñuécar;Mujer;De 20 a 24 años;0
+114; Piñuécar;Mujer;De 25 a 29 años;0
+114; Piñuécar;Mujer;De 30 a 34 años;0
+114; Piñuécar;Mujer;De 35 a 39 años;0
+114; Piñuécar;Mujer;De 40 a 44 años;0
+114; Piñuécar;Mujer;De 45 a 49 años;0
+114; Piñuécar;Mujer;De 50 años y más;0
+115; Pozuelo de Alarcón;Hombre;Menores de 15 años;0
+115; Pozuelo de Alarcón;Hombre;De 15 a 19 años;2
+115; Pozuelo de Alarcón;Hombre;De 20 a 24 años;9
+115; Pozuelo de Alarcón;Hombre;De 25 a 29 años;33
+115; Pozuelo de Alarcón;Hombre;De 30 a 34 años;119
+115; Pozuelo de Alarcón;Hombre;De 35 a 39 años;141
+115; Pozuelo de Alarcón;Hombre;De 40 a 44 años;46
+115; Pozuelo de Alarcón;Hombre;De 45 a 49 años;4
+115; Pozuelo de Alarcón;Hombre;De 50 años y más;2
+115; Pozuelo de Alarcón;Mujer;Menores de 15 años;0
+115; Pozuelo de Alarcón;Mujer;De 15 a 19 años;0
+115; Pozuelo de Alarcón;Mujer;De 20 a 24 años;8
+115; Pozuelo de Alarcón;Mujer;De 25 a 29 años;29
+115; Pozuelo de Alarcón;Mujer;De 30 a 34 años;116
+115; Pozuelo de Alarcón;Mujer;De 35 a 39 años;136
+115; Pozuelo de Alarcón;Mujer;De 40 a 44 años;49
+115; Pozuelo de Alarcón;Mujer;De 45 a 49 años;6
+115; Pozuelo de Alarcón;Mujer;De 50 años y más;0
+116; Pozuelo del Rey;Hombre;Menores de 15 años;0
+116; Pozuelo del Rey;Hombre;De 15 a 19 años;0
+116; Pozuelo del Rey;Hombre;De 20 a 24 años;0
+116; Pozuelo del Rey;Hombre;De 25 a 29 años;0
+116; Pozuelo del Rey;Hombre;De 30 a 34 años;1
+116; Pozuelo del Rey;Hombre;De 35 a 39 años;1
+116; Pozuelo del Rey;Hombre;De 40 a 44 años;0
+116; Pozuelo del Rey;Hombre;De 45 a 49 años;0
+116; Pozuelo del Rey;Hombre;De 50 años y más;0
+116; Pozuelo del Rey;Mujer;Menores de 15 años;0
+116; Pozuelo del Rey;Mujer;De 15 a 19 años;0
+116; Pozuelo del Rey;Mujer;De 20 a 24 años;0
+116; Pozuelo del Rey;Mujer;De 25 a 29 años;1
+116; Pozuelo del Rey;Mujer;De 30 a 34 años;3
+116; Pozuelo del Rey;Mujer;De 35 a 39 años;1
+116; Pozuelo del Rey;Mujer;De 40 a 44 años;0
+116; Pozuelo del Rey;Mujer;De 45 a 49 años;0
+116; Pozuelo del Rey;Mujer;De 50 años y más;0
+117; Prádena del Rincón;Hombre;Menores de 15 años;0
+117; Prádena del Rincón;Hombre;De 15 a 19 años;0
+117; Prádena del Rincón;Hombre;De 20 a 24 años;0
+117; Prádena del Rincón;Hombre;De 25 a 29 años;0
+117; Prádena del Rincón;Hombre;De 30 a 34 años;0
+117; Prádena del Rincón;Hombre;De 35 a 39 años;0
+117; Prádena del Rincón;Hombre;De 40 a 44 años;0
+117; Prádena del Rincón;Hombre;De 45 a 49 años;0
+117; Prádena del Rincón;Hombre;De 50 años y más;0
+117; Prádena del Rincón;Mujer;Menores de 15 años;0
+117; Prádena del Rincón;Mujer;De 15 a 19 años;0
+117; Prádena del Rincón;Mujer;De 20 a 24 años;0
+117; Prádena del Rincón;Mujer;De 25 a 29 años;0
+117; Prádena del Rincón;Mujer;De 30 a 34 años;0
+117; Prádena del Rincón;Mujer;De 35 a 39 años;0
+117; Prádena del Rincón;Mujer;De 40 a 44 años;0
+117; Prádena del Rincón;Mujer;De 45 a 49 años;0
+117; Prádena del Rincón;Mujer;De 50 años y más;0
+118; Puebla de la Sierra;Hombre;Menores de 15 años;0
+118; Puebla de la Sierra;Hombre;De 15 a 19 años;0
+118; Puebla de la Sierra;Hombre;De 20 a 24 años;0
+118; Puebla de la Sierra;Hombre;De 25 a 29 años;0
+118; Puebla de la Sierra;Hombre;De 30 a 34 años;0
+118; Puebla de la Sierra;Hombre;De 35 a 39 años;0
+118; Puebla de la Sierra;Hombre;De 40 a 44 años;0
+118; Puebla de la Sierra;Hombre;De 45 a 49 años;0
+118; Puebla de la Sierra;Hombre;De 50 años y más;0
+118; Puebla de la Sierra;Mujer;Menores de 15 años;0
+118; Puebla de la Sierra;Mujer;De 15 a 19 años;0
+118; Puebla de la Sierra;Mujer;De 20 a 24 años;0
+118; Puebla de la Sierra;Mujer;De 25 a 29 años;0
+118; Puebla de la Sierra;Mujer;De 30 a 34 años;0
+118; Puebla de la Sierra;Mujer;De 35 a 39 años;0
+118; Puebla de la Sierra;Mujer;De 40 a 44 años;0
+118; Puebla de la Sierra;Mujer;De 45 a 49 años;0
+118; Puebla de la Sierra;Mujer;De 50 años y más;0
+902; Puentes Viejas;Hombre;Menores de 15 años;0
+902; Puentes Viejas;Hombre;De 15 a 19 años;0
+902; Puentes Viejas;Hombre;De 20 a 24 años;0
+902; Puentes Viejas;Hombre;De 25 a 29 años;0
+902; Puentes Viejas;Hombre;De 30 a 34 años;0
+902; Puentes Viejas;Hombre;De 35 a 39 años;1
+902; Puentes Viejas;Hombre;De 40 a 44 años;0
+902; Puentes Viejas;Hombre;De 45 a 49 años;0
+902; Puentes Viejas;Hombre;De 50 años y más;0
+902; Puentes Viejas;Mujer;Menores de 15 años;0
+902; Puentes Viejas;Mujer;De 15 a 19 años;0
+902; Puentes Viejas;Mujer;De 20 a 24 años;0
+902; Puentes Viejas;Mujer;De 25 a 29 años;0
+902; Puentes Viejas;Mujer;De 30 a 34 años;1
+902; Puentes Viejas;Mujer;De 35 a 39 años;0
+902; Puentes Viejas;Mujer;De 40 a 44 años;0
+902; Puentes Viejas;Mujer;De 45 a 49 años;0
+902; Puentes Viejas;Mujer;De 50 años y más;0
+119; Quijorna;Hombre;Menores de 15 años;0
+119; Quijorna;Hombre;De 15 a 19 años;0
+119; Quijorna;Hombre;De 20 a 24 años;0
+119; Quijorna;Hombre;De 25 a 29 años;1
+119; Quijorna;Hombre;De 30 a 34 años;3
+119; Quijorna;Hombre;De 35 a 39 años;3
+119; Quijorna;Hombre;De 40 a 44 años;4
+119; Quijorna;Hombre;De 45 a 49 años;0
+119; Quijorna;Hombre;De 50 años y más;0
+119; Quijorna;Mujer;Menores de 15 años;0
+119; Quijorna;Mujer;De 15 a 19 años;1
+119; Quijorna;Mujer;De 20 a 24 años;0
+119; Quijorna;Mujer;De 25 a 29 años;1
+119; Quijorna;Mujer;De 30 a 34 años;7
+119; Quijorna;Mujer;De 35 a 39 años;2
+119; Quijorna;Mujer;De 40 a 44 años;1
+119; Quijorna;Mujer;De 45 a 49 años;0
+119; Quijorna;Mujer;De 50 años y más;0
+120; Rascafría;Hombre;Menores de 15 años;0
+120; Rascafría;Hombre;De 15 a 19 años;0
+120; Rascafría;Hombre;De 20 a 24 años;0
+120; Rascafría;Hombre;De 25 a 29 años;0
+120; Rascafría;Hombre;De 30 a 34 años;5
+120; Rascafría;Hombre;De 35 a 39 años;1
+120; Rascafría;Hombre;De 40 a 44 años;0
+120; Rascafría;Hombre;De 45 a 49 años;0
+120; Rascafría;Hombre;De 50 años y más;0
+120; Rascafría;Mujer;Menores de 15 años;0
+120; Rascafría;Mujer;De 15 a 19 años;0
+120; Rascafría;Mujer;De 20 a 24 años;0
+120; Rascafría;Mujer;De 25 a 29 años;0
+120; Rascafría;Mujer;De 30 a 34 años;0
+120; Rascafría;Mujer;De 35 a 39 años;1
+120; Rascafría;Mujer;De 40 a 44 años;1
+120; Rascafría;Mujer;De 45 a 49 años;0
+120; Rascafría;Mujer;De 50 años y más;0
+121; Redueña;Hombre;Menores de 15 años;0
+121; Redueña;Hombre;De 15 a 19 años;0
+121; Redueña;Hombre;De 20 a 24 años;0
+121; Redueña;Hombre;De 25 a 29 años;0
+121; Redueña;Hombre;De 30 a 34 años;0
+121; Redueña;Hombre;De 35 a 39 años;0
+121; Redueña;Hombre;De 40 a 44 años;1
+121; Redueña;Hombre;De 45 a 49 años;0
+121; Redueña;Hombre;De 50 años y más;0
+121; Redueña;Mujer;Menores de 15 años;0
+121; Redueña;Mujer;De 15 a 19 años;0
+121; Redueña;Mujer;De 20 a 24 años;0
+121; Redueña;Mujer;De 25 a 29 años;0
+121; Redueña;Mujer;De 30 a 34 años;0
+121; Redueña;Mujer;De 35 a 39 años;0
+121; Redueña;Mujer;De 40 a 44 años;0
+121; Redueña;Mujer;De 45 a 49 años;0
+121; Redueña;Mujer;De 50 años y más;0
+122; Ribatejada;Hombre;Menores de 15 años;0
+122; Ribatejada;Hombre;De 15 a 19 años;0
+122; Ribatejada;Hombre;De 20 a 24 años;0
+122; Ribatejada;Hombre;De 25 a 29 años;0
+122; Ribatejada;Hombre;De 30 a 34 años;2
+122; Ribatejada;Hombre;De 35 a 39 años;1
+122; Ribatejada;Hombre;De 40 a 44 años;1
+122; Ribatejada;Hombre;De 45 a 49 años;0
+122; Ribatejada;Hombre;De 50 años y más;0
+122; Ribatejada;Mujer;Menores de 15 años;0
+122; Ribatejada;Mujer;De 15 a 19 años;0
+122; Ribatejada;Mujer;De 20 a 24 años;0
+122; Ribatejada;Mujer;De 25 a 29 años;1
+122; Ribatejada;Mujer;De 30 a 34 años;1
+122; Ribatejada;Mujer;De 35 a 39 años;3
+122; Ribatejada;Mujer;De 40 a 44 años;0
+122; Ribatejada;Mujer;De 45 a 49 años;0
+122; Ribatejada;Mujer;De 50 años y más;0
+123; Rivas-Vaciamadrid;Hombre;Menores de 15 años;0
+123; Rivas-Vaciamadrid;Hombre;De 15 a 19 años;4
+123; Rivas-Vaciamadrid;Hombre;De 20 a 24 años;7
+123; Rivas-Vaciamadrid;Hombre;De 25 a 29 años;58
+123; Rivas-Vaciamadrid;Hombre;De 30 a 34 años;217
+123; Rivas-Vaciamadrid;Hombre;De 35 a 39 años;176
+123; Rivas-Vaciamadrid;Hombre;De 40 a 44 años;42
+123; Rivas-Vaciamadrid;Hombre;De 45 a 49 años;4
+123; Rivas-Vaciamadrid;Hombre;De 50 años y más;0
+123; Rivas-Vaciamadrid;Mujer;Menores de 15 años;0
+123; Rivas-Vaciamadrid;Mujer;De 15 a 19 años;2
+123; Rivas-Vaciamadrid;Mujer;De 20 a 24 años;12
+123; Rivas-Vaciamadrid;Mujer;De 25 a 29 años;68
+123; Rivas-Vaciamadrid;Mujer;De 30 a 34 años;186
+123; Rivas-Vaciamadrid;Mujer;De 35 a 39 años;189
+123; Rivas-Vaciamadrid;Mujer;De 40 a 44 años;51
+123; Rivas-Vaciamadrid;Mujer;De 45 a 49 años;5
+123; Rivas-Vaciamadrid;Mujer;De 50 años y más;2
+124; Robledillo de la Jara;Hombre;Menores de 15 años;0
+124; Robledillo de la Jara;Hombre;De 15 a 19 años;0
+124; Robledillo de la Jara;Hombre;De 20 a 24 años;0
+124; Robledillo de la Jara;Hombre;De 25 a 29 años;0
+124; Robledillo de la Jara;Hombre;De 30 a 34 años;0
+124; Robledillo de la Jara;Hombre;De 35 a 39 años;0
+124; Robledillo de la Jara;Hombre;De 40 a 44 años;0
+124; Robledillo de la Jara;Hombre;De 45 a 49 años;0
+124; Robledillo de la Jara;Hombre;De 50 años y más;0
+124; Robledillo de la Jara;Mujer;Menores de 15 años;0
+124; Robledillo de la Jara;Mujer;De 15 a 19 años;0
+124; Robledillo de la Jara;Mujer;De 20 a 24 años;0
+124; Robledillo de la Jara;Mujer;De 25 a 29 años;0
+124; Robledillo de la Jara;Mujer;De 30 a 34 años;0
+124; Robledillo de la Jara;Mujer;De 35 a 39 años;0
+124; Robledillo de la Jara;Mujer;De 40 a 44 años;0
+124; Robledillo de la Jara;Mujer;De 45 a 49 años;0
+124; Robledillo de la Jara;Mujer;De 50 años y más;0
+125; Robledo de Chavela;Hombre;Menores de 15 años;0
+125; Robledo de Chavela;Hombre;De 15 a 19 años;0
+125; Robledo de Chavela;Hombre;De 20 a 24 años;3
+125; Robledo de Chavela;Hombre;De 25 a 29 años;1
+125; Robledo de Chavela;Hombre;De 30 a 34 años;3
+125; Robledo de Chavela;Hombre;De 35 a 39 años;3
+125; Robledo de Chavela;Hombre;De 40 a 44 años;3
+125; Robledo de Chavela;Hombre;De 45 a 49 años;0
+125; Robledo de Chavela;Hombre;De 50 años y más;0
+125; Robledo de Chavela;Mujer;Menores de 15 años;0
+125; Robledo de Chavela;Mujer;De 15 a 19 años;0
+125; Robledo de Chavela;Mujer;De 20 a 24 años;0
+125; Robledo de Chavela;Mujer;De 25 a 29 años;3
+125; Robledo de Chavela;Mujer;De 30 a 34 años;1
+125; Robledo de Chavela;Mujer;De 35 a 39 años;6
+125; Robledo de Chavela;Mujer;De 40 a 44 años;1
+125; Robledo de Chavela;Mujer;De 45 a 49 años;0
+125; Robledo de Chavela;Mujer;De 50 años y más;0
+126; Robregordo;Hombre;Menores de 15 años;0
+126; Robregordo;Hombre;De 15 a 19 años;0
+126; Robregordo;Hombre;De 20 a 24 años;0
+126; Robregordo;Hombre;De 25 a 29 años;0
+126; Robregordo;Hombre;De 30 a 34 años;0
+126; Robregordo;Hombre;De 35 a 39 años;0
+126; Robregordo;Hombre;De 40 a 44 años;0
+126; Robregordo;Hombre;De 45 a 49 años;0
+126; Robregordo;Hombre;De 50 años y más;0
+126; Robregordo;Mujer;Menores de 15 años;0
+126; Robregordo;Mujer;De 15 a 19 años;0
+126; Robregordo;Mujer;De 20 a 24 años;0
+126; Robregordo;Mujer;De 25 a 29 años;0
+126; Robregordo;Mujer;De 30 a 34 años;0
+126; Robregordo;Mujer;De 35 a 39 años;0
+126; Robregordo;Mujer;De 40 a 44 años;0
+126; Robregordo;Mujer;De 45 a 49 años;0
+126; Robregordo;Mujer;De 50 años y más;0
+127; Rozas de Madrid (Las);Hombre;Menores de 15 años;0
+127; Rozas de Madrid (Las);Hombre;De 15 a 19 años;1
+127; Rozas de Madrid (Las);Hombre;De 20 a 24 años;14
+127; Rozas de Madrid (Las);Hombre;De 25 a 29 años;45
+127; Rozas de Madrid (Las);Hombre;De 30 a 34 años;161
+127; Rozas de Madrid (Las);Hombre;De 35 a 39 años;208
+127; Rozas de Madrid (Las);Hombre;De 40 a 44 años;52
+127; Rozas de Madrid (Las);Hombre;De 45 a 49 años;8
+127; Rozas de Madrid (Las);Hombre;De 50 años y más;0
+127; Rozas de Madrid (Las);Mujer;Menores de 15 años;0
+127; Rozas de Madrid (Las);Mujer;De 15 a 19 años;1
+127; Rozas de Madrid (Las);Mujer;De 20 a 24 años;8
+127; Rozas de Madrid (Las);Mujer;De 25 a 29 años;40
+127; Rozas de Madrid (Las);Mujer;De 30 a 34 años;134
+127; Rozas de Madrid (Las);Mujer;De 35 a 39 años;177
+127; Rozas de Madrid (Las);Mujer;De 40 a 44 años;56
+127; Rozas de Madrid (Las);Mujer;De 45 a 49 años;5
+127; Rozas de Madrid (Las);Mujer;De 50 años y más;0
+128; Rozas de Puerto Real;Hombre;Menores de 15 años;0
+128; Rozas de Puerto Real;Hombre;De 15 a 19 años;0
+128; Rozas de Puerto Real;Hombre;De 20 a 24 años;0
+128; Rozas de Puerto Real;Hombre;De 25 a 29 años;0
+128; Rozas de Puerto Real;Hombre;De 30 a 34 años;0
+128; Rozas de Puerto Real;Hombre;De 35 a 39 años;1
+128; Rozas de Puerto Real;Hombre;De 40 a 44 años;0
+128; Rozas de Puerto Real;Hombre;De 45 a 49 años;0
+128; Rozas de Puerto Real;Hombre;De 50 años y más;0
+128; Rozas de Puerto Real;Mujer;Menores de 15 años;0
+128; Rozas de Puerto Real;Mujer;De 15 a 19 años;0
+128; Rozas de Puerto Real;Mujer;De 20 a 24 años;0
+128; Rozas de Puerto Real;Mujer;De 25 a 29 años;0
+128; Rozas de Puerto Real;Mujer;De 30 a 34 años;1
+128; Rozas de Puerto Real;Mujer;De 35 a 39 años;0
+128; Rozas de Puerto Real;Mujer;De 40 a 44 años;0
+128; Rozas de Puerto Real;Mujer;De 45 a 49 años;0
+128; Rozas de Puerto Real;Mujer;De 50 años y más;0
+129; San Agustín del Guadalix;Hombre;Menores de 15 años;0
+129; San Agustín del Guadalix;Hombre;De 15 a 19 años;0
+129; San Agustín del Guadalix;Hombre;De 20 a 24 años;1
+129; San Agustín del Guadalix;Hombre;De 25 a 29 años;7
+129; San Agustín del Guadalix;Hombre;De 30 a 34 años;20
+129; San Agustín del Guadalix;Hombre;De 35 a 39 años;20
+129; San Agustín del Guadalix;Hombre;De 40 a 44 años;10
+129; San Agustín del Guadalix;Hombre;De 45 a 49 años;1
+129; San Agustín del Guadalix;Hombre;De 50 años y más;0
+129; San Agustín del Guadalix;Mujer;Menores de 15 años;0
+129; San Agustín del Guadalix;Mujer;De 15 a 19 años;0
+129; San Agustín del Guadalix;Mujer;De 20 a 24 años;2
+129; San Agustín del Guadalix;Mujer;De 25 a 29 años;11
+129; San Agustín del Guadalix;Mujer;De 30 a 34 años;17
+129; San Agustín del Guadalix;Mujer;De 35 a 39 años;12
+129; San Agustín del Guadalix;Mujer;De 40 a 44 años;4
+129; San Agustín del Guadalix;Mujer;De 45 a 49 años;1
+129; San Agustín del Guadalix;Mujer;De 50 años y más;0
+130; San Fernando de Henares;Hombre;Menores de 15 años;0
+130; San Fernando de Henares;Hombre;De 15 a 19 años;1
+130; San Fernando de Henares;Hombre;De 20 a 24 años;2
+130; San Fernando de Henares;Hombre;De 25 a 29 años;34
+130; San Fernando de Henares;Hombre;De 30 a 34 años;65
+130; San Fernando de Henares;Hombre;De 35 a 39 años;48
+130; San Fernando de Henares;Hombre;De 40 a 44 años;10
+130; San Fernando de Henares;Hombre;De 45 a 49 años;0
+130; San Fernando de Henares;Hombre;De 50 años y más;0
+130; San Fernando de Henares;Mujer;Menores de 15 años;0
+130; San Fernando de Henares;Mujer;De 15 a 19 años;1
+130; San Fernando de Henares;Mujer;De 20 a 24 años;6
+130; San Fernando de Henares;Mujer;De 25 a 29 años;33
+130; San Fernando de Henares;Mujer;De 30 a 34 años;57
+130; San Fernando de Henares;Mujer;De 35 a 39 años;42
+130; San Fernando de Henares;Mujer;De 40 a 44 años;14
+130; San Fernando de Henares;Mujer;De 45 a 49 años;1
+130; San Fernando de Henares;Mujer;De 50 años y más;0
+131; San Lorenzo de El Escorial;Hombre;Menores de 15 años;0
+131; San Lorenzo de El Escorial;Hombre;De 15 a 19 años;1
+131; San Lorenzo de El Escorial;Hombre;De 20 a 24 años;2
+131; San Lorenzo de El Escorial;Hombre;De 25 a 29 años;7
+131; San Lorenzo de El Escorial;Hombre;De 30 a 34 años;22
+131; San Lorenzo de El Escorial;Hombre;De 35 a 39 años;38
+131; San Lorenzo de El Escorial;Hombre;De 40 a 44 años;7
+131; San Lorenzo de El Escorial;Hombre;De 45 a 49 años;0
+131; San Lorenzo de El Escorial;Hombre;De 50 años y más;0
+131; San Lorenzo de El Escorial;Mujer;Menores de 15 años;0
+131; San Lorenzo de El Escorial;Mujer;De 15 a 19 años;1
+131; San Lorenzo de El Escorial;Mujer;De 20 a 24 años;4
+131; San Lorenzo de El Escorial;Mujer;De 25 a 29 años;11
+131; San Lorenzo de El Escorial;Mujer;De 30 a 34 años;29
+131; San Lorenzo de El Escorial;Mujer;De 35 a 39 años;20
+131; San Lorenzo de El Escorial;Mujer;De 40 a 44 años;13
+131; San Lorenzo de El Escorial;Mujer;De 45 a 49 años;1
+131; San Lorenzo de El Escorial;Mujer;De 50 años y más;0
+132; San Martín de la Vega;Hombre;Menores de 15 años;0
+132; San Martín de la Vega;Hombre;De 15 a 19 años;0
+132; San Martín de la Vega;Hombre;De 20 a 24 años;13
+132; San Martín de la Vega;Hombre;De 25 a 29 años;16
+132; San Martín de la Vega;Hombre;De 30 a 34 años;34
+132; San Martín de la Vega;Hombre;De 35 a 39 años;33
+132; San Martín de la Vega;Hombre;De 40 a 44 años;5
+132; San Martín de la Vega;Hombre;De 45 a 49 años;0
+132; San Martín de la Vega;Hombre;De 50 años y más;0
+132; San Martín de la Vega;Mujer;Menores de 15 años;0
+132; San Martín de la Vega;Mujer;De 15 a 19 años;1
+132; San Martín de la Vega;Mujer;De 20 a 24 años;7
+132; San Martín de la Vega;Mujer;De 25 a 29 años;20
+132; San Martín de la Vega;Mujer;De 30 a 34 años;31
+132; San Martín de la Vega;Mujer;De 35 a 39 años;22
+132; San Martín de la Vega;Mujer;De 40 a 44 años;6
+132; San Martín de la Vega;Mujer;De 45 a 49 años;1
+132; San Martín de la Vega;Mujer;De 50 años y más;0
+133; San Martín de Valdeiglesias;Hombre;Menores de 15 años;0
+133; San Martín de Valdeiglesias;Hombre;De 15 a 19 años;1
+133; San Martín de Valdeiglesias;Hombre;De 20 a 24 años;3
+133; San Martín de Valdeiglesias;Hombre;De 25 a 29 años;3
+133; San Martín de Valdeiglesias;Hombre;De 30 a 34 años;13
+133; San Martín de Valdeiglesias;Hombre;De 35 a 39 años;10
+133; San Martín de Valdeiglesias;Hombre;De 40 a 44 años;1
+133; San Martín de Valdeiglesias;Hombre;De 45 a 49 años;0
+133; San Martín de Valdeiglesias;Hombre;De 50 años y más;0
+133; San Martín de Valdeiglesias;Mujer;Menores de 15 años;0
+133; San Martín de Valdeiglesias;Mujer;De 15 a 19 años;0
+133; San Martín de Valdeiglesias;Mujer;De 20 a 24 años;5
+133; San Martín de Valdeiglesias;Mujer;De 25 a 29 años;9
+133; San Martín de Valdeiglesias;Mujer;De 30 a 34 años;11
+133; San Martín de Valdeiglesias;Mujer;De 35 a 39 años;8
+133; San Martín de Valdeiglesias;Mujer;De 40 a 44 años;3
+133; San Martín de Valdeiglesias;Mujer;De 45 a 49 años;0
+133; San Martín de Valdeiglesias;Mujer;De 50 años y más;0
+134; San Sebastián de los Reyes;Hombre;Menores de 15 años;0
+134; San Sebastián de los Reyes;Hombre;De 15 a 19 años;4
+134; San Sebastián de los Reyes;Hombre;De 20 a 24 años;15
+134; San Sebastián de los Reyes;Hombre;De 25 a 29 años;49
+134; San Sebastián de los Reyes;Hombre;De 30 a 34 años;170
+134; San Sebastián de los Reyes;Hombre;De 35 a 39 años;190
+134; San Sebastián de los Reyes;Hombre;De 40 a 44 años;36
+134; San Sebastián de los Reyes;Hombre;De 45 a 49 años;0
+134; San Sebastián de los Reyes;Hombre;De 50 años y más;1
+134; San Sebastián de los Reyes;Mujer;Menores de 15 años;0
+134; San Sebastián de los Reyes;Mujer;De 15 a 19 años;3
+134; San Sebastián de los Reyes;Mujer;De 20 a 24 años;14
+134; San Sebastián de los Reyes;Mujer;De 25 a 29 años;61
+134; San Sebastián de los Reyes;Mujer;De 30 a 34 años;136
+134; San Sebastián de los Reyes;Mujer;De 35 a 39 años;166
+134; San Sebastián de los Reyes;Mujer;De 40 a 44 años;53
+134; San Sebastián de los Reyes;Mujer;De 45 a 49 años;4
+134; San Sebastián de los Reyes;Mujer;De 50 años y más;0
+135; Santa María de la Alameda;Hombre;Menores de 15 años;0
+135; Santa María de la Alameda;Hombre;De 15 a 19 años;0
+135; Santa María de la Alameda;Hombre;De 20 a 24 años;0
+135; Santa María de la Alameda;Hombre;De 25 a 29 años;1
+135; Santa María de la Alameda;Hombre;De 30 a 34 años;1
+135; Santa María de la Alameda;Hombre;De 35 a 39 años;0
+135; Santa María de la Alameda;Hombre;De 40 a 44 años;0
+135; Santa María de la Alameda;Hombre;De 45 a 49 años;0
+135; Santa María de la Alameda;Hombre;De 50 años y más;0
+135; Santa María de la Alameda;Mujer;Menores de 15 años;0
+135; Santa María de la Alameda;Mujer;De 15 a 19 años;0
+135; Santa María de la Alameda;Mujer;De 20 a 24 años;1
+135; Santa María de la Alameda;Mujer;De 25 a 29 años;3
+135; Santa María de la Alameda;Mujer;De 30 a 34 años;5
+135; Santa María de la Alameda;Mujer;De 35 a 39 años;0
+135; Santa María de la Alameda;Mujer;De 40 a 44 años;0
+135; Santa María de la Alameda;Mujer;De 45 a 49 años;0
+135; Santa María de la Alameda;Mujer;De 50 años y más;0
+136; Santorcaz;Hombre;Menores de 15 años;0
+136; Santorcaz;Hombre;De 15 a 19 años;0
+136; Santorcaz;Hombre;De 20 a 24 años;0
+136; Santorcaz;Hombre;De 25 a 29 años;0
+136; Santorcaz;Hombre;De 30 a 34 años;1
+136; Santorcaz;Hombre;De 35 a 39 años;0
+136; Santorcaz;Hombre;De 40 a 44 años;0
+136; Santorcaz;Hombre;De 45 a 49 años;0
+136; Santorcaz;Hombre;De 50 años y más;0
+136; Santorcaz;Mujer;Menores de 15 años;0
+136; Santorcaz;Mujer;De 15 a 19 años;0
+136; Santorcaz;Mujer;De 20 a 24 años;0
+136; Santorcaz;Mujer;De 25 a 29 años;2
+136; Santorcaz;Mujer;De 30 a 34 años;0
+136; Santorcaz;Mujer;De 35 a 39 años;1
+136; Santorcaz;Mujer;De 40 a 44 años;0
+136; Santorcaz;Mujer;De 45 a 49 años;0
+136; Santorcaz;Mujer;De 50 años y más;0
+137; Santos de la Humosa (Los);Hombre;Menores de 15 años;0
+137; Santos de la Humosa (Los);Hombre;De 15 a 19 años;0
+137; Santos de la Humosa (Los);Hombre;De 20 a 24 años;1
+137; Santos de la Humosa (Los);Hombre;De 25 a 29 años;6
+137; Santos de la Humosa (Los);Hombre;De 30 a 34 años;6
+137; Santos de la Humosa (Los);Hombre;De 35 a 39 años;4
+137; Santos de la Humosa (Los);Hombre;De 40 a 44 años;1
+137; Santos de la Humosa (Los);Hombre;De 45 a 49 años;1
+137; Santos de la Humosa (Los);Hombre;De 50 años y más;0
+137; Santos de la Humosa (Los);Mujer;Menores de 15 años;0
+137; Santos de la Humosa (Los);Mujer;De 15 a 19 años;0
+137; Santos de la Humosa (Los);Mujer;De 20 a 24 años;1
+137; Santos de la Humosa (Los);Mujer;De 25 a 29 años;2
+137; Santos de la Humosa (Los);Mujer;De 30 a 34 años;9
+137; Santos de la Humosa (Los);Mujer;De 35 a 39 años;1
+137; Santos de la Humosa (Los);Mujer;De 40 a 44 años;0
+137; Santos de la Humosa (Los);Mujer;De 45 a 49 años;0
+137; Santos de la Humosa (Los);Mujer;De 50 años y más;0
+138; Serna del Monte (La);Hombre;Menores de 15 años;0
+138; Serna del Monte (La);Hombre;De 15 a 19 años;0
+138; Serna del Monte (La);Hombre;De 20 a 24 años;0
+138; Serna del Monte (La);Hombre;De 25 a 29 años;0
+138; Serna del Monte (La);Hombre;De 30 a 34 años;0
+138; Serna del Monte (La);Hombre;De 35 a 39 años;0
+138; Serna del Monte (La);Hombre;De 40 a 44 años;0
+138; Serna del Monte (La);Hombre;De 45 a 49 años;0
+138; Serna del Monte (La);Hombre;De 50 años y más;0
+138; Serna del Monte (La);Mujer;Menores de 15 años;0
+138; Serna del Monte (La);Mujer;De 15 a 19 años;0
+138; Serna del Monte (La);Mujer;De 20 a 24 años;0
+138; Serna del Monte (La);Mujer;De 25 a 29 años;0
+138; Serna del Monte (La);Mujer;De 30 a 34 años;0
+138; Serna del Monte (La);Mujer;De 35 a 39 años;0
+138; Serna del Monte (La);Mujer;De 40 a 44 años;0
+138; Serna del Monte (La);Mujer;De 45 a 49 años;0
+138; Serna del Monte (La);Mujer;De 50 años y más;0
+140; Serranillos del Valle;Hombre;Menores de 15 años;0
+140; Serranillos del Valle;Hombre;De 15 a 19 años;0
+140; Serranillos del Valle;Hombre;De 20 a 24 años;2
+140; Serranillos del Valle;Hombre;De 25 a 29 años;4
+140; Serranillos del Valle;Hombre;De 30 a 34 años;7
+140; Serranillos del Valle;Hombre;De 35 a 39 años;7
+140; Serranillos del Valle;Hombre;De 40 a 44 años;1
+140; Serranillos del Valle;Hombre;De 45 a 49 años;0
+140; Serranillos del Valle;Hombre;De 50 años y más;0
+140; Serranillos del Valle;Mujer;Menores de 15 años;0
+140; Serranillos del Valle;Mujer;De 15 a 19 años;1
+140; Serranillos del Valle;Mujer;De 20 a 24 años;2
+140; Serranillos del Valle;Mujer;De 25 a 29 años;2
+140; Serranillos del Valle;Mujer;De 30 a 34 años;8
+140; Serranillos del Valle;Mujer;De 35 a 39 años;3
+140; Serranillos del Valle;Mujer;De 40 a 44 años;2
+140; Serranillos del Valle;Mujer;De 45 a 49 años;0
+140; Serranillos del Valle;Mujer;De 50 años y más;0
+141; Sevilla la Nueva;Hombre;Menores de 15 años;0
+141; Sevilla la Nueva;Hombre;De 15 a 19 años;0
+141; Sevilla la Nueva;Hombre;De 20 a 24 años;5
+141; Sevilla la Nueva;Hombre;De 25 a 29 años;3
+141; Sevilla la Nueva;Hombre;De 30 a 34 años;15
+141; Sevilla la Nueva;Hombre;De 35 a 39 años;16
+141; Sevilla la Nueva;Hombre;De 40 a 44 años;5
+141; Sevilla la Nueva;Hombre;De 45 a 49 años;0
+141; Sevilla la Nueva;Hombre;De 50 años y más;0
+141; Sevilla la Nueva;Mujer;Menores de 15 años;0
+141; Sevilla la Nueva;Mujer;De 15 a 19 años;0
+141; Sevilla la Nueva;Mujer;De 20 a 24 años;0
+141; Sevilla la Nueva;Mujer;De 25 a 29 años;6
+141; Sevilla la Nueva;Mujer;De 30 a 34 años;12
+141; Sevilla la Nueva;Mujer;De 35 a 39 años;19
+141; Sevilla la Nueva;Mujer;De 40 a 44 años;2
+141; Sevilla la Nueva;Mujer;De 45 a 49 años;0
+141; Sevilla la Nueva;Mujer;De 50 años y más;0
+143; Somosierra;Hombre;Menores de 15 años;0
+143; Somosierra;Hombre;De 15 a 19 años;0
+143; Somosierra;Hombre;De 20 a 24 años;0
+143; Somosierra;Hombre;De 25 a 29 años;0
+143; Somosierra;Hombre;De 30 a 34 años;0
+143; Somosierra;Hombre;De 35 a 39 años;0
+143; Somosierra;Hombre;De 40 a 44 años;0
+143; Somosierra;Hombre;De 45 a 49 años;0
+143; Somosierra;Hombre;De 50 años y más;0
+143; Somosierra;Mujer;Menores de 15 años;0
+143; Somosierra;Mujer;De 15 a 19 años;0
+143; Somosierra;Mujer;De 20 a 24 años;0
+143; Somosierra;Mujer;De 25 a 29 años;0
+143; Somosierra;Mujer;De 30 a 34 años;0
+143; Somosierra;Mujer;De 35 a 39 años;0
+143; Somosierra;Mujer;De 40 a 44 años;0
+143; Somosierra;Mujer;De 45 a 49 años;0
+143; Somosierra;Mujer;De 50 años y más;0
+144; Soto del Real;Hombre;Menores de 15 años;0
+144; Soto del Real;Hombre;De 15 a 19 años;0
+144; Soto del Real;Hombre;De 20 a 24 años;1
+144; Soto del Real;Hombre;De 25 a 29 años;3
+144; Soto del Real;Hombre;De 30 a 34 años;4
+144; Soto del Real;Hombre;De 35 a 39 años;11
+144; Soto del Real;Hombre;De 40 a 44 años;5
+144; Soto del Real;Hombre;De 45 a 49 años;1
+144; Soto del Real;Hombre;De 50 años y más;0
+145; Soto del Real;Mujer;Menores de 15 años;0
+145; Soto del Real;Mujer;De 15 a 19 años;0
+145; Soto del Real;Mujer;De 20 a 24 años;0
+145; Soto del Real;Mujer;De 25 a 29 años;3
+145; Soto del Real;Mujer;De 30 a 34 años;8
+145; Soto del Real;Mujer;De 35 a 39 años;9
+145; Soto del Real;Mujer;De 40 a 44 años;1
+145; Soto del Real;Mujer;De 45 a 49 años;0
+145; Soto del Real;Mujer;De 50 años y más;0
+145; Talamanca de Jarama;Hombre;Menores de 15 años;0
+145; Talamanca de Jarama;Hombre;De 15 a 19 años;0
+145; Talamanca de Jarama;Hombre;De 20 a 24 años;1
+145; Talamanca de Jarama;Hombre;De 25 a 29 años;5
+145; Talamanca de Jarama;Hombre;De 30 a 34 años;8
+145; Talamanca de Jarama;Hombre;De 35 a 39 años;4
+145; Talamanca de Jarama;Hombre;De 40 a 44 años;2
+145; Talamanca de Jarama;Hombre;De 45 a 49 años;0
+145; Talamanca de Jarama;Hombre;De 50 años y más;0
+145; Talamanca de Jarama;Mujer;Menores de 15 años;0
+145; Talamanca de Jarama;Mujer;De 15 a 19 años;0
+145; Talamanca de Jarama;Mujer;De 20 a 24 años;0
+145; Talamanca de Jarama;Mujer;De 25 a 29 años;5
+145; Talamanca de Jarama;Mujer;De 30 a 34 años;8
+145; Talamanca de Jarama;Mujer;De 35 a 39 años;7
+145; Talamanca de Jarama;Mujer;De 40 a 44 años;1
+145; Talamanca de Jarama;Mujer;De 45 a 49 años;0
+145; Talamanca de Jarama;Mujer;De 50 años y más;0
+146; Tielmes;Hombre;Menores de 15 años;0
+146; Tielmes;Hombre;De 15 a 19 años;0
+146; Tielmes;Hombre;De 20 a 24 años;0
+146; Tielmes;Hombre;De 25 a 29 años;4
+146; Tielmes;Hombre;De 30 a 34 años;2
+146; Tielmes;Hombre;De 35 a 39 años;2
+146; Tielmes;Hombre;De 40 a 44 años;2
+146; Tielmes;Hombre;De 45 a 49 años;0
+146; Tielmes;Hombre;De 50 años y más;0
+146; Tielmes;Mujer;Menores de 15 años;0
+146; Tielmes;Mujer;De 15 a 19 años;0
+146; Tielmes;Mujer;De 20 a 24 años;0
+146; Tielmes;Mujer;De 25 a 29 años;1
+146; Tielmes;Mujer;De 30 a 34 años;3
+146; Tielmes;Mujer;De 35 a 39 años;4
+146; Tielmes;Mujer;De 40 a 44 años;1
+146; Tielmes;Mujer;De 45 a 49 años;0
+146; Tielmes;Mujer;De 50 años y más;0
+147; Titulcia;Hombre;Menores de 15 años;0
+147; Titulcia;Hombre;De 15 a 19 años;0
+147; Titulcia;Hombre;De 20 a 24 años;1
+147; Titulcia;Hombre;De 25 a 29 años;0
+147; Titulcia;Hombre;De 30 a 34 años;5
+147; Titulcia;Hombre;De 35 a 39 años;0
+147; Titulcia;Hombre;De 40 a 44 años;0
+147; Titulcia;Hombre;De 45 a 49 años;0
+147; Titulcia;Hombre;De 50 años y más;0
+147; Titulcia;Mujer;Menores de 15 años;0
+147; Titulcia;Mujer;De 15 a 19 años;0
+147; Titulcia;Mujer;De 20 a 24 años;0
+147; Titulcia;Mujer;De 25 a 29 años;1
+147; Titulcia;Mujer;De 30 a 34 años;6
+147; Titulcia;Mujer;De 35 a 39 años;3
+147; Titulcia;Mujer;De 40 a 44 años;0
+147; Titulcia;Mujer;De 45 a 49 años;0
+147; Titulcia;Mujer;De 50 años y más;0
+148; Torrejón de Ardoz;Hombre;Menores de 15 años;0
+148; Torrejón de Ardoz;Hombre;De 15 a 19 años;9
+148; Torrejón de Ardoz;Hombre;De 20 a 24 años;42
+148; Torrejón de Ardoz;Hombre;De 25 a 29 años;133
+148; Torrejón de Ardoz;Hombre;De 30 a 34 años;245
+148; Torrejón de Ardoz;Hombre;De 35 a 39 años;223
+148; Torrejón de Ardoz;Hombre;De 40 a 44 años;70
+148; Torrejón de Ardoz;Hombre;De 45 a 49 años;7
+148; Torrejón de Ardoz;Hombre;De 50 años y más;0
+148; Torrejón de Ardoz;Mujer;Menores de 15 años;0
+148; Torrejón de Ardoz;Mujer;De 15 a 19 años;7
+148; Torrejón de Ardoz;Mujer;De 20 a 24 años;35
+148; Torrejón de Ardoz;Mujer;De 25 a 29 años;135
+148; Torrejón de Ardoz;Mujer;De 30 a 34 años;217
+148; Torrejón de Ardoz;Mujer;De 35 a 39 años;232
+148; Torrejón de Ardoz;Mujer;De 40 a 44 años;58
+148; Torrejón de Ardoz;Mujer;De 45 a 49 años;6
+148; Torrejón de Ardoz;Mujer;De 50 años y más;0
+149; Torrejón de la Calzada;Hombre;Menores de 15 años;0
+149; Torrejón de la Calzada;Hombre;De 15 a 19 años;0
+149; Torrejón de la Calzada;Hombre;De 20 a 24 años;1
+149; Torrejón de la Calzada;Hombre;De 25 a 29 años;10
+149; Torrejón de la Calzada;Hombre;De 30 a 34 años;16
+149; Torrejón de la Calzada;Hombre;De 35 a 39 años;12
+149; Torrejón de la Calzada;Hombre;De 40 a 44 años;3
+149; Torrejón de la Calzada;Hombre;De 45 a 49 años;1
+149; Torrejón de la Calzada;Hombre;De 50 años y más;0
+149; Torrejón de la Calzada;Mujer;Menores de 15 años;0
+149; Torrejón de la Calzada;Mujer;De 15 a 19 años;0
+149; Torrejón de la Calzada;Mujer;De 20 a 24 años;3
+149; Torrejón de la Calzada;Mujer;De 25 a 29 años;9
+149; Torrejón de la Calzada;Mujer;De 30 a 34 años;22
+149; Torrejón de la Calzada;Mujer;De 35 a 39 años;17
+149; Torrejón de la Calzada;Mujer;De 40 a 44 años;4
+149; Torrejón de la Calzada;Mujer;De 45 a 49 años;0
+149; Torrejón de la Calzada;Mujer;De 50 años y más;0
+148; Torrejón de Velasco;Hombre;Menores de 15 años;0
+148; Torrejón de Velasco;Hombre;De 15 a 19 años;0
+148; Torrejón de Velasco;Hombre;De 20 a 24 años;1
+148; Torrejón de Velasco;Hombre;De 25 a 29 años;2
+148; Torrejón de Velasco;Hombre;De 30 a 34 años;8
+148; Torrejón de Velasco;Hombre;De 35 a 39 años;2
+148; Torrejón de Velasco;Hombre;De 40 a 44 años;1
+148; Torrejón de Velasco;Hombre;De 45 a 49 años;0
+148; Torrejón de Velasco;Hombre;De 50 años y más;0
+148; Torrejón de Velasco;Mujer;Menores de 15 años;0
+148; Torrejón de Velasco;Mujer;De 15 a 19 años;0
+148; Torrejón de Velasco;Mujer;De 20 a 24 años;2
+148; Torrejón de Velasco;Mujer;De 25 a 29 años;2
+148; Torrejón de Velasco;Mujer;De 30 a 34 años;5
+148; Torrejón de Velasco;Mujer;De 35 a 39 años;7
+148; Torrejón de Velasco;Mujer;De 40 a 44 años;1
+148; Torrejón de Velasco;Mujer;De 45 a 49 años;2
+148; Torrejón de Velasco;Mujer;De 50 años y más;0
+141; Torrelaguna;Hombre;Menores de 15 años;0
+141; Torrelaguna;Hombre;De 15 a 19 años;0
+141; Torrelaguna;Hombre;De 20 a 24 años;2
+141; Torrelaguna;Hombre;De 25 a 29 años;3
+141; Torrelaguna;Hombre;De 30 a 34 años;3
+141; Torrelaguna;Hombre;De 35 a 39 años;3
+141; Torrelaguna;Hombre;De 40 a 44 años;3
+141; Torrelaguna;Hombre;De 45 a 49 años;0
+141; Torrelaguna;Hombre;De 50 años y más;0
+141; Torrelaguna;Mujer;Menores de 15 años;0
+141; Torrelaguna;Mujer;De 15 a 19 años;0
+141; Torrelaguna;Mujer;De 20 a 24 años;1
+141; Torrelaguna;Mujer;De 25 a 29 años;3
+141; Torrelaguna;Mujer;De 30 a 34 años;9
+141; Torrelaguna;Mujer;De 35 a 39 años;3
+141; Torrelaguna;Mujer;De 40 a 44 años;3
+141; Torrelaguna;Mujer;De 45 a 49 años;0
+141; Torrelaguna;Mujer;De 50 años y más;0
+152; Torrelodones;Hombre;Menores de 15 años;0
+152; Torrelodones;Hombre;De 15 a 19 años;1
+152; Torrelodones;Hombre;De 20 a 24 años;3
+152; Torrelodones;Hombre;De 25 a 29 años;6
+152; Torrelodones;Hombre;De 30 a 34 años;31
+152; Torrelodones;Hombre;De 35 a 39 años;33
+152; Torrelodones;Hombre;De 40 a 44 años;15
+152; Torrelodones;Hombre;De 45 a 49 años;2
+152; Torrelodones;Hombre;De 50 años y más;0
+152; Torrelodones;Mujer;Menores de 15 años;0
+152; Torrelodones;Mujer;De 15 a 19 años;0
+152; Torrelodones;Mujer;De 20 a 24 años;3
+152; Torrelodones;Mujer;De 25 a 29 años;4
+152; Torrelodones;Mujer;De 30 a 34 años;19
+152; Torrelodones;Mujer;De 35 a 39 años;28
+152; Torrelodones;Mujer;De 40 a 44 años;12
+152; Torrelodones;Mujer;De 45 a 49 años;2
+152; Torrelodones;Mujer;De 50 años y más;0
+153; Torremocha de Jarama;Hombre;Menores de 15 años;0
+153; Torremocha de Jarama;Hombre;De 15 a 19 años;0
+153; Torremocha de Jarama;Hombre;De 20 a 24 años;0
+153; Torremocha de Jarama;Hombre;De 25 a 29 años;0
+153; Torremocha de Jarama;Hombre;De 30 a 34 años;3
+153; Torremocha de Jarama;Hombre;De 35 a 39 años;0
+153; Torremocha de Jarama;Hombre;De 40 a 44 años;2
+153; Torremocha de Jarama;Hombre;De 45 a 49 años;0
+153; Torremocha de Jarama;Hombre;De 50 años y más;0
+153; Torremocha de Jarama;Mujer;Menores de 15 años;0
+153; Torremocha de Jarama;Mujer;De 15 a 19 años;0
+153; Torremocha de Jarama;Mujer;De 20 a 24 años;0
+153; Torremocha de Jarama;Mujer;De 25 a 29 años;0
+153; Torremocha de Jarama;Mujer;De 30 a 34 años;1
+153; Torremocha de Jarama;Mujer;De 35 a 39 años;0
+153; Torremocha de Jarama;Mujer;De 40 a 44 años;0
+153; Torremocha de Jarama;Mujer;De 45 a 49 años;0
+153; Torremocha de Jarama;Mujer;De 50 años y más;0
+154; Torres de la Alameda;Hombre;Menores de 15 años;0
+154; Torres de la Alameda;Hombre;De 15 a 19 años;0
+154; Torres de la Alameda;Hombre;De 20 a 24 años;2
+154; Torres de la Alameda;Hombre;De 25 a 29 años;4
+154; Torres de la Alameda;Hombre;De 30 a 34 años;14
+154; Torres de la Alameda;Hombre;De 35 a 39 años;10
+154; Torres de la Alameda;Hombre;De 40 a 44 años;7
+154; Torres de la Alameda;Hombre;De 45 a 49 años;0
+154; Torres de la Alameda;Hombre;De 50 años y más;0
+154; Torres de la Alameda;Mujer;Menores de 15 años;0
+154; Torres de la Alameda;Mujer;De 15 a 19 años;1
+154; Torres de la Alameda;Mujer;De 20 a 24 años;2
+154; Torres de la Alameda;Mujer;De 25 a 29 años;9
+154; Torres de la Alameda;Mujer;De 30 a 34 años;9
+154; Torres de la Alameda;Mujer;De 35 a 39 años;11
+154; Torres de la Alameda;Mujer;De 40 a 44 años;2
+154; Torres de la Alameda;Mujer;De 45 a 49 años;0
+154; Torres de la Alameda;Mujer;De 50 años y más;0
+903; Tres Cantos;Hombre;Menores de 15 años;0
+903; Tres Cantos;Hombre;De 15 a 19 años;1
+903; Tres Cantos;Hombre;De 20 a 24 años;1
+903; Tres Cantos;Hombre;De 25 a 29 años;23
+903; Tres Cantos;Hombre;De 30 a 34 años;107
+903; Tres Cantos;Hombre;De 35 a 39 años;79
+903; Tres Cantos;Hombre;De 40 a 44 años;29
+903; Tres Cantos;Hombre;De 45 a 49 años;2
+903; Tres Cantos;Hombre;De 50 años y más;0
+903; Tres Cantos;Mujer;Menores de 15 años;0
+903; Tres Cantos;Mujer;De 15 a 19 años;0
+903; Tres Cantos;Mujer;De 20 a 24 años;3
+903; Tres Cantos;Mujer;De 25 a 29 años;30
+903; Tres Cantos;Mujer;De 30 a 34 años;103
+903; Tres Cantos;Mujer;De 35 a 39 años;84
+903; Tres Cantos;Mujer;De 40 a 44 años;27
+903; Tres Cantos;Mujer;De 45 a 49 años;1
+903; Tres Cantos;Mujer;De 50 años y más;0
+155; Valdaracete;Hombre;Menores de 15 años;0
+155; Valdaracete;Hombre;De 15 a 19 años;0
+155; Valdaracete;Hombre;De 20 a 24 años;0
+155; Valdaracete;Hombre;De 25 a 29 años;1
+155; Valdaracete;Hombre;De 30 a 34 años;0
+155; Valdaracete;Hombre;De 35 a 39 años;0
+155; Valdaracete;Hombre;De 40 a 44 años;0
+155; Valdaracete;Hombre;De 45 a 49 años;0
+155; Valdaracete;Hombre;De 50 años y más;0
+155; Valdaracete;Mujer;Menores de 15 años;0
+155; Valdaracete;Mujer;De 15 a 19 años;0
+155; Valdaracete;Mujer;De 20 a 24 años;0
+155; Valdaracete;Mujer;De 25 a 29 años;0
+155; Valdaracete;Mujer;De 30 a 34 años;1
+155; Valdaracete;Mujer;De 35 a 39 años;0
+155; Valdaracete;Mujer;De 40 a 44 años;0
+155; Valdaracete;Mujer;De 45 a 49 años;0
+155; Valdaracete;Mujer;De 50 años y más;0
+156; Valdeavero;Hombre;Menores de 15 años;0
+156; Valdeavero;Hombre;De 15 a 19 años;0
+156; Valdeavero;Hombre;De 20 a 24 años;1
+156; Valdeavero;Hombre;De 25 a 29 años;1
+156; Valdeavero;Hombre;De 30 a 34 años;0
+156; Valdeavero;Hombre;De 35 a 39 años;5
+156; Valdeavero;Hombre;De 40 a 44 años;0
+156; Valdeavero;Hombre;De 45 a 49 años;0
+156; Valdeavero;Hombre;De 50 años y más;0
+156; Valdeavero;Mujer;Menores de 15 años;0
+156; Valdeavero;Mujer;De 15 a 19 años;0
+156; Valdeavero;Mujer;De 20 a 24 años;2
+156; Valdeavero;Mujer;De 25 a 29 años;3
+156; Valdeavero;Mujer;De 30 a 34 años;6
+156; Valdeavero;Mujer;De 35 a 39 años;1
+156; Valdeavero;Mujer;De 40 a 44 años;0
+156; Valdeavero;Mujer;De 45 a 49 años;0
+156; Valdeavero;Mujer;De 50 años y más;0
+157; Valdelaguna;Hombre;Menores de 15 años;0
+157; Valdelaguna;Hombre;De 15 a 19 años;0
+157; Valdelaguna;Hombre;De 20 a 24 años;0
+157; Valdelaguna;Hombre;De 25 a 29 años;1
+157; Valdelaguna;Hombre;De 30 a 34 años;0
+157; Valdelaguna;Hombre;De 35 a 39 años;0
+157; Valdelaguna;Hombre;De 40 a 44 años;0
+157; Valdelaguna;Hombre;De 45 a 49 años;0
+157; Valdelaguna;Hombre;De 50 años y más;0
+157; Valdelaguna;Mujer;Menores de 15 años;0
+157; Valdelaguna;Mujer;De 15 a 19 años;0
+157; Valdelaguna;Mujer;De 20 a 24 años;0
+157; Valdelaguna;Mujer;De 25 a 29 años;1
+157; Valdelaguna;Mujer;De 30 a 34 años;4
+157; Valdelaguna;Mujer;De 35 a 39 años;1
+157; Valdelaguna;Mujer;De 40 a 44 años;0
+157; Valdelaguna;Mujer;De 45 a 49 años;0
+157; Valdelaguna;Mujer;De 50 años y más;0
+158; Valdemanco;Hombre;Menores de 15 años;0
+158; Valdemanco;Hombre;De 15 a 19 años;0
+158; Valdemanco;Hombre;De 20 a 24 años;0
+158; Valdemanco;Hombre;De 25 a 29 años;1
+158; Valdemanco;Hombre;De 30 a 34 años;0
+158; Valdemanco;Hombre;De 35 a 39 años;0
+158; Valdemanco;Hombre;De 40 a 44 años;1
+158; Valdemanco;Hombre;De 45 a 49 años;0
+158; Valdemanco;Hombre;De 50 años y más;0
+158; Valdemanco;Mujer;Menores de 15 años;0
+158; Valdemanco;Mujer;De 15 a 19 años;0
+158; Valdemanco;Mujer;De 20 a 24 años;1
+158; Valdemanco;Mujer;De 25 a 29 años;0
+158; Valdemanco;Mujer;De 30 a 34 años;1
+158; Valdemanco;Mujer;De 35 a 39 años;2
+158; Valdemanco;Mujer;De 40 a 44 años;0
+158; Valdemanco;Mujer;De 45 a 49 años;0
+158; Valdemanco;Mujer;De 50 años y más;0
+159; Valdemaqueda;Hombre;Menores de 15 años;0
+159; Valdemaqueda;Hombre;De 15 a 19 años;0
+159; Valdemaqueda;Hombre;De 20 a 24 años;0
+159; Valdemaqueda;Hombre;De 25 a 29 años;0
+159; Valdemaqueda;Hombre;De 30 a 34 años;2
+159; Valdemaqueda;Hombre;De 35 a 39 años;0
+159; Valdemaqueda;Hombre;De 40 a 44 años;0
+159; Valdemaqueda;Hombre;De 45 a 49 años;0
+159; Valdemaqueda;Hombre;De 50 años y más;0
+159; Valdemaqueda;Mujer;Menores de 15 años;0
+159; Valdemaqueda;Mujer;De 15 a 19 años;0
+159; Valdemaqueda;Mujer;De 20 a 24 años;0
+159; Valdemaqueda;Mujer;De 25 a 29 años;1
+159; Valdemaqueda;Mujer;De 30 a 34 años;2
+159; Valdemaqueda;Mujer;De 35 a 39 años;0
+159; Valdemaqueda;Mujer;De 40 a 44 años;2
+159; Valdemaqueda;Mujer;De 45 a 49 años;0
+159; Valdemaqueda;Mujer;De 50 años y más;0
+160; Valdemorillo;Hombre;Menores de 15 años;0
+160; Valdemorillo;Hombre;De 15 a 19 años;0
+160; Valdemorillo;Hombre;De 20 a 24 años;2
+160; Valdemorillo;Hombre;De 25 a 29 años;6
+160; Valdemorillo;Hombre;De 30 a 34 años;14
+160; Valdemorillo;Hombre;De 35 a 39 años;23
+160; Valdemorillo;Hombre;De 40 a 44 años;6
+160; Valdemorillo;Hombre;De 45 a 49 años;0
+160; Valdemorillo;Hombre;De 50 años y más;1
+160; Valdemorillo;Mujer;Menores de 15 años;0
+160; Valdemorillo;Mujer;De 15 a 19 años;1
+160; Valdemorillo;Mujer;De 20 a 24 años;5
+160; Valdemorillo;Mujer;De 25 a 29 años;10
+160; Valdemorillo;Mujer;De 30 a 34 años;14
+160; Valdemorillo;Mujer;De 35 a 39 años;16
+160; Valdemorillo;Mujer;De 40 a 44 años;6
+160; Valdemorillo;Mujer;De 45 a 49 años;0
+160; Valdemorillo;Mujer;De 50 años y más;1
+161; Valdemoro;Hombre;Menores de 15 años;0
+161; Valdemoro;Hombre;De 15 a 19 años;1
+161; Valdemoro;Hombre;De 20 a 24 años;12
+161; Valdemoro;Hombre;De 25 a 29 años;60
+161; Valdemoro;Hombre;De 30 a 34 años;122
+161; Valdemoro;Hombre;De 35 a 39 años;155
+161; Valdemoro;Hombre;De 40 a 44 años;47
+161; Valdemoro;Hombre;De 45 a 49 años;1
+161; Valdemoro;Hombre;De 50 años y más;0
+161; Valdemoro;Mujer;Menores de 15 años;0
+161; Valdemoro;Mujer;De 15 a 19 años;0
+161; Valdemoro;Mujer;De 20 a 24 años;19
+161; Valdemoro;Mujer;De 25 a 29 años;50
+161; Valdemoro;Mujer;De 30 a 34 años;130
+161; Valdemoro;Mujer;De 35 a 39 años;124
+161; Valdemoro;Mujer;De 40 a 44 años;38
+161; Valdemoro;Mujer;De 45 a 49 años;1
+161; Valdemoro;Mujer;De 50 años y más;0
+162; Valdeolmos-Alalpardo;Hombre;Menores de 15 años;0
+162; Valdeolmos-Alalpardo;Hombre;De 15 a 19 años;1
+162; Valdeolmos-Alalpardo;Hombre;De 20 a 24 años;3
+162; Valdeolmos-Alalpardo;Hombre;De 25 a 29 años;4
+162; Valdeolmos-Alalpardo;Hombre;De 30 a 34 años;5
+162; Valdeolmos-Alalpardo;Hombre;De 35 a 39 años;9
+162; Valdeolmos-Alalpardo;Hombre;De 40 a 44 años;0
+162; Valdeolmos-Alalpardo;Hombre;De 45 a 49 años;0
+162; Valdeolmos-Alalpardo;Hombre;De 50 años y más;0
+162; Valdeolmos-Alalpardo;Mujer;Menores de 15 años;0
+162; Valdeolmos-Alalpardo;Mujer;De 15 a 19 años;0
+162; Valdeolmos-Alalpardo;Mujer;De 20 a 24 años;0
+162; Valdeolmos-Alalpardo;Mujer;De 25 a 29 años;2
+162; Valdeolmos-Alalpardo;Mujer;De 30 a 34 años;5
+162; Valdeolmos-Alalpardo;Mujer;De 35 a 39 años;5
+162; Valdeolmos-Alalpardo;Mujer;De 40 a 44 años;1
+162; Valdeolmos-Alalpardo;Mujer;De 45 a 49 años;0
+162; Valdeolmos-Alalpardo;Mujer;De 50 años y más;0
+163; Valdepiélagos;Hombre;Menores de 15 años;0
+163; Valdepiélagos;Hombre;De 15 a 19 años;0
+163; Valdepiélagos;Hombre;De 20 a 24 años;0
+163; Valdepiélagos;Hombre;De 25 a 29 años;0
+163; Valdepiélagos;Hombre;De 30 a 34 años;0
+163; Valdepiélagos;Hombre;De 35 a 39 años;2
+163; Valdepiélagos;Hombre;De 40 a 44 años;1
+163; Valdepiélagos;Hombre;De 45 a 49 años;0
+163; Valdepiélagos;Hombre;De 50 años y más;0
+163; Valdepiélagos;Mujer;Menores de 15 años;0
+163; Valdepiélagos;Mujer;De 15 a 19 años;0
+163; Valdepiélagos;Mujer;De 20 a 24 años;0
+163; Valdepiélagos;Mujer;De 25 a 29 años;0
+163; Valdepiélagos;Mujer;De 30 a 34 años;0
+163; Valdepiélagos;Mujer;De 35 a 39 años;2
+163; Valdepiélagos;Mujer;De 40 a 44 años;0
+163; Valdepiélagos;Mujer;De 45 a 49 años;0
+163; Valdepiélagos;Mujer;De 50 años y más;0
+164; Valdetorres de Jarama;Hombre;Menores de 15 años;0
+164; Valdetorres de Jarama;Hombre;De 15 a 19 años;0
+164; Valdetorres de Jarama;Hombre;De 20 a 24 años;1
+164; Valdetorres de Jarama;Hombre;De 25 a 29 años;4
+164; Valdetorres de Jarama;Hombre;De 30 a 34 años;4
+164; Valdetorres de Jarama;Hombre;De 35 a 39 años;9
+164; Valdetorres de Jarama;Hombre;De 40 a 44 años;0
+164; Valdetorres de Jarama;Hombre;De 45 a 49 años;0
+164; Valdetorres de Jarama;Hombre;De 50 años y más;0
+164; Valdetorres de Jarama;Mujer;Menores de 15 años;0
+164; Valdetorres de Jarama;Mujer;De 15 a 19 años;0
+164; Valdetorres de Jarama;Mujer;De 20 a 24 años;2
+164; Valdetorres de Jarama;Mujer;De 25 a 29 años;4
+164; Valdetorres de Jarama;Mujer;De 30 a 34 años;2
+164; Valdetorres de Jarama;Mujer;De 35 a 39 años;8
+164; Valdetorres de Jarama;Mujer;De 40 a 44 años;1
+164; Valdetorres de Jarama;Mujer;De 45 a 49 años;1
+164; Valdetorres de Jarama;Mujer;De 50 años y más;0
+165; Valdilecha;Hombre;Menores de 15 años;0
+165; Valdilecha;Hombre;De 15 a 19 años;0
+165; Valdilecha;Hombre;De 20 a 24 años;0
+165; Valdilecha;Hombre;De 25 a 29 años;3
+165; Valdilecha;Hombre;De 30 a 34 años;2
+165; Valdilecha;Hombre;De 35 a 39 años;4
+165; Valdilecha;Hombre;De 40 a 44 años;0
+165; Valdilecha;Hombre;De 45 a 49 años;1
+165; Valdilecha;Hombre;De 50 años y más;0
+165; Valdilecha;Mujer;Menores de 15 años;0
+165; Valdilecha;Mujer;De 15 a 19 años;0
+165; Valdilecha;Mujer;De 20 a 24 años;3
+165; Valdilecha;Mujer;De 25 a 29 años;2
+165; Valdilecha;Mujer;De 30 a 34 años;1
+165; Valdilecha;Mujer;De 35 a 39 años;5
+165; Valdilecha;Mujer;De 40 a 44 años;1
+165; Valdilecha;Mujer;De 45 a 49 años;0
+165; Valdilecha;Mujer;De 50 años y más;0
+166; Valverde de Alcalá;Hombre;Menores de 15 años;0
+166; Valverde de Alcalá;Hombre;De 15 a 19 años;0
+166; Valverde de Alcalá;Hombre;De 20 a 24 años;0
+166; Valverde de Alcalá;Hombre;De 25 a 29 años;0
+166; Valverde de Alcalá;Hombre;De 30 a 34 años;2
+166; Valverde de Alcalá;Hombre;De 35 a 39 años;0
+166; Valverde de Alcalá;Hombre;De 40 a 44 años;1
+166; Valverde de Alcalá;Hombre;De 45 a 49 años;0
+166; Valverde de Alcalá;Hombre;De 50 años y más;0
+166; Valverde de Alcalá;Mujer;Menores de 15 años;0
+166; Valverde de Alcalá;Mujer;De 15 a 19 años;0
+166; Valverde de Alcalá;Mujer;De 20 a 24 años;0
+166; Valverde de Alcalá;Mujer;De 25 a 29 años;0
+166; Valverde de Alcalá;Mujer;De 30 a 34 años;0
+166; Valverde de Alcalá;Mujer;De 35 a 39 años;0
+166; Valverde de Alcalá;Mujer;De 40 a 44 años;0
+166; Valverde de Alcalá;Mujer;De 45 a 49 años;0
+166; Valverde de Alcalá;Mujer;De 50 años y más;0
+167; Velilla de San Antonio;Hombre;Menores de 15 años;0
+167; Velilla de San Antonio;Hombre;De 15 a 19 años;0
+167; Velilla de San Antonio;Hombre;De 20 a 24 años;2
+167; Velilla de San Antonio;Hombre;De 25 a 29 años;9
+167; Velilla de San Antonio;Hombre;De 30 a 34 años;17
+167; Velilla de San Antonio;Hombre;De 35 a 39 años;16
+167; Velilla de San Antonio;Hombre;De 40 a 44 años;5
+167; Velilla de San Antonio;Hombre;De 45 a 49 años;0
+167; Velilla de San Antonio;Hombre;De 50 años y más;0
+167; Velilla de San Antonio;Mujer;Menores de 15 años;0
+167; Velilla de San Antonio;Mujer;De 15 a 19 años;0
+167; Velilla de San Antonio;Mujer;De 20 a 24 años;2
+167; Velilla de San Antonio;Mujer;De 25 a 29 años;8
+167; Velilla de San Antonio;Mujer;De 30 a 34 años;21
+167; Velilla de San Antonio;Mujer;De 35 a 39 años;14
+167; Velilla de San Antonio;Mujer;De 40 a 44 años;4
+167; Velilla de San Antonio;Mujer;De 45 a 49 años;0
+167; Velilla de San Antonio;Mujer;De 50 años y más;0
+168; Vellón (El);Hombre;Menores de 15 años;0
+168; Vellón (El);Hombre;De 15 a 19 años;0
+168; Vellón (El);Hombre;De 20 a 24 años;1
+168; Vellón (El);Hombre;De 25 a 29 años;1
+168; Vellón (El);Hombre;De 30 a 34 años;5
+168; Vellón (El);Hombre;De 35 a 39 años;5
+168; Vellón (El);Hombre;De 40 a 44 años;1
+168; Vellón (El);Hombre;De 45 a 49 años;0
+168; Vellón (El);Hombre;De 50 años y más;0
+168; Vellón (El);Mujer;Menores de 15 años;0
+168; Vellón (El);Mujer;De 15 a 19 años;0
+168; Vellón (El);Mujer;De 20 a 24 años;0
+168; Vellón (El);Mujer;De 25 a 29 años;1
+168; Vellón (El);Mujer;De 30 a 34 años;6
+168; Vellón (El);Mujer;De 35 a 39 años;7
+168; Vellón (El);Mujer;De 40 a 44 años;0
+168; Vellón (El);Mujer;De 45 a 49 años;0
+168; Vellón (El);Mujer;De 50 años y más;0
+169; Venturada;Hombre;Menores de 15 años;0
+169; Venturada;Hombre;De 15 a 19 años;0
+169; Venturada;Hombre;De 20 a 24 años;0
+169; Venturada;Hombre;De 25 a 29 años;0
+169; Venturada;Hombre;De 30 a 34 años;0
+169; Venturada;Hombre;De 35 a 39 años;3
+169; Venturada;Hombre;De 40 a 44 años;1
+169; Venturada;Hombre;De 45 a 49 años;1
+169; Venturada;Hombre;De 50 años y más;0
+169; Venturada;Mujer;Menores de 15 años;0
+169; Venturada;Mujer;De 15 a 19 años;0
+169; Venturada;Mujer;De 20 a 24 años;0
+169; Venturada;Mujer;De 25 a 29 años;0
+169; Venturada;Mujer;De 30 a 34 años;3
+169; Venturada;Mujer;De 35 a 39 años;1
+169; Venturada;Mujer;De 40 a 44 años;1
+169; Venturada;Mujer;De 45 a 49 años;0
+169; Venturada;Mujer;De 50 años y más;0
+171; Villa del Prado;Hombre;Menores de 15 años;0
+171; Villa del Prado;Hombre;De 15 a 19 años;3
+171; Villa del Prado;Hombre;De 20 a 24 años;3
+171; Villa del Prado;Hombre;De 25 a 29 años;6
+171; Villa del Prado;Hombre;De 30 a 34 años;8
+171; Villa del Prado;Hombre;De 35 a 39 años;6
+171; Villa del Prado;Hombre;De 40 a 44 años;3
+171; Villa del Prado;Hombre;De 45 a 49 años;0
+171; Villa del Prado;Hombre;De 50 años y más;0
+171; Villa del Prado;Mujer;Menores de 15 años;0
+171; Villa del Prado;Mujer;De 15 a 19 años;0
+171; Villa del Prado;Mujer;De 20 a 24 años;3
+171; Villa del Prado;Mujer;De 25 a 29 años;10
+171; Villa del Prado;Mujer;De 30 a 34 años;12
+171; Villa del Prado;Mujer;De 35 a 39 años;5
+171; Villa del Prado;Mujer;De 40 a 44 años;2
+171; Villa del Prado;Mujer;De 45 a 49 años;0
+171; Villa del Prado;Mujer;De 50 años y más;0
+170; Villaconejos;Hombre;Menores de 15 años;0
+170; Villaconejos;Hombre;De 15 a 19 años;0
+170; Villaconejos;Hombre;De 20 a 24 años;1
+170; Villaconejos;Hombre;De 25 a 29 años;1
+170; Villaconejos;Hombre;De 30 a 34 años;0
+170; Villaconejos;Hombre;De 35 a 39 años;0
+170; Villaconejos;Hombre;De 40 a 44 años;0
+170; Villaconejos;Hombre;De 45 a 49 años;0
+170; Villaconejos;Hombre;De 50 años y más;0
+170; Villaconejos;Mujer;Menores de 15 años;0
+170; Villaconejos;Mujer;De 15 a 19 años;0
+170; Villaconejos;Mujer;De 20 a 24 años;1
+170; Villaconejos;Mujer;De 25 a 29 años;2
+170; Villaconejos;Mujer;De 30 a 34 años;2
+170; Villaconejos;Mujer;De 35 a 39 años;1
+170; Villaconejos;Mujer;De 40 a 44 años;0
+170; Villaconejos;Mujer;De 45 a 49 años;0
+170; Villaconejos;Mujer;De 50 años y más;0
+172; Villalbilla;Hombre;Menores de 15 años;0
+172; Villalbilla;Hombre;De 15 a 19 años;0
+172; Villalbilla;Hombre;De 20 a 24 años;1
+172; Villalbilla;Hombre;De 25 a 29 años;16
+172; Villalbilla;Hombre;De 30 a 34 años;45
+172; Villalbilla;Hombre;De 35 a 39 años;30
+172; Villalbilla;Hombre;De 40 a 44 años;8
+172; Villalbilla;Hombre;De 45 a 49 años;0
+172; Villalbilla;Hombre;De 50 años y más;0
+172; Villalbilla;Mujer;Menores de 15 años;0
+172; Villalbilla;Mujer;De 15 a 19 años;1
+172; Villalbilla;Mujer;De 20 a 24 años;3
+172; Villalbilla;Mujer;De 25 a 29 años;10
+172; Villalbilla;Mujer;De 30 a 34 años;35
+172; Villalbilla;Mujer;De 35 a 39 años;32
+172; Villalbilla;Mujer;De 40 a 44 años;5
+172; Villalbilla;Mujer;De 45 a 49 años;0
+172; Villalbilla;Mujer;De 50 años y más;0
+173; Villamanrique de Tajo;Hombre;Menores de 15 años;0
+173; Villamanrique de Tajo;Hombre;De 15 a 19 años;0
+173; Villamanrique de Tajo;Hombre;De 20 a 24 años;0
+173; Villamanrique de Tajo;Hombre;De 25 a 29 años;1
+173; Villamanrique de Tajo;Hombre;De 30 a 34 años;1
+173; Villamanrique de Tajo;Hombre;De 35 a 39 años;1
+173; Villamanrique de Tajo;Hombre;De 40 a 44 años;0
+173; Villamanrique de Tajo;Hombre;De 45 a 49 años;0
+173; Villamanrique de Tajo;Hombre;De 50 años y más;0
+173; Villamanrique de Tajo;Mujer;Menores de 15 años;0
+173; Villamanrique de Tajo;Mujer;De 15 a 19 años;0
+173; Villamanrique de Tajo;Mujer;De 20 a 24 años;0
+173; Villamanrique de Tajo;Mujer;De 25 a 29 años;0
+173; Villamanrique de Tajo;Mujer;De 30 a 34 años;0
+173; Villamanrique de Tajo;Mujer;De 35 a 39 años;0
+173; Villamanrique de Tajo;Mujer;De 40 a 44 años;0
+173; Villamanrique de Tajo;Mujer;De 45 a 49 años;0
+173; Villamanrique de Tajo;Mujer;De 50 años y más;0
+174; Villamanta;Hombre;Menores de 15 años;0
+174; Villamanta;Hombre;De 15 a 19 años;0
+174; Villamanta;Hombre;De 20 a 24 años;1
+174; Villamanta;Hombre;De 25 a 29 años;3
+174; Villamanta;Hombre;De 30 a 34 años;4
+174; Villamanta;Hombre;De 35 a 39 años;3
+174; Villamanta;Hombre;De 40 a 44 años;1
+174; Villamanta;Hombre;De 45 a 49 años;0
+174; Villamanta;Hombre;De 50 años y más;0
+174; Villamanta;Mujer;Menores de 15 años;0
+174; Villamanta;Mujer;De 15 a 19 años;0
+174; Villamanta;Mujer;De 20 a 24 años;0
+174; Villamanta;Mujer;De 25 a 29 años;1
+174; Villamanta;Mujer;De 30 a 34 años;1
+174; Villamanta;Mujer;De 35 a 39 años;3
+174; Villamanta;Mujer;De 40 a 44 años;0
+174; Villamanta;Mujer;De 45 a 49 años;0
+174; Villamanta;Mujer;De 50 años y más;0
+175; Villamantilla;Hombre;Menores de 15 años;0
+175; Villamantilla;Hombre;De 15 a 19 años;1
+175; Villamantilla;Hombre;De 20 a 24 años;0
+175; Villamantilla;Hombre;De 25 a 29 años;0
+175; Villamantilla;Hombre;De 30 a 34 años;3
+175; Villamantilla;Hombre;De 35 a 39 años;1
+175; Villamantilla;Hombre;De 40 a 44 años;0
+175; Villamantilla;Hombre;De 45 a 49 años;0
+175; Villamantilla;Hombre;De 50 años y más;0
+175; Villamantilla;Mujer;Menores de 15 años;0
+175; Villamantilla;Mujer;De 15 a 19 años;0
+175; Villamantilla;Mujer;De 20 a 24 años;0
+175; Villamantilla;Mujer;De 25 a 29 años;0
+175; Villamantilla;Mujer;De 30 a 34 años;3
+175; Villamantilla;Mujer;De 35 a 39 años;5
+175; Villamantilla;Mujer;De 40 a 44 años;1
+175; Villamantilla;Mujer;De 45 a 49 años;0
+175; Villamantilla;Mujer;De 50 años y más;0
+176; Villanueva de la Cañada;Hombre;Menores de 15 años;0
+176; Villanueva de la Cañada;Hombre;De 15 a 19 años;0
+176; Villanueva de la Cañada;Hombre;De 20 a 24 años;7
+176; Villanueva de la Cañada;Hombre;De 25 a 29 años;15
+176; Villanueva de la Cañada;Hombre;De 30 a 34 años;31
+176; Villanueva de la Cañada;Hombre;De 35 a 39 años;35
+176; Villanueva de la Cañada;Hombre;De 40 a 44 años;6
+176; Villanueva de la Cañada;Hombre;De 45 a 49 años;2
+176; Villanueva de la Cañada;Hombre;De 50 años y más;0
+176; Villanueva de la Cañada;Mujer;Menores de 15 años;0
+176; Villanueva de la Cañada;Mujer;De 15 a 19 años;0
+176; Villanueva de la Cañada;Mujer;De 20 a 24 años;4
+176; Villanueva de la Cañada;Mujer;De 25 a 29 años;13
+176; Villanueva de la Cañada;Mujer;De 30 a 34 años;23
+176; Villanueva de la Cañada;Mujer;De 35 a 39 años;34
+176; Villanueva de la Cañada;Mujer;De 40 a 44 años;8
+176; Villanueva de la Cañada;Mujer;De 45 a 49 años;1
+176; Villanueva de la Cañada;Mujer;De 50 años y más;0
+178; Villanueva de Perales;Hombre;Menores de 15 años;0
+178; Villanueva de Perales;Hombre;De 15 a 19 años;0
+178; Villanueva de Perales;Hombre;De 20 a 24 años;2
+178; Villanueva de Perales;Hombre;De 25 a 29 años;0
+178; Villanueva de Perales;Hombre;De 30 a 34 años;1
+178; Villanueva de Perales;Hombre;De 35 a 39 años;1
+178; Villanueva de Perales;Hombre;De 40 a 44 años;0
+178; Villanueva de Perales;Hombre;De 45 a 49 años;0
+178; Villanueva de Perales;Hombre;De 50 años y más;0
+178; Villanueva de Perales;Mujer;Menores de 15 años;0
+178; Villanueva de Perales;Mujer;De 15 a 19 años;0
+178; Villanueva de Perales;Mujer;De 20 a 24 años;0
+178; Villanueva de Perales;Mujer;De 25 a 29 años;3
+178; Villanueva de Perales;Mujer;De 30 a 34 años;3
+178; Villanueva de Perales;Mujer;De 35 a 39 años;3
+178; Villanueva de Perales;Mujer;De 40 a 44 años;0
+178; Villanueva de Perales;Mujer;De 45 a 49 años;0
+178; Villanueva de Perales;Mujer;De 50 años y más;0
+177; Villanueva del Pardillo;Hombre;Menores de 15 años;0
+177; Villanueva del Pardillo;Hombre;De 15 a 19 años;0
+177; Villanueva del Pardillo;Hombre;De 20 a 24 años;0
+177; Villanueva del Pardillo;Hombre;De 25 a 29 años;14
+177; Villanueva del Pardillo;Hombre;De 30 a 34 años;24
+177; Villanueva del Pardillo;Hombre;De 35 a 39 años;23
+177; Villanueva del Pardillo;Hombre;De 40 a 44 años;12
+177; Villanueva del Pardillo;Hombre;De 45 a 49 años;2
+177; Villanueva del Pardillo;Hombre;De 50 años y más;0
+177; Villanueva del Pardillo;Mujer;Menores de 15 años;0
+177; Villanueva del Pardillo;Mujer;De 15 a 19 años;1
+177; Villanueva del Pardillo;Mujer;De 20 a 24 años;0
+177; Villanueva del Pardillo;Mujer;De 25 a 29 años;6
+177; Villanueva del Pardillo;Mujer;De 30 a 34 años;16
+177; Villanueva del Pardillo;Mujer;De 35 a 39 años;32
+177; Villanueva del Pardillo;Mujer;De 40 a 44 años;8
+177; Villanueva del Pardillo;Mujer;De 45 a 49 años;2
+177; Villanueva del Pardillo;Mujer;De 50 años y más;0
+179; Villar del Olmo;Hombre;Menores de 15 años;0
+179; Villar del Olmo;Hombre;De 15 a 19 años;0
+179; Villar del Olmo;Hombre;De 20 a 24 años;0
+179; Villar del Olmo;Hombre;De 25 a 29 años;2
+179; Villar del Olmo;Hombre;De 30 a 34 años;2
+179; Villar del Olmo;Hombre;De 35 a 39 años;2
+179; Villar del Olmo;Hombre;De 40 a 44 años;1
+179; Villar del Olmo;Hombre;De 45 a 49 años;1
+179; Villar del Olmo;Hombre;De 50 años y más;0
+179; Villar del Olmo;Mujer;Menores de 15 años;0
+179; Villar del Olmo;Mujer;De 15 a 19 años;0
+179; Villar del Olmo;Mujer;De 20 a 24 años;1
+179; Villar del Olmo;Mujer;De 25 a 29 años;0
+179; Villar del Olmo;Mujer;De 30 a 34 años;0
+179; Villar del Olmo;Mujer;De 35 a 39 años;2
+179; Villar del Olmo;Mujer;De 40 a 44 años;0
+179; Villar del Olmo;Mujer;De 45 a 49 años;0
+179; Villar del Olmo;Mujer;De 50 años y más;0
+180; Villarejo de Salvanés;Hombre;Menores de 15 años;0
+180; Villarejo de Salvanés;Hombre;De 15 a 19 años;1
+180; Villarejo de Salvanés;Hombre;De 20 a 24 años;2
+180; Villarejo de Salvanés;Hombre;De 25 a 29 años;16
+180; Villarejo de Salvanés;Hombre;De 30 a 34 años;10
+180; Villarejo de Salvanés;Hombre;De 35 a 39 años;12
+180; Villarejo de Salvanés;Hombre;De 40 a 44 años;2
+180; Villarejo de Salvanés;Hombre;De 45 a 49 años;0
+180; Villarejo de Salvanés;Hombre;De 50 años y más;0
+180; Villarejo de Salvanés;Mujer;Menores de 15 años;0
+180; Villarejo de Salvanés;Mujer;De 15 a 19 años;1
+180; Villarejo de Salvanés;Mujer;De 20 a 24 años;1
+180; Villarejo de Salvanés;Mujer;De 25 a 29 años;3
+180; Villarejo de Salvanés;Mujer;De 30 a 34 años;14
+180; Villarejo de Salvanés;Mujer;De 35 a 39 años;8
+180; Villarejo de Salvanés;Mujer;De 40 a 44 años;1
+180; Villarejo de Salvanés;Mujer;De 45 a 49 años;0
+180; Villarejo de Salvanés;Mujer;De 50 años y más;0
+181; Villaviciosa de Odón;Hombre;Menores de 15 años;0
+181; Villaviciosa de Odón;Hombre;De 15 a 19 años;0
+181; Villaviciosa de Odón;Hombre;De 20 a 24 años;4
+181; Villaviciosa de Odón;Hombre;De 25 a 29 años;8
+181; Villaviciosa de Odón;Hombre;De 30 a 34 años;31
+181; Villaviciosa de Odón;Hombre;De 35 a 39 años;39
+181; Villaviciosa de Odón;Hombre;De 40 a 44 años;14
+181; Villaviciosa de Odón;Hombre;De 45 a 49 años;1
+181; Villaviciosa de Odón;Hombre;De 50 años y más;0
+181; Villaviciosa de Odón;Mujer;Menores de 15 años;0
+181; Villaviciosa de Odón;Mujer;De 15 a 19 años;1
+181; Villaviciosa de Odón;Mujer;De 20 a 24 años;1
+181; Villaviciosa de Odón;Mujer;De 25 a 29 años;9
+181; Villaviciosa de Odón;Mujer;De 30 a 34 años;30
+181; Villaviciosa de Odón;Mujer;De 35 a 39 años;31
+181; Villaviciosa de Odón;Mujer;De 40 a 44 años;14
+181; Villaviciosa de Odón;Mujer;De 45 a 49 años;0
+181; Villaviciosa de Odón;Mujer;De 50 años y más;0
+182; Villavieja del Lozoya;Hombre;Menores de 15 años;0
+182; Villavieja del Lozoya;Hombre;De 15 a 19 años;0
+182; Villavieja del Lozoya;Hombre;De 20 a 24 años;0
+182; Villavieja del Lozoya;Hombre;De 25 a 29 años;0
+182; Villavieja del Lozoya;Hombre;De 30 a 34 años;0
+182; Villavieja del Lozoya;Hombre;De 35 a 39 años;1
+182; Villavieja del Lozoya;Hombre;De 40 a 44 años;0
+182; Villavieja del Lozoya;Hombre;De 45 a 49 años;0
+182; Villavieja del Lozoya;Hombre;De 50 años y más;0
+182; Villavieja del Lozoya;Mujer;Menores de 15 años;0
+182; Villavieja del Lozoya;Mujer;De 15 a 19 años;0
+182; Villavieja del Lozoya;Mujer;De 20 a 24 años;0
+182; Villavieja del Lozoya;Mujer;De 25 a 29 años;0
+182; Villavieja del Lozoya;Mujer;De 30 a 34 años;0
+182; Villavieja del Lozoya;Mujer;De 35 a 39 años;1
+182; Villavieja del Lozoya;Mujer;De 40 a 44 años;0
+182; Villavieja del Lozoya;Mujer;De 45 a 49 años;0
+182; Villavieja del Lozoya;Mujer;De 50 años y más;0
+183; Zarzalejo;Hombre;Menores de 15 años;0
+183; Zarzalejo;Hombre;De 15 a 19 años;0
+183; Zarzalejo;Hombre;De 20 a 24 años;2
+183; Zarzalejo;Hombre;De 25 a 29 años;0
+183; Zarzalejo;Hombre;De 30 a 34 años;1
+183; Zarzalejo;Hombre;De 35 a 39 años;4
+183; Zarzalejo;Hombre;De 40 a 44 años;2
+183; Zarzalejo;Hombre;De 45 a 49 años;0
+183; Zarzalejo;Hombre;De 50 años y más;0
+183; Zarzalejo;Mujer;Menores de 15 años;0
+183; Zarzalejo;Mujer;De 15 a 19 años;1
+183; Zarzalejo;Mujer;De 20 a 24 años;2
+183; Zarzalejo;Mujer;De 25 a 29 años;0
+183; Zarzalejo;Mujer;De 30 a 34 años;1
+183; Zarzalejo;Mujer;De 35 a 39 años;5
+183; Zarzalejo;Mujer;De 40 a 44 años;0
+183; Zarzalejo;Mujer;De 45 a 49 años;0
+183; Zarzalejo;Mujer;De 50 años y más;0
