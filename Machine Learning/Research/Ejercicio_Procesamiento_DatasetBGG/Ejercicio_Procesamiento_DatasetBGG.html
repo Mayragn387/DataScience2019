@@ -13123,7 +13123,7 @@ div#notebook {
 <script>
 $( document ).ready(function(){
 
-            var cfg = {"base_numbering": 1, "nav_menu": {}, "number_sections": true, "sideBar": true, "skip_h1_title": false, "title_cell": "Table of Contents", "title_sidebar": "Contents", "toc_cell": false, "toc_position": {}, "toc_section_display": true, "toc_window_display": false};
+            var cfg = {"base_numbering": 1, "nav_menu": {}, "number_sections": true, "sideBar": true, "skip_h1_title": false, "title_cell": "Table of Contents", "title_sidebar": "Contents", "toc_cell": true, "toc_position": {"height": "calc(100% - 180px)", "left": "10px", "top": "150px", "width": "307.2px"}, "toc_section_display": true, "toc_window_display": false};
 
             // fire the main function with these parameters
             require(['nbextensions/toc2/toc2'], function (toc2) {
@@ -13135,6 +13135,14 @@ $( document ).ready(function(){
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h1>Table of Contents<span class="tocSkip"></span></h1></p>
+<div class="toc"><ul class="toc-item"><li><span><a href="#Modelo-predictivo-del-Boardgame-Rating" data-toc-modified-id="Modelo-predictivo-del-Boardgame-Rating-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Modelo predictivo del Boardgame Rating</a></span><ul class="toc-item"><li><span><a href="#Introducción" data-toc-modified-id="Introducción-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Introducción</a></span></li><li><span><a href="#Data-Sources" data-toc-modified-id="Data-Sources-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Data Sources</a></span></li><li><span><a href="#Libraries-&amp;-Environment" data-toc-modified-id="Libraries-&amp;-Environment-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Libraries &amp; Environment</a></span></li><li><span><a href="#Data-Pre-Processing" data-toc-modified-id="Data-Pre-Processing-1.4"><span class="toc-item-num">1.4&nbsp;&nbsp;</span>Data Pre-Processing</a></span><ul class="toc-item"><li><span><a href="#Data-Loading" data-toc-modified-id="Data-Loading-1.4.1"><span class="toc-item-num">1.4.1&nbsp;&nbsp;</span>Data Loading</a></span></li><li><span><a href="#Data-Exploration" data-toc-modified-id="Data-Exploration-1.4.2"><span class="toc-item-num">1.4.2&nbsp;&nbsp;</span>Data Exploration</a></span><ul class="toc-item"><li><span><a href="#Histogramas" data-toc-modified-id="Histogramas-1.4.2.1"><span class="toc-item-num">1.4.2.1&nbsp;&nbsp;</span>Histogramas</a></span></li></ul></li><li><span><a href="#Data-Wrangling" data-toc-modified-id="Data-Wrangling-1.4.3"><span class="toc-item-num">1.4.3&nbsp;&nbsp;</span>Data Wrangling</a></span></li></ul></li><li><span><a href="#Feature-Selection" data-toc-modified-id="Feature-Selection-1.5"><span class="toc-item-num">1.5&nbsp;&nbsp;</span>Feature Selection</a></span></li><li><span><a href="#Modeling" data-toc-modified-id="Modeling-1.6"><span class="toc-item-num">1.6&nbsp;&nbsp;</span>Modeling</a></span><ul class="toc-item"><li><span><a href="#Train-and-Test-Subsets-(Supervised-Learning)" data-toc-modified-id="Train-and-Test-Subsets-(Supervised-Learning)-1.6.1"><span class="toc-item-num">1.6.1&nbsp;&nbsp;</span>Train and Test Subsets (Supervised Learning)</a></span></li><li><span><a href="#Model-Selection" data-toc-modified-id="Model-Selection-1.6.2"><span class="toc-item-num">1.6.2&nbsp;&nbsp;</span>Model Selection</a></span><ul class="toc-item"><li><span><a href="#Ridge-Regularization" data-toc-modified-id="Ridge-Regularization-1.6.2.1"><span class="toc-item-num">1.6.2.1&nbsp;&nbsp;</span>Ridge Regularization</a></span></li><li><span><a href="#Lasso-Regularization" data-toc-modified-id="Lasso-Regularization-1.6.2.2"><span class="toc-item-num">1.6.2.2&nbsp;&nbsp;</span>Lasso Regularization</a></span></li></ul></li><li><span><a href="#Tuning-Parameters" data-toc-modified-id="Tuning-Parameters-1.6.3"><span class="toc-item-num">1.6.3&nbsp;&nbsp;</span>Tuning Parameters</a></span><ul class="toc-item"><li><span><a href="#Model-Metrics" data-toc-modified-id="Model-Metrics-1.6.3.1"><span class="toc-item-num">1.6.3.1&nbsp;&nbsp;</span>Model Metrics</a></span></li></ul></li></ul></li></ul></li></ul></div>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13240,7 +13248,7 @@ Se formulará un modelo de regresión lineal y se usarán técnicas de regulariz
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pathCsv</span> <span class="o">=</span> <span class="s1">&#39;../Data/games_detailed_info.csv&#39;</span>
-<span class="n">games</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">pathCsv</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">pathCsv</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13270,7 +13278,7 @@ Se formulará un modelo de regresión lineal y se usarán técnicas de regulariz
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A continuación se analiza las variables que tiene el dataset.</p>
+<p>Los atributos que tiene el dataset son los siguientes:</p>
 
 </div>
 </div>
@@ -13280,9 +13288,9 @@ Se formulará un modelo de regresión lineal y se usarán técnicas de regulariz
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">games</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">games</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">games</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13328,7 +13336,7 @@ Se formulará un modelo de regresión lineal y se usarán técnicas de regulariz
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Se eliminan variables con valor NA y no relevantes para el modelo.</p>
+<p>Se muestran los 3 primeros y 3 últimos registros.</p>
 
 </div>
 </div>
@@ -13338,38 +13346,156 @@ Se formulará un modelo de regresión lineal y se usarán técnicas de regulariz
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">games</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="s2">&quot;bayesaverage&quot;</span><span class="p">,</span><span class="s1">&#39;Abstract Game Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;Accessory Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;Amiga Rank&#39;</span><span class="p">,</span><span class="s1">&#39;Arcade Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;Atari ST Rank&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;Board Game Rank&#39;</span><span class="p">,</span><span class="s2">&quot;Children&#39;s Game Rank&quot;</span><span class="p">,</span> <span class="s1">&#39;Commodore 64 Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;Customizable Rank&#39;</span><span class="p">,</span><span class="s1">&#39;Family Game Rank&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;Party Game Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;RPG Item Rank&#39;</span><span class="p">,</span><span class="s1">&#39;Strategy Game Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;Thematic Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;Video Game Rank&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;War Game Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;alternate&#39;</span><span class="p">,</span><span class="s1">&#39;boardgameartist&#39;</span><span class="p">,</span> <span class="s1">&#39;boardgamecategory&#39;</span><span class="p">,</span><span class="s1">&#39;boardgamecompilation&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;boardgamedesigner&#39;</span><span class="p">,</span> <span class="s1">&#39;boardgameexpansion&#39;</span><span class="p">,</span><span class="s1">&#39;boardgamefamily&#39;</span><span class="p">,</span> <span class="s1">&#39;boardgameimplementation&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;boardgameintegration&#39;</span><span class="p">,</span><span class="s1">&#39;boardgamemechanic&#39;</span><span class="p">,</span> <span class="s1">&#39;boardgamepublisher&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;image&#39;</span><span class="p">,</span><span class="s1">&#39;median&#39;</span><span class="p">,</span><span class="s1">&#39;stddev&#39;</span><span class="p">,</span> <span class="s1">&#39;suggested_language_dependence&#39;</span><span class="p">,</span><span class="s1">&#39;suggested_num_players&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;suggested_playerage&#39;</span><span class="p">,</span> <span class="s1">&#39;thumbnail&#39;</span><span class="p">,</span><span class="s2">&quot;primary&quot;</span><span class="p">,</span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="s2">&quot;maxplaytime&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;minplaytime&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[4]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>Abstract Game Rank</th>
+      <th>Accessory Rank</th>
+      <th>Amiga Rank</th>
+      <th>Arcade Rank</th>
+      <th>Atari ST Rank</th>
+      <th>Board Game Rank</th>
+      <th>Children's Game Rank</th>
+      <th>Commodore 64 Rank</th>
+      <th>Customizable Rank</th>
+      <th>...</th>
+      <th>suggested_language_dependence</th>
+      <th>suggested_num_players</th>
+      <th>suggested_playerage</th>
+      <th>thumbnail</th>
+      <th>trading</th>
+      <th>type</th>
+      <th>usersrated</th>
+      <th>wanting</th>
+      <th>wishing</th>
+      <th>yearpublished</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>327</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>[OrderedDict([('@level', '36'), ('@value', 'No...</td>
+      <td>[OrderedDict([('@numplayers', '1'), ('result',...</td>
+      <td>[OrderedDict([('@value', '2'), ('@numvotes', '...</td>
+      <td>https://cf.geekdo-images.com/thumb/img/g8LvJsd...</td>
+      <td>1685</td>
+      <td>boardgame</td>
+      <td>85332</td>
+      <td>453</td>
+      <td>4729</td>
+      <td>1995</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>151</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>[OrderedDict([('@level', '1'), ('@value', 'No ...</td>
+      <td>[OrderedDict([('@numplayers', '1'), ('result',...</td>
+      <td>[OrderedDict([('@value', '2'), ('@numvotes', '...</td>
+      <td>https://cf.geekdo-images.com/thumb/img/kqE4YJS...</td>
+      <td>1477</td>
+      <td>boardgame</td>
+      <td>85052</td>
+      <td>498</td>
+      <td>5403</td>
+      <td>2000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>74</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>[OrderedDict([('@level', '21'), ('@value', 'No...</td>
+      <td>[OrderedDict([('@numplayers', '1'), ('result',...</td>
+      <td>[OrderedDict([('@value', '2'), ('@numvotes', '...</td>
+      <td>https://cf.geekdo-images.com/thumb/img/HEKrtpT...</td>
+      <td>1977</td>
+      <td>boardgame</td>
+      <td>83486</td>
+      <td>614</td>
+      <td>7655</td>
+      <td>2008</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 56 columns</p>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Se eliminan los valores ausentes y solo se consideran los juegos de mesa con valoración de más de 30 usuarios.</p>
+</div>
+
+</div>
 
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">games</span> <span class="o">=</span> <span class="n">games</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">games</span> <span class="o">=</span> <span class="n">games</span><span class="p">[</span><span class="n">games</span><span class="p">[</span><span class="s1">&#39;usersrated&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">30</span><span class="p">]</span>
-<span class="n">games</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13405,15 +13531,21 @@ Se formulará un modelo de regresión lineal y se usarán técnicas de regulariz
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>average</th>
-      <th>averageweight</th>
-      <th>maxplayers</th>
-      <th>minage</th>
-      <th>minplayers</th>
-      <th>numcomments</th>
-      <th>numweights</th>
-      <th>owned</th>
-      <th>playingtime</th>
+      <th>Unnamed: 0</th>
+      <th>Abstract Game Rank</th>
+      <th>Accessory Rank</th>
+      <th>Amiga Rank</th>
+      <th>Arcade Rank</th>
+      <th>Atari ST Rank</th>
+      <th>Board Game Rank</th>
+      <th>Children's Game Rank</th>
+      <th>Commodore 64 Rank</th>
+      <th>Customizable Rank</th>
+      <th>...</th>
+      <th>suggested_language_dependence</th>
+      <th>suggested_num_players</th>
+      <th>suggested_playerage</th>
+      <th>thumbnail</th>
       <th>trading</th>
       <th>type</th>
       <th>usersrated</th>
@@ -13424,61 +13556,80 @@ Se formulará un modelo de regresión lineal y se usarán técnicas de regulariz
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>7.19118</td>
-      <td>2.3399</td>
-      <td>4</td>
-      <td>10</td>
+      <th>17060</th>
+      <td>17060</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>14315</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>[OrderedDict([('@numplayers', '1'), ('result',...</td>
+      <td>NaN</td>
+      <td>https://cf.geekdo-images.com/thumb/img/w-qK2q5...</td>
+      <td>12</td>
+      <td>boardgame</td>
+      <td>30</td>
+      <td>2</td>
       <td>3</td>
-      <td>16330</td>
-      <td>6866</td>
-      <td>125254</td>
-      <td>120</td>
-      <td>1685</td>
-      <td>boardgame</td>
-      <td>85332</td>
-      <td>453</td>
-      <td>4729</td>
-      <td>1995</td>
+      <td>1986</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>7.42605</td>
-      <td>1.9247</td>
+      <th>17061</th>
+      <td>17061</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>14317</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>[OrderedDict([('@numplayers', '1'), ('result',...</td>
+      <td>NaN</td>
+      <td>https://cf.geekdo-images.com/thumb/img/dgf5MIp...</td>
+      <td>12</td>
+      <td>boardgame</td>
+      <td>30</td>
+      <td>7</td>
+      <td>6</td>
+      <td>1997</td>
+    </tr>
+    <tr>
+      <th>17062</th>
+      <td>17062</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>15543</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>[OrderedDict([('@numplayers', '1'), ('result',...</td>
+      <td>[OrderedDict([('@value', '2'), ('@numvotes', '...</td>
+      <td>https://cf.geekdo-images.com/thumb/img/k3V6l7k...</td>
+      <td>2</td>
+      <td>boardgame</td>
+      <td>30</td>
+      <td>1</td>
       <td>5</td>
-      <td>8</td>
-      <td>2</td>
-      <td>16180</td>
-      <td>6950</td>
-      <td>121717</td>
-      <td>45</td>
-      <td>1477</td>
-      <td>boardgame</td>
-      <td>85052</td>
-      <td>498</td>
-      <td>5403</td>
-      <td>2000</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>7.63799</td>
-      <td>2.4220</td>
-      <td>4</td>
-      <td>8</td>
-      <td>2</td>
-      <td>14127</td>
-      <td>4881</td>
-      <td>123067</td>
-      <td>45</td>
-      <td>1977</td>
-      <td>boardgame</td>
-      <td>83486</td>
-      <td>614</td>
-      <td>7655</td>
-      <td>2008</td>
+      <td>1999</td>
     </tr>
   </tbody>
 </table>
+<p>3 rows × 56 columns</p>
 </div>
 </div>
 
@@ -13498,7 +13649,7 @@ Se formulará un modelo de regresión lineal y se usarán técnicas de regulariz
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Primero se revisa el comportamiento de la muestra con un histograma.</p>
+<p>Se eliminan variables con valor NA y no relevantes para facilitar la construcción del modelo.</p>
 
 </div>
 </div>
@@ -13508,9 +13659,417 @@ Se formulará un modelo de regresión lineal y se usarán técnicas de regulariz
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="s2">&quot;bayesaverage&quot;</span><span class="p">,</span><span class="s1">&#39;Abstract Game Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;Accessory Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;Amiga Rank&#39;</span><span class="p">,</span><span class="s1">&#39;Arcade Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;Atari ST Rank&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;Board Game Rank&#39;</span><span class="p">,</span><span class="s2">&quot;Children&#39;s Game Rank&quot;</span><span class="p">,</span> <span class="s1">&#39;Commodore 64 Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;Customizable Rank&#39;</span><span class="p">,</span><span class="s1">&#39;Family Game Rank&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;Party Game Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;RPG Item Rank&#39;</span><span class="p">,</span><span class="s1">&#39;Strategy Game Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;Thematic Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;Video Game Rank&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;War Game Rank&#39;</span><span class="p">,</span> <span class="s1">&#39;alternate&#39;</span><span class="p">,</span><span class="s1">&#39;boardgameartist&#39;</span><span class="p">,</span> <span class="s1">&#39;boardgamecategory&#39;</span><span class="p">,</span><span class="s1">&#39;boardgamecompilation&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;boardgamedesigner&#39;</span><span class="p">,</span> <span class="s1">&#39;boardgameexpansion&#39;</span><span class="p">,</span><span class="s1">&#39;boardgamefamily&#39;</span><span class="p">,</span> <span class="s1">&#39;boardgameimplementation&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;boardgameintegration&#39;</span><span class="p">,</span><span class="s1">&#39;boardgamemechanic&#39;</span><span class="p">,</span> <span class="s1">&#39;boardgamepublisher&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;image&#39;</span><span class="p">,</span><span class="s1">&#39;median&#39;</span><span class="p">,</span><span class="s1">&#39;stddev&#39;</span><span class="p">,</span> <span class="s1">&#39;suggested_language_dependence&#39;</span><span class="p">,</span><span class="s1">&#39;suggested_num_players&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;suggested_playerage&#39;</span><span class="p">,</span> <span class="s1">&#39;thumbnail&#39;</span><span class="p">,</span><span class="s2">&quot;primary&quot;</span><span class="p">,</span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="s2">&quot;maxplaytime&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;minplaytime&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Se eliminan los valores ausentes y solo se consideran los juegos de mesa con valoración de más de 30 usuarios.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;usersrated&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">30</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>El dataset tiene los siguientes atributos para el análisis:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[8]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;average&#39;,
+ &#39;averageweight&#39;,
+ &#39;maxplayers&#39;,
+ &#39;minage&#39;,
+ &#39;minplayers&#39;,
+ &#39;numcomments&#39;,
+ &#39;numweights&#39;,
+ &#39;owned&#39;,
+ &#39;playingtime&#39;,
+ &#39;trading&#39;,
+ &#39;type&#39;,
+ &#39;usersrated&#39;,
+ &#39;wanting&#39;,
+ &#39;wishing&#39;,
+ &#39;yearpublished&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Int64Index: 16848 entries, 0 to 17048
+Data columns (total 15 columns):
+average          16848 non-null float64
+averageweight    16848 non-null float64
+maxplayers       16848 non-null int64
+minage           16848 non-null int64
+minplayers       16848 non-null int64
+numcomments      16848 non-null int64
+numweights       16848 non-null int64
+owned            16848 non-null int64
+playingtime      16848 non-null int64
+trading          16848 non-null int64
+type             16848 non-null object
+usersrated       16848 non-null int64
+wanting          16848 non-null int64
+wishing          16848 non-null int64
+yearpublished    16848 non-null int64
+dtypes: float64(2), int64(12), object(1)
+memory usage: 2.1+ MB
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[10]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>average</th>
+      <th>averageweight</th>
+      <th>maxplayers</th>
+      <th>minage</th>
+      <th>minplayers</th>
+      <th>numcomments</th>
+      <th>numweights</th>
+      <th>owned</th>
+      <th>playingtime</th>
+      <th>trading</th>
+      <th>usersrated</th>
+      <th>wanting</th>
+      <th>wishing</th>
+      <th>yearpublished</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+      <td>16848.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>6.355177</td>
+      <td>2.009294</td>
+      <td>5.548018</td>
+      <td>9.542616</td>
+      <td>2.041845</td>
+      <td>207.447590</td>
+      <td>53.873457</td>
+      <td>1287.183879</td>
+      <td>97.442842</td>
+      <td>43.292082</td>
+      <td>789.960173</td>
+      <td>43.469967</td>
+      <td>199.277125</td>
+      <td>1984.043388</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.908756</td>
+      <td>0.838438</td>
+      <td>15.876110</td>
+      <td>3.650856</td>
+      <td>0.675861</td>
+      <td>619.702629</td>
+      <td>208.763566</td>
+      <td>4337.404143</td>
+      <td>1089.857351</td>
+      <td>95.558135</td>
+      <td>3103.369833</td>
+      <td>120.465389</td>
+      <td>645.746221</td>
+      <td>206.884724</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.052540</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>3.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>31.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-3500.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>5.784910</td>
+      <td>1.333300</td>
+      <td>4.000000</td>
+      <td>8.000000</td>
+      <td>2.000000</td>
+      <td>25.000000</td>
+      <td>5.000000</td>
+      <td>147.000000</td>
+      <td>30.000000</td>
+      <td>6.000000</td>
+      <td>57.000000</td>
+      <td>3.000000</td>
+      <td>12.000000</td>
+      <td>1999.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>6.386840</td>
+      <td>2.000000</td>
+      <td>4.000000</td>
+      <td>10.000000</td>
+      <td>2.000000</td>
+      <td>51.000000</td>
+      <td>11.000000</td>
+      <td>306.000000</td>
+      <td>45.000000</td>
+      <td>14.000000</td>
+      <td>122.000000</td>
+      <td>9.000000</td>
+      <td>34.000000</td>
+      <td>2009.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>6.960120</td>
+      <td>2.564450</td>
+      <td>6.000000</td>
+      <td>12.000000</td>
+      <td>2.000000</td>
+      <td>137.000000</td>
+      <td>29.000000</td>
+      <td>822.000000</td>
+      <td>90.000000</td>
+      <td>40.000000</td>
+      <td>381.000000</td>
+      <td>29.000000</td>
+      <td>115.000000</td>
+      <td>2015.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>9.597140</td>
+      <td>5.000000</td>
+      <td>999.000000</td>
+      <td>25.000000</td>
+      <td>10.000000</td>
+      <td>16330.000000</td>
+      <td>6950.000000</td>
+      <td>125254.000000</td>
+      <td>120000.000000</td>
+      <td>2247.000000</td>
+      <td>85332.000000</td>
+      <td>2074.000000</td>
+      <td>13318.000000</td>
+      <td>2020.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Histogramas">Histogramas<a class="anchor-link" href="#Histogramas">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Source: https://stackoverflow.com/questions/43638851/pandas-histogram-plot-with-kde</span>
+<span class="n">data_hist</span> <span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;type&quot;</span><span class="p">],</span> 
+           <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_hist</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="n">m</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_hist</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()):</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">i</span> <span class="o">//</span> <span class="n">n</span><span class="p">,</span> <span class="n">i</span> <span class="o">%</span> <span class="n">n</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+    <span class="n">col</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">ax2</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">kde</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">secondary_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="output_27_0.png"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">color_codes</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">games</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">],</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">],</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Average Rating&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;% Observations&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Target variable Average Rating distribution&#39;</span><span class="p">)</span>
@@ -13534,7 +14093,7 @@ Se formulará un modelo de regresión lineal y se usarán técnicas de regulariz
 
 
 <div class="output_png output_subarea ">
-<img src="output_19_0.png"
+<img src="output_28_0.png"
 >
 </div>
 
@@ -13554,11 +14113,11 @@ Se formulará un modelo de regresión lineal y se usarán técnicas de regulariz
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y_mean</span> <span class="o">=</span> <span class="n">games</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">y_std</span> <span class="o">=</span> <span class="n">games</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y_mean</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">y_std</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;average&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average Rating Mean </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y_mean</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average Rating Standard Deviation </span><span class="si">{}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y_std</span><span class="p">))</span>
 </pre></div>
@@ -13598,12 +14157,12 @@ Average Rating Standard Deviation 0.9087563200891718
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">corr_matrix</span> <span class="o">=</span> <span class="n">games</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
-<span class="n">games_dummy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">games</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
-<span class="n">games</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">games</span><span class="p">,</span> <span class="n">games_dummy</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">corr_matrix</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<span class="n">type_dummy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="p">,</span> <span class="n">type_dummy</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">corr_matrix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
 <span class="n">mask</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">triu_indices_from</span><span class="p">(</span><span class="n">mask</span><span class="p">)]</span><span class="o">=</span> <span class="kc">True</span>
 </pre></div>
@@ -13615,7 +14174,7 @@ Average Rating Standard Deviation 0.9087563200891718
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span> 
@@ -13652,7 +14211,7 @@ Average Rating Standard Deviation 0.9087563200891718
 
 
 <div class="output_png output_subarea ">
-<img src="output_24_0.png"
+<img src="output_33_0.png"
 >
 </div>
 
@@ -13685,10 +14244,10 @@ Average Rating Standard Deviation 0.9087563200891718
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">games</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">triu_indices_from</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="mi">1</span><span class="p">)):</span>
     <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
@@ -13709,7 +14268,7 @@ Average Rating Standard Deviation 0.9087563200891718
 
 
 <div class="output_png output_subarea ">
-<img src="output_27_0.png"
+<img src="output_36_0.png"
 >
 </div>
 
@@ -13730,15 +14289,15 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">games_k</span> <span class="o">=</span> <span class="n">games</span>
-<span class="n">games_k</span><span class="p">[</span><span class="s2">&quot;average&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">games_k</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;type&quot;</span><span class="p">,</span><span class="s2">&quot;numcomments&quot;</span><span class="p">,</span><span class="s2">&quot;numweights&quot;</span><span class="p">],</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_k</span> <span class="o">=</span> <span class="n">data</span>
+<span class="n">data_k</span><span class="p">[</span><span class="s2">&quot;average&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data_k</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;type&quot;</span><span class="p">,</span><span class="s2">&quot;numcomments&quot;</span><span class="p">,</span><span class="s2">&quot;numweights&quot;</span><span class="p">],</span> 
            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">cluster</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">cluster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">games</span><span class="p">)</span>
+<span class="n">cluster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_k</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13751,7 +14310,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[11]:</div>
+    <div class="prompt output_prompt">Out[17]:</div>
 
 
 
@@ -13778,13 +14337,13 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;fivethirtyeight&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">games_k</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> 
-            <span class="n">y</span><span class="o">=</span><span class="n">games_k</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">data_k</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> 
+            <span class="n">y</span><span class="o">=</span><span class="n">data_k</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
             <span class="n">c</span><span class="o">=</span><span class="n">cluster</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">);</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Observation Mean&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Observation SD&#39;</span><span class="p">)</span>
@@ -13809,7 +14368,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 
 
 <div class="output_png output_subarea ">
-<img src="output_31_0.png"
+<img src="output_40_0.png"
 >
 </div>
 
@@ -13836,12 +14395,12 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">games</span> <span class="o">=</span> <span class="n">games</span><span class="p">[(</span><span class="n">games</span><span class="p">[</span><span class="s1">&#39;yearpublished&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1990</span><span class="p">)]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">games</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">games</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;yearpublished&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1990</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13865,7 +14424,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[13]:</div>
+    <div class="prompt output_prompt">Out[19]:</div>
 
 
 
@@ -14012,10 +14571,10 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">games</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14028,7 +14587,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[14]:</div>
+    <div class="prompt output_prompt">Out[20]:</div>
 
 
 
@@ -14182,11 +14741,11 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">games_train</span> <span class="o">=</span> <span class="n">games</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
-<span class="n">games_test</span> <span class="o">=</span> <span class="n">games</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">games</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">games_train</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_train</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">data_test</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">data_train</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
 </pre></div>
 
     </div>
@@ -14196,11 +14755,11 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">games_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">games_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14229,11 +14788,11 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y_train</span> <span class="o">=</span> <span class="n">games_train</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;average&#39;</span><span class="p">)</span>
-<span class="n">y_test</span> <span class="o">=</span> <span class="n">games_test</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;average&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y_train</span> <span class="o">=</span> <span class="n">data_train</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;average&#39;</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;average&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
@@ -14264,7 +14823,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
@@ -14312,7 +14871,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
@@ -14332,10 +14891,10 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">games_standardized</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">games_train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_standardized</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">data_train</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14345,7 +14904,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ridge_cv</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">RidgeCV</span><span class="p">(</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -14358,10 +14917,10 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ridge_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">games_standardized</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ridge_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_standardized</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14374,7 +14933,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[22]:</div>
+    <div class="prompt output_prompt">Out[28]:</div>
 
 
 
@@ -14392,7 +14951,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">alpha_ridge</span> <span class="o">=</span> <span class="n">ridge_cv</span><span class="o">.</span><span class="n">alpha_</span>
@@ -14426,7 +14985,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ridge_cv</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha_ridge</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
@@ -14439,10 +14998,10 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ridge_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">games_standardized</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ridge_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_standardized</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14455,7 +15014,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[25]:</div>
+    <div class="prompt output_prompt">Out[31]:</div>
 
 
 
@@ -14473,10 +15032,10 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cv_score_ridge</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">ridge_cv</span><span class="p">,</span> <span class="n">games_standardized</span><span class="p">,</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cv_score_ridge</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">ridge_cv</span><span class="p">,</span> <span class="n">data_standardized</span><span class="p">,</span>
                                  <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                  <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">)</span>
 <span class="n">rmse_ridge</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="n">cv_score_ridge</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
@@ -14493,7 +15052,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[26]:</div>
+    <div class="prompt output_prompt">Out[32]:</div>
 
 
 
@@ -14517,7 +15076,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">lasso_cv</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LassoCV</span><span class="p">(</span><span class="n">cv</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">normalize</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -14531,10 +15090,10 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lasso_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">games_standardized</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lasso_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_standardized</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14559,7 +15118,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[28]:</div>
+    <div class="prompt output_prompt">Out[34]:</div>
 
 
 
@@ -14579,7 +15138,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">alpha_lasso</span> <span class="o">=</span> <span class="n">lasso_cv</span><span class="o">.</span><span class="n">alpha_</span>
@@ -14613,7 +15172,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">lasso</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_lasso</span><span class="p">,</span>
@@ -14627,10 +15186,10 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lasso</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">games_standardized</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lasso</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_standardized</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14643,7 +15202,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[31]:</div>
+    <div class="prompt output_prompt">Out[37]:</div>
 
 
 
@@ -14662,10 +15221,10 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cv_score_lasso</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">lasso_cv</span><span class="p">,</span> <span class="n">games_standardized</span><span class="p">,</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cv_score_lasso</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">lasso_cv</span><span class="p">,</span> <span class="n">data_standardized</span><span class="p">,</span>
                                  <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
                                  <span class="n">scoring</span> <span class="o">=</span> <span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span>
                                  <span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
@@ -14686,7 +15245,17 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
+........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.4s finished
+[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
 ........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.3s finished
+[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
+........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.4s finished
+[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
+........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.4s finished
+[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
+........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.4s finished
+[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
+........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.4s finished
 [Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
 ........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.3s finished
 [Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
@@ -14695,16 +15264,6 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 ........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.4s finished
 [Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
 ........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.4s finished
-[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
-........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.4s finished
-[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
-........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.3s finished
-[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
-........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.4s finished
-[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
-........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.3s finished
-[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
-........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................[Parallel(n_jobs=1)]: Done  10 out of  10 | elapsed:    0.3s finished
 </pre>
 </div>
 </div>
@@ -14715,7 +15274,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">rmse_lasso</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="n">cv_score_lasso</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
@@ -14732,7 +15291,7 @@ Se simula grupos de datos mediante la libreria KMeans.</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[33]:</div>
+    <div class="prompt output_prompt">Out[39]:</div>
 
 
 
@@ -14772,7 +15331,7 @@ A continuación, se calcula la diferencia entre los coeficientes de ambas propue
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">difference</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">lasso_coef</span><span class="p">,</span> <span class="n">ridge_coef</span><span class="p">))</span>

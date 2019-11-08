@@ -1,7 +1,7 @@
 ---
 title: "Machine Learning - Ejercicio Rmarkdown"
 author: "Mayra Goicochea Neyra"
-date: "5/11/2019"
+date: "7/11/2019"
 output: 
   html_document:
     toc: true
@@ -13,6 +13,11 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+if (!require("ggplot2")) install.packages("ggplot2")
+if (!require("testthat")) install.packages("testthat")
+library(testthat)
+library(ggplot2)
+library(readr)
 ```
 
 # Introduction
@@ -28,11 +33,16 @@ Now, we have understood classification problem that we are going to address. Let
 First, I load the dataset from file *4_1_data.csv*.
 
 ```{r}
+set.seed(777)
 #Load data
 data <- read.csv("../data/4_1_data.csv")
 
-#Create plot
-plot(data$score.1, data$score.2, col = as.factor(data$label), xlab = "Score-1", ylab = "Score-2")
+#Plot
+cols <- c("0" = "red","1" = "green")
+ggplot(data, aes(x = score.1, y = score.2, colour = as.factor(label))) +
+  geom_point(size = 4, shape = 18,alpha = 0.6) +
+  scale_colour_manual(values = cols,labels = c("Not admitted", "Admitted"),name = "Test Result") +
+  theme_bw()
 ```
 
 Then, I set predictor and response variables.
@@ -92,6 +102,8 @@ TestGradientDescent <- function(iterations = 1200, X, Y) {
   # Check evolution
   print(paste("Final Cost Function value: ", 
               convergence <- c(CostFunction(parameters, X, Y)), sep = ""))
+  print(paste("Parameters value: ", 
+              parameters))
  return(parameters) 
 }
 ```
@@ -99,35 +111,41 @@ TestGradientDescent <- function(iterations = 1200, X, Y) {
 ### Confusion Matrix
 
 ```{r}
-ConfussionMatrix <- function(X, Y, parameters, cutoff = 0.5) {
- res.tbl <- NA  #First create a null table
+ConfusionMatrix <- function(X, Y, parameters, cutoff = 0.5) {
+  res.tbl <- NA  #First create a null table
  
  #Then full the table with the results of multiplication of each row with the parameters.
- for (i in 1:nrow(X)) {
-    res <- Sigmoid(t(as.numeric(X[i,])) %*% parameters)
-    res.tbl <- rbind(res.tbl, res)
- } 
- res.tbl <- res.tbl[-1,] # Quito el primer dato (NA) ya que es inservible
+  for (i in 1:nrow(X)) {
+      res <- Sigmoid(t(as.numeric(X[i,])) %*% parameters)
+      res.tbl <- rbind(res.tbl, res)
+   } 
+  res.tbl <- res.tbl[-1,] # Delete first row because it has missing value
  
  #Then it creates the matrix validating if each result is greather than cutoff
- matrix <- table(Y, ifelse(res.tbl > cutoff, 1, 0),dnn = c("Actual","Predicted")) 
+  matrix <- table(Y, ifelse(res.tbl > cutoff, 1, 0),dnn = c("Actual","Predicted")) 
+ #Accuracy, Precision, Recall & F1 score
+ #First, I get the true values (true positive and true negative)
+  true <- matrix[1,1] + matrix[2,2]
+ #Accuracy = True values / Total cases
+  print(paste("Accuracy: ", true / sum(matrix)))
+ #Precision = TP / (TP+FP)
+  print(paste("Precision: ", precision <- round(matrix[2,2]/sum(matrix[,2]),4)))
+ #Recall = TP / (TP+FN)
+  print(paste("Recall: ", recall <- round(matrix[2,2]/sum(matrix[2,]),4)))
+ #F1-Score = 2*(Recall*Precision)/(Recall + Precision)
+  print(paste("F1 score: ", round(2*(precision*recall)/(precision + recall),4)))
  return(matrix)
 }
 ```
 
 I use **testthat library** to execute the functions and help me to test them making sure everything is alright.
 
-```{r}
-if (!require("testthat")) install.packages("testthat")
-library(testthat)
-```
-
 Then I run the functions to get the Confussion Matrix.
 
 ```{r}
-test_that("Get Confussion Matrix with Optimal Parameters",{
+test_that("Get Confusion Matrix with Optimal Parameters",{
 parameters <- TestGradientDescent(X = X, Y = Y)
-matrix <- ConfussionMatrix(X = X, Y = Y, parameters, cutoff = 0.68)
+matrix <- ConfusionMatrix(X = X, Y = Y, parameters, cutoff = 0.68)
 print(matrix)
 })
 ```
@@ -142,7 +160,7 @@ graph.table <- data.frame(cbind(seq(from = 1, to = max_iterations, by = 1), NA))
 names(graph.table) <- c("Iteration", "Cost") 
 ```
 
-With a for iteration, I get the optimal parameteres of Cost Function and the values of Cost Function.
+With a for iteration, I get the optimal parameters of Cost Function and the values of Cost Function.
 
 ```{r}
 parameters <- rep(x = 0, times = 3)
@@ -158,8 +176,6 @@ for (i in 1:max_iterations) {
 Then, I make a graph of the results.
 
 ```{r}
-if (!require("ggplot2")) install.packages("ggplot2")
-library(ggplot2)
 ggplot(data = graph.table, aes(x = Iteration, y = Cost)) +
   geom_smooth(se = TRUE) +
   theme_bw()
@@ -173,22 +189,13 @@ BFGS is an optimization method for multidimensional nonlinear unconstrained func
 BFGS belongs to the family of quasi-Newton (Variable Metric) optimization methods that make use of both first-derivative (gradient) and second-derivative (Hessian matrix) based information of the function being optimized. More specifically, it is a quasi-Newton method which means that it approximates the second-order derivative rather than compute it directly. It is related to other quasi-Newton methods such as the DFP Method, Broyden’s method and the SR1 Method(@convexoptimizationinr).
 
 ```{r}
-TestGradientDescentBFGS <- function(iterations = 1200, X, Y) {
-  # Initialize (b, W)
+TestGradientDescentMethod <- function(iterations = 1200, X, Y, m="BFGS") {
   parameters <- rep(0, ncol(X))
-  # Check evolution
   print(paste("Initial Cost Function value: ", 
               convergence <- c(CostFunction(parameters, X, Y)), sep = ""))
-  
-  # updating (b, W) using gradient update
-  
-  # Derive theta using gradient descent using optim function
-  # Look for information about the "optim" function (there are other options)
   parameters_optimization <- optim(par = parameters, fn = CostFunction, X = X, Y = Y, 
-                                   control = list(maxit = iterations), method = "BFGS")
-  #set parameters
+                                   control = list(maxit = iterations), method = m)
   parameters <- parameters_optimization$par
-  # Check evolution
   print(paste("Final Cost Function value: ", 
               convergence <- c(CostFunction(parameters, X, Y)), sep = ""))
  return(parameters) 
@@ -198,8 +205,8 @@ TestGradientDescentBFGS <- function(iterations = 1200, X, Y) {
 
 ```{r}
 test_that("Test Gradient Descent BFGS",{
-parameters <- TestGradientDescentBFGS(X = X, Y = Y)
-matrix <- ConfussionMatrix(X = X, Y = Y, parameters, cutoff = 0.68)
+parameters <- TestGradientDescentMethod(X = X, Y = Y, m = "BFGS")
+matrix <- ConfusionMatrix(X = X, Y = Y, parameters, cutoff = 0.68)
 print(matrix)
 })
 ```
@@ -209,32 +216,9 @@ print(matrix)
 Method "CG" is a conjugate gradients method based on that by Fletcher and Reeves (1964) (but with the option of Polak–Ribiere or Beale–Sorenson updates). Conjugate gradient methods will generally be more fragile than the BFGS method, but as they do not store a matrix they may be successful in much larger optimization problems (@rdocumentation).
 
 ```{r}
-TestGradientDescentCG <- function(iterations = 1200, X, Y) {
-  # Initialize (b, W)
-  parameters <- rep(0, ncol(X))
-  # Check evolution
-  print(paste("Initial Cost Function value: ", 
-              convergence <- c(CostFunction(parameters, X, Y)), sep = ""))
-  
-  # updating (b, W) using gradient update
-  
-  # Derive theta using gradient descent using optim function
-  # Look for information about the "optim" function (there are other options)
-  parameters_optimization <- optim(par = parameters, fn = CostFunction, X = X, Y = Y, 
-                                   control = list(maxit = iterations), method = "CG")
-  #set parameters
-  parameters <- parameters_optimization$par
-  # Check evolution
-  print(paste("Final Cost Function value: ", 
-              convergence <- c(CostFunction(parameters, X, Y)), sep = ""))
- return(parameters) 
-}
-```
-
-```{r}
 test_that("Test Gradient Descent CG",{
-parameters <- TestGradientDescentCG(X = X, Y = Y)
-matrix <- ConfussionMatrix(X = X, Y = Y, parameters, cutoff = 0.68)
+parameters <- TestGradientDescentMethod(X = X, Y = Y, m = "CG")
+matrix <- ConfusionMatrix(X = X, Y = Y, parameters, cutoff = 0.68)
 print(matrix)
 })
 ```
@@ -244,61 +228,45 @@ print(matrix)
 Method "SANN" is by default a variant of simulated annealing given in Belisle (1992). Simulated-annealing belongs to the class of stochastic global optimization methods. It uses only function values but is relatively slow. It will also work for non-differentiable functions. This implementation uses the Metropolis function for the acceptance probability. By default the next candidate point is generated from a Gaussian Markov kernel with scale proportional to the actual temperature. If a function to generate a new candidate point is given, method "SANN" can also be used to solve combinatorial optimization problems(@rdocumentation).
 
 ```{r}
-TestGradientDescentSANN <- function(iterations = 1200, X, Y) {
-  # Initialize (b, W)
-  parameters <- rep(0, ncol(X))
-  # Check evolution
-  print(paste("Initial Cost Function value: ", 
-              convergence <- c(CostFunction(parameters, X, Y)), sep = ""))
-  
-  # updating (b, W) using gradient update
-  
-  # Derive theta using gradient descent using optim function
-  # Look for information about the "optim" function (there are other options)
-  parameters_optimization <- optim(par = parameters, fn = CostFunction, X = X, Y = Y, 
-                                   control = list(maxit = iterations), method = "SANN")
-  #set parameters
-  parameters <- parameters_optimization$par
-  # Check evolution
-  print(paste("Final Cost Function value: ", 
-              convergence <- c(CostFunction(parameters, X, Y)), sep = ""))
- return(parameters) 
-}
-```
-
-```{r}
 test_that("Test Gradient Descent SANN",{
-parameters <- TestGradientDescentSANN(X = X, Y = Y)
-matrix <- ConfussionMatrix(X = X, Y = Y, parameters, cutoff = 0.68)
+parameters <- TestGradientDescentMethod(X = X, Y = Y, m = "SANN")
+matrix <- ConfusionMatrix(X = X, Y = Y, parameters, cutoff = 0.68)
 print(matrix)
 })
 ```
 
 ### Conclusion
 
-The most effective method is the BFGS since it produces fewer cases of error.
+The most effective method is the BFGS since it produces fewer cases of error (greatest f1 score).
 
 
 ## Optional (+0.5 - 1 points in final grade). 
 
     + Implement the algorithm step by step using the update rule and an iterative algorithm, do not use the *optim* function.
     
+
 ```{r}
 fastgrad <- function(X,Y,alpha,iter=1200){
 
-# Reformat the data by adding a row of 1's for the constant
-  X = cbind(
-    rep(1,nrow(X)),X)
+# Reformat the data by adding a row of 1's for the constant.
+  X = cbind(rep(1,nrow(X)),X)
   
-  n = nrow(X) #dim(X)[1]
-
-  theta <- matrix(rep(0, ncol(X)), nrow = ncol(X), ncol = 1) #matrix(rep(0,dim(X)[2]),nrow=dim(X)[2],ncol = 1)
+# Number of rows X. 
+  n = nrow(X)
   
-
+# Theta is a matrix of 0s with 3 rows and 1 column.
+  theta <- matrix(rep(0, ncol(X)), nrow = ncol(X), ncol = 1)
+  
 # Max # of iterations that gradient descent will run.
-thetaiter <- list(theta)
-costiter <- c()
+  thetaiter <- list(theta)
+  
+# Declare the vector of cost
+  costiter <- c()
 
+# Run 1200 iterations.
+#In each iteration, a new set of parameters is calculated as follows: the previous set of parameters plus (learning speed) / number of rows * Transposed matrix of (Matrix product of the transposed matrix of (Matrix product of X and the last set of parameters (i-1) - Y) and X).
+#The previous cost is compared with the current cost. When it is seen that the current one is greater than the previous one, it leaves the circuit.
+  
 for (i in 2:iter) {
   costiter[1] <- CostFunction(thetaiter[[1]], X, Y)
   thetaiter[[i]] <- thetaiter[[i - 1]] - (alpha/n)*t(t( X %*% thetaiter[[i - 1]] - Y) %*% X)
@@ -307,9 +275,9 @@ for (i in 2:iter) {
     break
   }
 }
-
+  
 iteration <- 1:length(costiter)
-
+#The final parameters set is the last one.
 finaltheta <- thetaiter[[length(thetaiter)]]
 
 return(finaltheta)
@@ -317,12 +285,13 @@ return(costiter)
 return(iteration)
 }
 ```    
-    
+
+Run the function to get the parameters and their cost.
 
 ```{r}
 # run for alpha = 0.001
-result1 <- fastgrad(X, Y, 0.001,500)
-result1
+result1 <- fastgrad(X, Y, 0.001,1200)
+print(paste("Final Parameters value: ", result1[3:4], sep = ""))
 ```
 
     + Research about regularization in logistic regression and explain it. 
