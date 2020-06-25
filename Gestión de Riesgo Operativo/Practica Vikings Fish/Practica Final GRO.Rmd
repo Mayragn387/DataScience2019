@@ -1,0 +1,1915 @@
+---
+title: 'Trabajo Final: Caso Vikings Fish Co.'
+author:
+- affiliation: cunef
+  name: Goicochea Neyra, Mayra
+address:
+- address: Gestión de Riesgo Operativo, CUNEF, Spain
+  code: cunef
+output:
+  word_document:
+    toc: no
+  pdf_document:
+    fig_caption: yes
+    keep_tex: yes
+    template: elsarticle.latex
+    toc: no
+csl: ecology.csl
+documentclass: elsarticle
+bibliography: references.bib
+abstract: |
+  El Riesgo Operativo (Op Risk) es "el riesgo de pérdidas resultantes de procesos internos inadecuados o fallidos, personas y sistemas, y eventos externos". Aunque no es nuevo, su control y gestión han adquirido una importancia creciente para que las instituciones financieras sigan siendo competitivas. Además, el hecho de que el Nuevo Acuerdo de Capitales de Basilea lo haya incluido entre sus requerimientos de capital, aportando una definición del mismo para el sector, ha propiciado que las entidades empiecen a desarrollar un modelo completo de gestión que les permita su identificación, valoración, seguimiento, control y mitigación. El objetivo de este trabajo es realizar un análisis de las pérdidas históricas de la empresa Vikings Fish Co. Desarrollar modelos para facilitar el control y previsión ante el riesgo de la empresa para que tome las medidas a tiempo. Se utilizaran herramientas de inferencia estadística (como el Análisis y Estimación de la Frecuencia de eventos de Pérdidas y Severidad, Teoría de Valores Extremos, Distribución de Pérdidas Agregadas y Modelo Value at Risk) y librerías R.
+---
+
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Example Manuscript}
+-->
+
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+```{r knitr_setup, include=FALSE, cache=FALSE}
+
+library(rmarkdown)
+library(knitr)
+
+### Chunk options ###
+
+# Modify at your will #
+
+
+## Text results
+opts_chunk$set(echo = TRUE, warning=TRUE, message=TRUE)
+
+## Code decoration
+opts_chunk$set(tidy=TRUE, comment = NA, highlight = TRUE)
+
+## Cache
+opts_chunk$set(cache = 2, cache.path = "output/cache/")
+opts_chunk$set(cache.extra = rand_seed)
+
+## Plots
+opts_chunk$set(fig.path = "output/figures/")
+opts_chunk$set(dpi = 300, fig.align = "default")   # may want 'center' sometimes
+
+# Figure format
+opts_chunk$set(dev='png')  # e.g. choose among 'pdf', 'png', 'svg'...
+# may include specific dev.args as a list... see knitr help
+
+
+```
+```{r citations_setup, include=FALSE, cache=FALSE}
+
+library(knitcitations)
+cleanbib()   
+cite_options(citation_format = "pandoc")
+
+if (file.exists("refs2import.bib")) 
+  refs <- read.bibtex("refs2import.bib", check=FALSE)
+
+```
+# INTRODUCCIÓN
+En el presente informe, se realiza el estudio y formulación de herramientas para la gestión del riesgo operativo de la línea de negocio "cultivo de salmón", que es el negocio más rentable de la empresa Vikings Co.
+Vikings Fish Co. es una empresa danesa que se dedica al cultivo de distintas especies de pescado en tierra, con piscifactorías en 12 países. 
+Para el análisis del riesgo operativo, la empresa entregó las pérdidas incurridas durante 11 años.
+```{r include=FALSE, warning=FALSE}
+#Librerias
+library(MASS)
+library(CASdatasets) #Descargar los datos del repositorio si problemas
+library(car)
+library(ggplot2)
+library(moments) #Package para calculo de momentos (asimetría, curtosis, ...)
+library(actuar) #Package para an?lisis actuarial
+library(fitdistrplus) #Package para ajuste de distribuciones
+library(ggplot2) #Package para visualización
+library(purrr)  #Package para ciertas distribuciones
+library(evmix)
+library(skimr)
+library(tidyverse)
+library(dplyr)
+library(xts)
+library(zoo)
+library(qrmtools)
+```
+```{r funciones_opVar, include=FALSE}
+library(vcd)
+hist.period <- function (data, period, wknd = TRUE, crt = 0, begin = NULL, end = NULL,...) {
+    if (missing(period)) {
+      period <- "days" }
+    v_date <- data[, "Date"]
+    a <- as.Date(v_date)
+    a <- sort(a)
+    if (is.null(begin)) {
+      begin <- min(a)
+    }
+    if (is.null(end)) {
+      end <- max(a)
+    }
+    if (period == "days") {
+      x <- as.numeric(difftime(end, begin)) + 1
+      y <- as.numeric(table(a))
+      if (wknd == T) {
+        zero <- x - as.numeric(length(y))
+      }
+      if (wknd == F) {
+        zero <- x - as.numeric(length(y) + 2 * floor(x/7))
+      }
+      if (crt != 0) {
+        zero <- x - as.numeric(length(y) + 2 * floor(x/7) + 
+                                 crt)
+      }
+      z <- table(c(y, rep(0, zero)))
+    }
+    if (period == "weeks") {
+      week.days <- weekdays(c(0:6) + as.Date("2010-01-04"))
+      x <- which(week.days == weekdays(as.Date(begin)))
+      begin <- as.Date(begin) - (x - 1)
+      x <- which(week.days == weekdays(as.Date(end)))
+      end <- as.Date(end) + (7 - x)
+      n <- (as.numeric(difftime(end, begin)) + 1)/7
+      y <- as.numeric(table(cut(a, br = begin + 7 * c(0:n))))
+      z <- table(y)
+    }
+    if (period == "months") {
+      a <- as.Date(cut(a, breaks = c("month")))
+      b <- as.Date(cut(as.Date(c(begin, end)), breaks = c("month")))
+      c <- seq(b[1], b[2] + 31, by = "month")
+      y <- as.numeric(table(cut(a, br = c)))
+      z <- table(y)
+    }
+    if (period == "quarters") {
+      a <- as.Date(cut(a, breaks = c("quarter")))
+      b <- as.Date(cut(as.Date(c(begin, end)), breaks = c("quarter")))
+      c <- seq(b[1], b[2] + 92, by = "month")
+      d <- as.Date(cut(c, breaks = c("quarter")))
+      d <- unique(d)
+      y <- as.numeric(table(cut(a, br = d)))
+      z <- table(y)
+    }
+    barplot(z, main = c(paste("Frequency for", period)),...)
+    structure = list(y = z)
+}
+
+
+root.period <- function(data, period, type, begin = NULL, end = NULL, method = c("ML","MinChisq"), scale = c("sqrt", "raw"), wknd = T, crt = 0, 
+            bar_type = c("hanging", "standing", "deviation"), rect_gp = gpar(fill = "lightgray"), 
+            lines_gp = gpar(col = "red"), points_gp = gpar(col = "red"), 
+            pch = 19, newpage = TRUE) {
+    if (missing(period)) {
+      period <- "days" }
+    data <- data[, "Date"]
+    a <- as.Date(data)
+    a <- sort(a)
+    if (is.null(begin)) {
+      begin <- min(a)
+    }
+    if (is.null(end)) {
+      end <- max(a)
+    }
+    if (period == "days") {
+      x <- as.numeric(difftime(end, begin)) + 1
+      y <- as.numeric(table(a))
+      if (wknd == T) {
+        zero <- x - as.numeric(length(y))
+      }
+      if (wknd == F) {
+        zero <- x - as.numeric(length(y) + 2 * floor(x/7))
+      }
+      if (crt != 0) {
+        zero <- x - as.numeric(length(y) + 2 * floor(x/7) + 
+                                 crt)
+      }
+      z <- table(c(y, rep(0, zero)))
+    }
+    if (period == "weeks") {
+      week.days <- weekdays(c(0:6) + as.Date("2010-01-04"))
+      x <- which(week.days == weekdays(as.Date(begin)))
+      begin <- as.Date(begin) - (x - 1)
+      x <- which(week.days == weekdays(as.Date(end)))
+      end <- as.Date(end) + (7 - x)
+      n <- (as.numeric(difftime(end, begin)) + 1)/7
+      y <- as.numeric(table(cut(a, br = begin + 7 * c(0:n))))
+      z <- table(y)
+    }
+    if (period == "months") {
+      a <- as.Date(cut(a, breaks = c("month")))
+      b <- as.Date(cut(as.Date(c(begin, end)), breaks = c("month")))
+      c <- seq(b[1], b[2] + 31, by = "month")
+      y <- as.numeric(table(cut(a, br = c)))
+      z <- table(y)
+    }
+    if (period == "quarters") {
+      a <- as.Date(cut(a, breaks = c("quarter")))
+      b <- as.Date(cut(as.Date(c(begin, end)), breaks = c("quarter")))
+      c <- seq(b[1], b[2] + 92, by = "month")
+      d <- as.Date(cut(c, breaks = c("quarter")))
+      d <- unique(d)
+      y <- as.numeric(table(cut(a, br = d)))
+      z <- table(y)
+    }
+    image <- goodfit(z, type, method)
+    rootogram(image, main = c(paste(period, ",", type, "fit", 
+                                    sep = " ")), scale = scale, type = bar_type, rect_gp = rect_gp, 
+              points_gp = points_gp, lines_gp = lines_gp, pch = pch, 
+              newpage = newpage)
+    p <- summary(goodfit(z, type, method))[[3]]
+    structure(list(table = goodfit(z, type, method), param = goodfit(z, 
+                                                                     type, method)$par, p = p))
+}
+
+fit.plot <-function (x, densfun, param, distname = NULL, col = c("red"), 
+            col2 = c("grey"), col3 = c("blue"), ylim = c(), xlim = c(), 
+            kernel = NULL, n = NULL, draw.diff = F, draw.max = F, scaled = F, 
+            positive = T, ...) 
+  {
+    if (!is.null(distname)) {
+      if (distname == "beta") {
+        scaled <- T
+      }
+    }
+    nm <- names(param)
+    f <- formals(densfun)
+    args <- names(f)
+    m <- match(nm, args)
+    formals(densfun) <- c(f[c(1, m)], f[-c(1, m)])
+    dens <- function(parm, x, ...) densfun(x, parm, ...)
+    if ((l <- length(nm)) > 1) 
+      body(dens) <- parse(text = paste("densfun(x,", paste("parm[", 
+                                                           1:l, "]", collapse = ", "), ", ...)"))
+    dn <- function(x, n, kernel) {
+      if (!is.null(n) & !is.null(kernel)) {
+        dn <- density(x = x, n = n, kernel = kernel)
+      }
+      if (!is.null(n) & is.null(kernel)) {
+        dn <- density(x = x, n = n)
+      }
+      if (is.null(n) & !is.null(kernel)) {
+        dn <- density(x = x, kernel = kernel)
+      }
+      if (is.null(n) & is.null(kernel)) {
+        dn <- density(x = x)
+      }
+      dn
+    }
+    if (scaled == T) {
+      maximum <- max(x)
+      max1 <- max(dn(x, n, kernel)$y)
+      x.new <- x/max(x)
+      max2 <- max(dens(x = x.new, as.numeric(param)))
+      scale <- max1/max2
+    }
+    if (length(xlim) == 0 & length(ylim) == 0) {
+      plot(dn(x, n, kernel), main = paste("Empirical and fitted density:", 
+                                          distname), ...)
+    }
+    if (length(xlim) != 0 & length(ylim) == 0) {
+      plot(dn(x, n, kernel), xlim = xlim, main = paste("Empirical and fitted density:", 
+                                                       distname), ...)
+    }
+    if (length(xlim) == 0 & length(ylim) != 0) {
+      plot(dn(x, n, kernel), ylim = ylim, main = paste("Empirical and fitted density:", 
+                                                       distname), ...)
+    }
+    if (length(xlim) != 0 & length(ylim) != 0) {
+      plot(dn(x, n, kernel), ylim = ylim, xlim = xlim, main = paste("Empirical and fitted density:", 
+                                                                    distname), ...)
+    }
+    if (scaled == FALSE) {
+      curve(dens(x = x, as.numeric(param)), add = TRUE, col = col, 
+            lwd = 2)
+    }
+    if (scaled == TRUE) {
+      curve(scale * dens(x = x/maximum, as.numeric(param)), 
+            add = TRUE, col = col, lwd = 2)
+    }
+    xp <- dn(x = x, n, kernel)$x
+    if (positive == T) {
+      nmbrs <- which(xp > 0)
+      xp <- xp[xp > 0]
+    }
+    if (positive == F) {
+      nmbrs <- c(1:length(xp))
+    }
+    yp <- dn(x = x, n, kernel)$y[nmbrs]
+    if (scaled == F) {
+      teor <- dens(x = xp, as.numeric(param))
+    }
+    if (scaled == T) {
+      teor <- scale * dens(x = xp/maximum, as.numeric(param))
+    }
+    emp <- yp
+    if (draw.diff == T) {
+      for (i in 1:length(xp)) {
+        lines(c(xp[i], xp[i]), c(emp[i], teor[i]), col = col2)
+      }
+    }
+    diff <- abs(teor - emp)
+    ad <- sum(diff)
+    maxdiff <- max(diff)
+    meandiff <- mean(diff)
+    if (draw.max == T) {
+      num <- which(diff == max(diff))
+      for (i in num) {
+        lines(c(xp[i], xp[i]), c(emp[i], teor[i]), col = col3)
+      }
+    }
+    structure(list(teor = teor, emp = emp, ad = ad, maxdiff = maxdiff, 
+                   meandiff = meandiff), class = "fitplot")
+  }
+
+loss.fit.dist <-function(densfun, x, start = NULL, name = NULL, qq = FALSE, 
+            period, ylim = c(), xlim = c(), col = "red", from = 0.1^15, 
+            to = 1 - 0.1^15, length.out = 10000, by = NULL, kernel = NULL, 
+            n = NULL, draw.diff = F, draw.max = F, xlog.scale = F, ...) 
+  {
+    y <- match.call()[[2]]
+    if (missing(period)) {
+      period <- "none"
+    }
+    if (!is.element(period, c("none", "days", "weeks", "months", 
+                              "quarters"))) {
+      stop("period should be none, days, weeks, months or quarters")
+    }
+    if (!is.null(dim(x))) {
+      if (dim(x)[2] != 2) 
+        stop("x should be one- or two dimensional")
+      if (period != "none") {
+        x <- period.loss(x, period)
+      }
+      if (period == "none") {
+        x <- x[, 2]
+      }
+      if (length(dim(x)) > 2) 
+        stop("x should be one- or two dimensional")
+    }
+    distname <- NULL
+    qfun <- NULL
+    k <- NULL
+    if (is.character(densfun)) {
+      distname <- tolower(densfun)
+      k <- switch(EXPR = densfun, beta = "qbeta", cauchy = "qcauchy", 
+                  `chi-squared` = "qchisq", exponential = "qexp", f = "qf", 
+                  gamma = "qgamma", `log-normal` = "qlnorm", lognormal = "qlnorm", 
+                  logistic = "qlogis", normal = "qnorm", weibull = "qweibull", 
+                  `inverse gaussian` = "qinvGauss", NULL)
+      densfun <- switch(EXPR = densfun, beta = dbeta, cauchy = dcauchy, 
+                        `chi-squared` = dchisq, exponential = dexp, f = df, 
+                        gamma = dgamma, `log-normal` = dlnorm, lognormal = dlnorm, 
+                        logistic = dlogis, normal = dnorm, weibull = dweibull, 
+                        `inverse gaussian` = dinvGauss, NULL)
+    }
+    if (is.null(densfun)) {
+      stop("unsupported distribution")
+    }
+    m <- mean(x)
+    v <- var(x)
+    sd <- sd(x)
+    if (!is.null(distname)) {
+      if (distname == "beta" & is.null(start)) {
+        x.old <- x
+        x <- x/max(x)
+        print("Argument scaled; x<- x/max(x)")
+        scaled = TRUE
+        m <- mean(x)
+        v <- var(x)
+        x <- x[x < 1]
+        start <- list(shape1 = max(-(m * (m^2 - m + v))/v, 
+                                   0.1^(100)), shape2 = max((-1 + m) * (-m + m^2 + 
+                                                                          v)/v, 0.1^(100)))
+      }
+      if (distname == "gamma" & is.null(start)) {
+        start <- list(shape = max(m^2/v, 0), scale = max(v/m, 
+                                                         0.1^(100)))
+      }
+      if (distname == "inverse gaussian" & is.null(start)) {
+        start <- list(lambda = max(m^3/v, 0.1^(100)), nu = max(m, 
+                                                               0.1^(100)))
+      }
+      if (distname == "chi-squared") {
+        start <- list(df = m)
+      }
+      if (distname == "f") {
+        start <- list(df1 = max(-2 * m^2/(-m^2 + m^3 - 2 * 
+                                            v + m * v), 4), df2 = max(2 * m/(m - 1), 2))
+      }
+      if (!is.null(start) & distname %in% c("lognormal", "log-normal", 
+                                            "exponential", "normal")) {
+        stop(paste(" supplying pars for the ", distname, 
+                   " is not supported"))
+      }
+      if (is.null(start) & !(distname %in% c("inverse gaussian"))) {
+        param <- as.list(fitdistr(x, distname, ...)$estimate)
+        loglik <- fitdistr(x, distname, ...)$loglik
+        ese <- fitdistr(x, distname, ...)$sd
+      }
+      if (!is.null(start) & !distname %in% c("inverse gaussian", 
+                                             "f")) {
+        param <- as.list(fitdistr(x, distname, start = start, 
+                                  ...)$estimate)
+        loglik <- fitdistr(x, distname, start = start, ...)$loglik
+        ese <- fitdistr(x, distname, start = start, ...)$sd
+      }
+      if (distname %in% c("inverse gaussian")) {
+        param <- as.list(fitdistr(x, densfun, start = start, 
+                                  ...)$estimate)
+        loglik <- fitdistr(x, densfun, start = start, ...)$loglik
+        ese <- fitdistr(x, densfun, start = start, ...)$sd
+      }
+      if (distname %in% c("f")) {
+        param <- as.list(fitdistr(x, densfun, start = start, 
+                                  lower = 0.01, ...)$estimate)
+        loglik <- fitdistr(x, densfun, start = start, lower = 0.01, 
+                           ...)$loglik
+        ese <- fitdistr(x, densfun, start = start, lower = 0.01, 
+                        ...)$sd
+      }
+    }
+    if (is.null(start) & is.null(distname)) {
+      stop("'start' must be a named list")
+    }
+    if (!is.null(start) & is.null(distname)) {
+      param <- as.list(fitdistr(x, densfun, start = start, 
+                                ...)$estimate)
+      loglik <- fitdistr(x, densfun, start = start, ...)$loglik
+      ese <- fitdistr(x, densfun, start = start, ...)$sd
+    }
+    nm <- names(param)
+    f <- formals(densfun)
+    args <- names(f)
+    m <- match(nm, args)
+    formals(densfun) <- c(f[c(1, m)], f[-c(1, m)])
+    dens <- function(parm, x, ...) densfun(x, parm, ...)
+    if ((l <- length(nm)) > 1) 
+      body(dens) <- parse(text = paste("densfun(x,", paste("parm[", 
+                                                           1:l, "]", collapse = ", "), ", ...)"))
+    max <- max(dens(x = x, as.numeric(param)))
+    min <- min(dens(x = x, as.numeric(param)))
+    log.scale <- if (!is.null(distname)) {
+      if (distname == "beta") {
+        out <- fit.plot(densfun = densfun, x = x.old, param = param, 
+                        distname = "beta", col = col, ylim = ylim, xlim = xlim, 
+                        kernel = kernel, n = n, draw.diff = draw.diff, 
+                        draw.max = draw.max, log = ifelse(xlog.scale == 
+                                                            F, paste(""), paste("x")))
+      }
+      if (distname != "beta") {
+        out <- fit.plot(densfun = densfun, x = x, param = param, 
+                        distname = distname, col = col, ylim = ylim, 
+                        xlim = xlim, kernel = kernel, n = n, draw.diff = draw.diff, 
+                        draw.max = draw.max, log = ifelse(xlog.scale == 
+                                                            F, paste(""), paste("x")))
+      }
+    }
+    if (is.null(distname)) {
+      out <- fit.plot(densfun = densfun, x = x, param = param, 
+                      distname = NULL, col = col, ylim = ylim, xlim = xlim, 
+                      kernel = kernel, n = n, draw.diff = draw.diff, draw.max = draw.max, 
+                      log = ifelse(xlog.scale == F, paste(""), paste("x")))
+    }
+    ad <- out$ad
+    names(ad) <- c("ad")
+    teor.dens <- out$teor
+    emp.dens <- out$emp
+    maxdiff <- out$maxdiff
+    meandiff <- out$meandiff
+    if (qq == TRUE) {
+      y <- as.character(y)
+      ifelse(is.null(k), k <- paste("q", substr(y, 2, nchar(as.character(y))), 
+                                    sep = ""), k)
+      if (is.null(qfun)) {
+        qfun <- get(k, mode = "function", envir = parent.frame())
+      }
+      f <- formals(paste(k))
+      args <- names(f)
+      m <- match(nm, args)
+      formals(qfun) <- c(f[c(1, m)], f[-c(1, m)])
+      quan <- function(parm, p, ...) qfun(p, parm, ...)
+      if ((l <- length(nm)) > 1) 
+        body(quan) <- parse(text = paste("qfun(p,", paste("parm[", 
+                                                          1:l, "]", collapse = ", "), ", ...)"))
+      if (is.null(by)) {
+        q.t <- quan(p = seq(from = from, to = to, length.out = length.out), 
+                    as.numeric(param))
+        q.e <- quantile(x, seq(from = from, to = to, length.out = length.out))
+      }
+      else {
+        q.t <- quan(p = seq(from = from, to = to, by = by), 
+                    as.numeric(param))
+        q.e <- quantile(x, seq(from = from, to = to, by = by))
+      }
+      qqplot(q.t, q.e, main = paste("QQ-plot distr.", if (!is.null(distname)) 
+        distname, if (!is.null(name)) 
+          name), xlim = c(q.t[2], q.t[length(q.t) - 1]), ylim = c(q.e[1], 
+                                                                  q.e[length(q.e)]))
+      abline(0, 1)
+    }
+    if (qq == FALSE) {
+      q.e <- NULL
+      q.t <- NULL
+    }
+    structure(list(loglik = loglik, param = param, sd = ese, 
+                   q.t = q.t, q.e = q.e, ad = ad, teor.dens = teor.dens, 
+                   emp.dens = emp.dens, maxdiff = maxdiff, meandiff = meandiff), 
+              class = "lf")
+  }
+
+mc <- function(x, rfun = NULL, period, iterate, nmb = 1000, begin = NULL, 
+            end = NULL, wknd = TRUE, crt = 0, type = NULL, param = NULL, 
+            zero = F, distname = NULL, fit = T, flist = c("beta", "cauchy", 
+                                                          "chi-squared", "exponential", "f", "gamma", "log-normal", 
+                                                          "logistic", "normal", "weibull", "inverse gaussian"), 
+            p = c(0.95, 0.99, 0.999), ...) 
+  {
+    if (missing(period)) {
+      period <- "days"
+    }
+    if (missing(iterate)) {
+      iterate <- "years"
+    }
+    t <- switch(EXPR = period, days = ifelse(wknd == T, 365, 
+                                             252), weeks = 52, months = 12, quarters = 4, NULL)
+    iterate <- switch(EXPR = iterate, years = t * nmb, quarters = t * 
+                        nmb * 1/4, months = t * nmb * 1/12, weeks = t * nmb * 
+                        1/52, days = t * nmb * 1/ifelse(wknd == T, 365, 252), 
+                      NULL)
+    k <- iterate * t * nmb/365
+    if (k - floor(k) > 0) {
+      print("note that these are not full years")
+    }
+    if (is.null(type)) {
+      u <- {
+      }
+      u[1] <- as.numeric(root.period(x, period, "poisson", 
+                                     wknd = wknd, crt = crt, begin = begin, end = end, 
+                                     ...)$p)
+      u[2] <- as.numeric(root.period(x, period, "binomial", 
+                                     wknd = wknd, crt = crt, begin = begin, end = end, 
+                                     ...)$p)
+      u[3] <- as.numeric(root.period(x, period, "nbinomial", 
+                                     wknd = wknd, crt = crt, begin = begin, end = end, 
+                                     ...)$p)
+      names(u) <- c("poisson", "binomial", "nbinomial")
+      type <- names(which(u == max(u))[1])
+      print(u[which(u == max(u))])
+    }
+    parameters <- as.list(root.period(x, period, as.character(type), 
+                                      wknd = wknd, crt = crt, begin = begin, end = end, ...)$param)
+    print(parameters)
+    param1 <- as.numeric(parameters)
+    if (type == "poisson") {
+      n <- rpois(iterate, param1[1])
+    }
+    if (type == "binomial") {
+      n <- rbinom(iterate, param1[2], param1[1])
+    }
+    if (type == "nbinomial") {
+      n <- rnbinom(iterate, param1[1], param1[2])
+    }
+    ad <- NULL
+    if (is.null(rfun)) {
+      u <- {
+      }
+      for (i in flist) {
+        u[i] <- loss.fit.dist(x, densfun = i, period = period)$ad
+      }
+      rfun <- names(which(u == min(u))[1])
+      param <- loss.fit.dist(x, period = period, densfun = flist[which(u == 
+                                                                         min(u))[1]])$param
+      ad <- loss.fit.dist(x, period = period, densfun = flist[which(u == 
+                                                                      min(u))[1]])$ad
+      print(rfun)
+    }
+    if (is.character(rfun)) {
+      if (fit == T) {
+        if (is.element(rfun, flist)) {
+          param <- loss.fit.dist(x, period = period, densfun = rfun)$param
+          ad <- loss.fit.dist(x, period = period, densfun = rfun)$ad
+        }
+      }
+    }
+    if (is.character(rfun)) {
+      distname <- tolower(rfun)
+      rfun <- switch(EXPR = rfun, beta = rbeta, cauchy = rcauchy, 
+                     `chi-squared` = rchisq, exponential = rexp, f = rf, 
+                     gamma = rgamma, `log-normal` = rlnorm, lognormal = rlnorm, 
+                     logistic = rlogis, normal = rnorm, weibull = rweibull, 
+                     `inverse gaussian` = rinvGauss, NULL)
+    }
+    print(param)
+    nm <- names(param)
+    f <- formals(rfun)
+    args <- names(f)
+    m <- match(nm, args)
+    formals(rfun) <- c(f[c(1, m)], f[-c(1, m)])
+    dens <- function(parm, n, ...) rfun(n, parm, ...)
+    if ((l <- length(nm)) > 1) 
+      body(dens) <- parse(text = paste("rfun(n,", paste("parm[", 
+                                                        1:l, "]", collapse = ", "), ", ...)"))
+    r <- rep(0, length(n))
+    for (i in 1:length(n)) {
+      if (n[i] == 0) {
+        r[i] <- 0
+      }
+      if (n[i] > 0) {
+        r[i] <- sum(dens(n = n[i], as.numeric(param)))
+      }
+    }
+    if (all(!is.null(distname) & distname == "beta")) {
+      r <- r * max(x[, 2])
+    }
+    y <- matrix(r, t)
+    r <- apply(y, 2, sum)
+    q <- quantile(r, p)
+    plot(ecdf(r), main = c("ecdf(losses)"))
+    for (i in 1:length(q)) {
+      lines(c(q[i], q[i]), c(0, 1.5), col = "red")
+      text(q[i], 0.05, cex = 0.9, paste(round(q[i])), pos = 2)
+      text(q[i], 0.1, cex = 0.9, paste(names(q[i])), pos = 2)
+    }
+    table = list(losses = r, q = q, ad = ad)
+    structure(list(table = table))
+  }
+
+period.loss <- function(data, period = c("none", "days", "weeks", "months", 
+                             "quarters"), dts = FALSE){
+    a <- as.Date(data[, "Date"])
+    a <- sort(a)
+    if (missing(period)) {
+      period <- "none"
+    }
+    if (period == "none") {
+      z <- data[, 2]
+      if (dts == TRUE) {
+        names <- data[, 1]
+      }
+    }
+    if (period != "none") {
+      if (period == "days") {
+        y <- as.numeric(table(a))
+        if (dts == TRUE) {
+          names <- names(table(a))
+        }
+      }
+      if (period == "weeks") {
+        week.days <- weekdays(c(0:6) + as.Date("2010-01-04"))
+        x <- which(week.days == weekdays(a[1]))
+        begin <- a[1] - (x - 1)
+        x <- which(week.days == weekdays(a[length(a)]))
+        end <- a[length(a)] + (7 - x)
+        n <- (as.numeric(difftime(end, begin)) + 1)/7
+        y <- table(cut(a, br = begin + 7 * c(0:n)))
+        if (dts == TRUE) {
+          names <- names(y[y > 0])
+        }
+        y <- as.numeric(y)
+      }
+      if (period == "months") {
+        a <- as.Date(cut(a, breaks = c("month")))
+        b <- as.Date(cut(c(min(a), max(a)), breaks = c("month")))
+        c <- seq(b[1], b[2] + 31, by = "month")
+        y <- table(cut(a, br = c))
+        if (dts == TRUE) {
+          names <- names(y[y > 0])
+        }
+        y <- as.numeric(y)
+      }
+      if (period == "quarters") {
+        a <- as.Date(cut(a, breaks = c("quarter")))
+        b <- as.Date(cut(c(min(a), max(a)), breaks = c("quarter")))
+        c <- seq(b[1], b[2] + 92, by = "month")
+        d <- as.Date(cut(c, breaks = c("quarter")))
+        d <- unique(d)
+        y <- table(cut(a, br = d))
+        if (dts == TRUE) {
+          names <- names(y[y > 0])
+        }
+        y <- as.numeric(y)
+      }
+      data2 <- data[, "Loss"]
+      data2 <- data2[order(a)]
+      z <- key.sum(data2, y)
+    }
+    if (dts == TRUE) {
+      names(z) <- names
+    }
+    z
+  }
+key.sum <-function(v, u){
+    wym <- {
+    }
+    j = 1
+    k = 1
+    for (i in 1:length(u)) {
+      if (u[i] != 0) {
+        wym[k] = sum(v[j:(j + u[i] - 1)])
+        k = k + 1
+      }
+      j <- j + u[i]
+    }
+    if (length(v) != sum(u)) {
+      print("There is not enough u or v data")
+    }
+    wym
+  }
+```
+
+# ANÁLISIS EXPLORATORIO DE DATOS
+El Análisis de Riesgo Operativo comprende el estudio de dos componentes Severidad (p.e. los importes de las pérdidas) y frecuencia de los eventos (o siniestros). Para el caso de Viking Fish Co. Se tiene un dataset de las pérdidas diarias de una línea de negocio en el periodo 03/01/1980 al 31/12/1990.
+En cuanto a la Frecuencia de Siniestros, fue necesario convertir las ocurrencias de las pérdidas en una serie temporal diaria, donde se incluyeron los dias que no se tuvieron pérdida, con la finalidad de ajustar una distribución adecuadamente.
+
+## ESTADISTICOS
+Los valores estadisticos de las variables son los siguientes:
+```{r echo=FALSE}
+data(danishuni)
+data <- danishuni %>% group_by(Date) %>% summarise(Events = n()) %>%
+  complete(Date = seq.Date(min(Date), max(Date), by="day"))%>%
+  replace(is.na(.), 0) %>%
+  group_by(Date) %>% summarise(Events = sum(Events))
+summary(danishuni$Loss)
+summary(data$Events)
+```
+
+Su valores medios, desviación estandar, moda, mediana entre otros se tiene lo siguiente:
+```{r echo=FALSE}
+getmode <- function(v) {
+   uniqv <- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+d1 <- data.frame(Min = min(data$Events),
+                   Mediana = median(data$Events),
+                   Media = mean(data$Events),
+                   Moda = getmode(data$Events),
+                   SD = sd(data$Events),
+                   Max = max(data$Events), row.names = c("Frecuencia"))
+d2 <- data.frame(Min = min(danishuni$Loss),
+                   Mediana = median(danishuni$Loss),
+                   Media = mean(danishuni$Loss),
+                   Moda = getmode(danishuni$Loss),
+                   SD = sd(danishuni$Loss),
+                   Max = max(danishuni$Loss), row.names = c("Pérdidas"))
+
+q_stats <- rbind(d2,d1)
+q_stats <- round(q_stats, 1)
+knitr::kable(q_stats, caption = "Estadísticos de Frecuencia y Severidad")
+```
+
+Las perdidas tiene valores medio, mediana y moda diferentes por lo que aparentemente no se distribuye de forma asimétrica. También se observa que la moda se encuentra en el valor mínimo 1, parece que tiene una cola pesada a la derecha. 
+De forma similar, la frecuencia de los siniestros tiene la moda en el valor minimo 0, por lo que también se trata de una distribución asimétrica con cola a la derecha.
+
+## CUANTILES
+### Variable __"Pérdidas"__
+Los cuantiles muestran que entre el 80% al 100% hay una diferencia mayor a 200, lo que muestra que tiene una cola a la derecha.
+```{r echo=FALSE}
+quantile(danishuni$Loss,seq(0,1, 0.20))
+cat("\n\n\n")
+quantile(danishuni$Loss,probs = c(0.05, 0.95))
+cat("\n\n\n")
+quantile(danishuni$Loss,seq(0.9,1, 0.01))
+```
+
+### Variable __"Frecuencia de Eventos"__
+De forma similar a los estadísticos, entre los cuantiles del 99% a 100% hay una diferencia de 2, lo que muestra una cola a lado derecho.
+```{r echo=FALSE}
+quantile(data$Events,seq(0,1, 0.20))
+cat("\n\n\n")
+quantile(data$Events,probs = c(0.05, 0.95))
+cat("\n\n\n")
+quantile(data$Events,seq(0.9,1, 0.01))
+```
+
+## REPRESENTACION GRAFICA
+La representación grafica permite ver con mas claridad el comportamiento de los datos. A continuación se realiza tres graficos por cada variable: histograma (que muestra la densidad de la variable), diagrama de lineas (o serie temporal) y boxplot (que muestra el comportamiento de los cuantiles y los casos outliers).
+\newpage
+
+### Variable __"Pérdidas"__
+Se comprueba algunas caracteristicas mostradas en los estudios anteriores. El valor de la moda se encuentra en el 0, es asimetrico y tiene cola al lado derecho.
+```{r graph_Loss, echo=FALSE,fig.height=3, fig.align='center',fig.cap="Densidad de las Pérdidas Vikings Fish Co"}
+ggplot(danishuni, aes(x = Loss)) +
+  geom_histogram(aes(y = ..density..),
+                 bins = 100,
+                 colour = "skyblue2",
+                 fill = "skyblue1") +
+  geom_density(fill = "skyblue3",
+               color = "skyblue4",
+               alpha = 0.4) +
+  labs(title = "Densidad de las Pérdidas", x = "Pérdida", y = "Densidad") +
+  theme_bw()
+danish.loss <- as.xts(danishuni$Loss,order.by = as.Date(danishuni$Date))
+danish.loss <- apply.weekly(danish.loss,sum)
+danish.loss <- as.data.frame(danish.loss)
+loss <- data.table::setDT(danish.loss, keep.rownames = TRUE)[]  #semanal
+danish.loss$rn <- as.Date(danish.loss$rn)
+danish.loss <- ts(as.numeric(danish.loss$V1), start = c(1980,1,3), frequency = 52)
+plot.ts(danish.loss, col="skyblue4")
+boxplot(danishuni$Loss, col="skyblue4")
+#TSstudio::ts_plot(danish.loss, title="Pérdidas Semanales", slider=FALSE)
+```
+En cuanto a la serie temporal semanal de la severidad, se muestra estacionaria en la media y tiene mucha variaciones entre los periodos.
+El diagrama de cajas muestra que existen muchos casos outliers, se debe a la cola pesada a la derecha.
+
+\newpage
+### Variable __"Frecuencia de Eventos"__
+Sobre la frecuencia de los siniestros, el histograma muestra gran incidencia en el valor minimo que es 0, asimetria con cola a la derecha.
+```{r graph_Events , echo=FALSE, fig.height = 3, fig.align='center',fig.cap="Densidad de la Frecuencia Vikings Fish Co", warning=FALSE}
+ggplot(data , aes(x = Events)) +
+  geom_histogram(aes(y = ..density..),bins = 10, fill = "orchid") +
+  labs(title ="Densidad de las Eventos", x = "Eventos", y = "Densidad") +
+  theme_bw()
+```
+La serie temporal semanal de la frecuencia muestra un comportamiento no estacionario en media ni varianza, tiene mucha variación entre los periodos semanales. No es estacional. 
+```{r graph_EventsTS, echo=FALSE,fig.height = 4, fig.align='center',fig.cap="Serie Temporal de la Frecuencia de Eventos Vikings Fish Co (Semanal)"}
+danish.freq <- as.xts(data$Events,order.by = as.Date(data$Date))
+danish.freq <- apply.weekly(danish.freq,sum)
+danish.freq <- as.data.frame(danish.freq)
+freq <- data.table::setDT(danish.freq, keep.rownames = TRUE)[]  #semanal
+danish.freq$rn <- as.Date(danish.freq$rn)
+danish.freq <- ts(as.numeric(danish.freq$V1), start = c(1980,1,3), frequency = 52)
+#TSstudio::ts_plot(ts.danish.freq, title="Eventos de Pérdidas Semanales")
+plot.ts(danish.freq, col="orchid")
+boxplot(data$Events, col="orchid")
+```
+El diagrama de cajas muestra que la moda es igual al valor minimo (0) e identifica tres casos como outliers.
+
+\newpage
+## SIMETRÍA
+El coeficiente de Skewness prueba si se tiene simetria en la distribución de los datos, y si es igual a 0 significa que los datos son totalmente simétricos.
+
+### Variable __"Pérdidas"__
+En el caso de esta variable se obtiene un 18.75, lo cual significa que no es una distribución Simétrica, por lo que una distribución normal no es apropiada para las pérdidas. Al ser mayor a 0, se puede estimar que los valores se tienden a reunir más en la parte izquierda que en la derecha de la media (valor de la moda en la izquierda).
+```{r echo=FALSE}
+skewness(danishuni$Loss)
+```
+### Variable __"Frecuencia de Eventos"__
+El coeficiente de la frecuencia de eventos(1.43) muestra que es asimetrica y que tiene mayor densidad a la izquierda que a la derecha (cola a la derecha), tal como se observó en la representación gráfica.
+```{r echo=FALSE}
+skewness(data$Events)  #coef. de asimetria. long left tail.
+```
+
+## KURTOSIS
+Esta medida determina el grado de concentración que presentan los valores en la región central de la distribución. Por medio del Coeficiente de Curtosis, podemos identificar si existe una gran concentración de valores (Leptocúrtica), una concentración normal (Mesocúrtica) ó una baja concentración (Platicúrtica).
+### Variable __"Pérdidas"__
+El coeficiente de kurtosis de las pérdidas es 485.6, lo que significa que es una distribución leptokurtica, es decir que es más plana que una distribución normal.
+```{r echo=FALSE}
+kurtosis(danishuni$Loss)  #coef. de curtosis
+```
+### Variable __"Frecuencia de Eventos"__
+Al ser mayor a 3, el coeficiente de kurtosis de la frecuencia de eventos, muestra que se trata de una distribución leptokurtica, similar al de pérdidas, es más aplanada que una distribución normal.
+```{r echo=FALSE}
+kurtosis(data$Events)  #coef. de curtosis
+```
+\newpage
+# SELECCIÓN DEL MODELO: INFERENCIA PARAMÉTRICA
+La estadística paramétrica, como parte de la inferencia estadística, trata de estimar determinados parámetros de una población de datos. La estimación, como casi siempre en estadística, se realiza sobre una muestra estadística.
+Mediante las técnicas de estadística paramétrica, se puede desarrollar modelos parametricos basados en las distribuciones estadisticas para explicar el comportamiento de los datos de Vikings Fish Co.
+
+* Distribuciones de probabilidad discretas
+
+    * Distribución uniforme discreta
+    
+    * Distribución binomial
+    
+    * Distribución hipergeométrica
+    
+    * Distribución binomial negativa
+    
+    * Distribución geométrica
+    
+    * Distribución de Poisson
+    
+* Distribuciones de probabilidad continuas
+
+    * Distribución uniforme continua
+    
+    * Distribución ji-cuadrado o chi-cuadrado
+    
+    * Distribución exponencial
+    
+    * Distribución Gamma
+    
+    * Distribución normal
+
+## VARIABLE __"Pérdidas" (Severidad)__
+Esta variable contiene datos continuos y es asimetrica (como se comprobo con el coeficiente de simetria). Además se conoce que el valor más frecuente es 1 (Valor Mínimo). Entre las distribuciones que se ajustan estas caracteristicas se tienen:
+
+* Exponencial
+
+* Log-Normal
+
+* Gamma
+
+* Weibull
+
+Estas distribuciones son sometidas a ajustes según el método de "Máxima Verosimilitud",  método de "Máxima Bondad de Ajuste", mediante "Medidas de Adecuación Kernel" y método de "Momentos".
+
+### METODO DE MAXIMA VEROSIMILITUD(MLE)
+
+#### __Exponencial__
+
+```{r echo=FALSE, warning=FALSE}
+fit.exp <- fitdist(danishuni$Loss, "exp", method = "mle") 
+fit.exp 
+```
+El párametro *rate* de esta distribución exponencial ajustada es 0.2954.
+Los gráficos de densidad y qqplot muestran que la distribución se ajustan muy bien al lado izquierdo, pero al lado derecho, difiere mucho con los datos.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Graficos de la distribución Exponencial según MLE", warning=FALSE}
+plot(fit.exp)
+```
+El grafico 8, mediante la función `loss.fit.dist` de la libreria opVar, muestra claramente los sectores donde difiere la función ajustada a los valores reales.
+
+```{r echo=FALSE, warning=FALSE,fig.height = 4, warning=FALSE, fig.align='center',fig.cap="Grafico con diff de la distribución Exponencial según MLE"}
+fit <- loss.fit.dist("exponential",danishuni$Loss, draw.diff=T)
+```
+\newpage
+
+#### __Gamma__
+
+```{r echo=FALSE, warning=FALSE}
+fit.gamma <- fitdist(danishuni$Loss, "gamma", method = "mle") 
+fit.gamma 
+```
+Los párametros *shape* y *rate* de esta distribución gamma ajustada son 1.2976762 y 0.3833939 respectivamente .
+Similar a la exponencial, los gráficos de densidad y qqplot muestran que se ajusta muy bien al lado izquierdo, pero al lado derecho, difiere mucho.
+```{r echo=FALSE,fig.height = 4, warning=FALSE, fig.align='center',fig.cap="Graficos de la distribución Gamma según MLE"}
+plot(fit.gamma)
+```
+El grafico generado por la función `loss.fit.dist` de la librería opVar, muestra diferencias similares a la exponencial.
+
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Grafico con diff de la distribución Gamma según MLE"}
+fit <- loss.fit.dist("gamma",danishuni$Loss, draw.diff=T)
+```
+\newpage
+
+#### __Weibull__
+
+```{r echo=FALSE, warning=FALSE}
+fit.wei <- fitdist(danishuni$Loss, "weibull", method = "mle") 
+fit.wei 
+```
+Los párametros *shape* y *scale* de esta distribución gamma ajustada son 0.9586398 y 3.2920176 respectivamente .
+Los gráficos de densidad y qqplot muestran que esta distribución se ajusta mejor al valor mínimo mejor que las distribuciones anteriores.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Graficos de la distribución Weibull según MLE"}
+plot(fit.wei)
+```
+El grafico 11, mediante la función `loss.fit.dist` de la libreria opVar, muestra claramente los sectores donde difiere la función ajustada a los valores reales.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Grafico con diff de la distribución Weibull según MLE"}
+fit <- loss.fit.dist("weibull",danishuni$Loss, draw.diff=T)
+```
+\newpage
+
+#### __Log Normal__
+
+```{r echo=FALSE, warning=FALSE}
+fit.logn <- fitdist(danishuni$Loss, "lnorm", method = "mle") 
+fit.logn 
+```
+Los párametros *meanlog* y *sdlog* de esta distribución gamma ajustada son 0.7869501 y 0.7165545 respectivamente .
+Similar a las distribuciones exponencial y gamma, los gráficos de densidad y qqplot muestran que se ajusta muy bien al lado izquierdo, pero al lado derecho, difiere mucho.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Graficos de la distribución Log-Normal según MLE"}
+plot(fit.logn)
+```
+El grafico generado por la función `loss.fit.dist` de la librería opVar, muestra más diferencias solo en el valor mínimo, y parece ajustarse bien en los otros valores.
+
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Grafico con diff de la distribución Log-Normal según MLE"}
+fit <- loss.fit.dist("log-normal",danishuni$Loss, draw.diff=T)
+```
+\newpage
+### CONTRASTE DE BONDAD DE AJUSTE - Distribuciones MLE
+Mediante la función `gofstat` de la librería `fitdistrplus`, se realiza la prueba de bondad de ajuste para comparar las distribuciones ajustadas e identificar cual de ellas es la más adecuada para el dataset.
+```{r echo=FALSE, warning=FALSE}
+gofstat(list(fit.exp, fit.gamma, fit.wei, fit.logn), chisqbreaks=c(0:4, 9), discrete= FALSE,fitnames=c("Exponencial", "Gamma", "Weibull", "LogNormal"))
+```
+Los resultados del test muestran que la distribución Log-Normal obtiene menor error con respecto a los datos de la muestra:
+
+|     | Exponencial | Gamma     | Weibull   | LogNormal |
+|-----|-------------|-----------|-----------|-----------|
+| AIC | 9620.793    | 9538.191  | 9611.243  | 8119.795  |
+| BIC | 9626.474    | 9549.554  | 9622.605  | 8131.157  |
+\newpage
+La función `denscomp` permite ver una comparación gráfica de las funciones:
+
+```{r echo=FALSE, warning=FALSE,fig.height = 4,fig.align='center' }
+#Funci?n  de Distribución (denscomp)
+FDD<-denscomp(list(fit.exp, fit.gamma, fit.wei, fit.logn),
+            ylab = "Probabilidad", datapch=".",
+            addlegend = TRUE,
+            datacol="grey68", fitcol=c("orchid3","hotpink2","palegreen3","royalblue2"),lwd=3, 
+            legendtext=c("Exponencial", "Gamma", "Weibull", "LogNormal"),
+            main="Distribuciones ajustadas a la Severidad", plotstyle = "ggplot") +
+  theme_bw()
+FDD
+```
+Se observa que las distribuciones se parecen. Las distribuciones Log-Normal y Gamma se ajustan mejor en el valor minimo que las demás.
+
+\newpage
+
+#### Gráficos QQ-Plot y PP-Plot
+
+Los gráficos generados por la función `qqcomp` muestran la comparación de los cuantiles teóricos vs con los cuantiles reales.
+
+```{r echo=FALSE, warning=FALSE,fig.height = 4,fig.align='center' }
+qqcomp(list(fit.exp, fit.gamma, fit.wei, fit.logn), 
+       ylab="cuantiles empíricos", xlab="cuantiles teóricos",
+       fitcol=c("orchid3","hotpink2","palegreen3","royalblue2"), main="QQ-plot sobre Distribuciones Ajustadas a la Severidad", addlegend = TRUE,
+       legendtext=c("Exponencial", "Gamma", "Weibull", "LogNormal"), fitpch=1:4) +
+  theme_bw()
+```
+Las distribuciones Log-Normal y Weibull se ajustan muy bien en los valores minimos de los datos de la muestra, aunque Weibull y Exponencial se acomodan mejor en el extremo derecho.
+
+La función `ppcomp` muestra las probabilidades teóricas contra las reales.
+```{r echo=FALSE, warning=FALSE,fig.height = 4,fig.align='center' }
+ppcomp(list(fit.exp, fit.gamma, fit.wei, fit.logn),  
+       ylab="probabilidades empíricas", xlab="probabilidades teóricas", fitcol=c("orchid3","hotpink2","palegreen3","royalblue2"),
+       main="PP-plot sobre Distribuciones Ajustadas a la Severidad", legendtext=c("Exponencial", "Gamma", "Weibull", "LogNormal"),
+       plotstyle = "ggplot", fitpch=1:4) +
+  theme_bw()
+```
+Este grafico muestra mejor que la distribución Log-Normal se acomoda mejor a los datos reales.
+
+\newpage
+### MEDIDAS DE ADECUACIÓN
+Dado que hay situaciones en que no se pueden explicar por modelos parametricos, es por ello que a continuación se formulan opciones no parametricas (kernel).
+
+#### __Exponencial__
+Las variaciones de la distribución Exponencial son las siguientes:
+```{r echo=FALSE, warning=FALSE,fig.height = 4,fig.align='center'}
+# Simulaciones con visualización de densidades Kernel
+set.seed (123)
+x <- rexp(500,rate = fit.exp$estimate[1] )
+x1 <- (x+1)
+x2 <- 2*x
+x3 <- sqrt(x)
+x4 <- 1/x
+x5 <- log(x)
+x6 <- exp(x)
+x=seq(0,max(danishuni$Loss), by=.025)
+plot(density(danishuni$Loss), ylim=c(0, 1), xlim=c(0, max(danishuni$Loss)), main="Densidades empíricas",
+     lwd=2, xlab="x", ylab="f_X(x)")
+lines(density(x1), lty=2, col= "orchid3",lwd=2)
+lines(density(x2), lty=3, col= "orchid3",lwd=2)
+lines(density(x3), lty=4, col= "orchid3",lwd=2)
+lines(density(x4), lty=1, col="hotpink2", lwd=2)
+lines(density(x5), lty=2, col="palegreen3", lwd=2)
+lines(density(x6), lty=3, col="royalblue2", lwd=2)
+legend("topright", lty=1:4, col = c(rep("orchid3",4),"hotpink2","palegreen3","royalblue2"),
+       leg=c("X", "X+1", "2X", "sqrt(X)", "1/X", "log(x)", "exp(x)"))
+```
+
+#### __Gamma__
+Las variaciones de la distribución gamma son las siguientes:
+```{r echo=FALSE, warning=FALSE,fig.height = 4,fig.align='center' }
+# Simulaciones con visualización de densidades Kernel
+set.seed (123)
+x <- rgamma(500,shape = fit.gamma$estimate[1], rate = fit.gamma$estimate[2] )
+x1 <- (x+1)
+x2 <- 2*x
+x3 <- sqrt(x)
+x4 <- 1/x
+x5 <- log(x)
+x6 <- exp(x)
+x=seq(0,max(danishuni$Loss), by=.025)
+plot(density(danishuni$Loss), ylim=c(0, 1), xlim=c(0, max(danishuni$Loss)), main="Densidades empíricas",
+     lwd=2, xlab="x", ylab="f_X(x)")
+lines(density(x1), lty=2, col= "orchid3",lwd=2)
+lines(density(x2), lty=3, col= "orchid3",lwd=2)
+lines(density(x3), lty=4, col= "orchid3",lwd=2)
+lines(density(x4), lty=1, col="hotpink2", lwd=2)
+lines(density(x5), lty=2, col="palegreen3", lwd=2)
+lines(density(x6), lty=3, col="royalblue2", lwd=2)
+legend("topright", lty=1:4, col = c(rep("orchid3",4),"hotpink2","palegreen3","royalblue2"),
+       leg=c("X", "X+1", "2X", "sqrt(X)", "1/X", "log(x)", "exp(x)"))
+```
+
+#### __Weibull__
+Las variaciones de la distribución weibull son las siguientes:
+```{r echo=FALSE, warning=FALSE,fig.height = 4,fig.align='center' }
+# Simulaciones con visualización de densidades Kernel
+set.seed (123)
+x <- rweibull(500,shape = fit.wei$estimate[1], scale = fit.wei$estimate[2] )
+x1 <- (x+1)
+x2 <- 2*x
+x3 <- sqrt(x)
+x4 <- 1/x
+x5 <- log(x)
+x6 <- exp(x)
+x=seq(0,max(danishuni$Loss), by=.025)
+plot(density(danishuni$Loss), ylim=c(0, 1), xlim=c(0, max(danishuni$Loss)), main="Densidades empíricas",
+     lwd=2, xlab="x", ylab="f_X(x)")
+lines(density(x1), lty=2, col= "orchid3",lwd=2)
+lines(density(x2), lty=3, col= "orchid3",lwd=2)
+lines(density(x3), lty=4, col= "orchid3",lwd=2)
+lines(density(x4), lty=1, col="hotpink2", lwd=2)
+lines(density(x5), lty=2, col="palegreen3", lwd=2)
+lines(density(x6), lty=3, col="royalblue2", lwd=2)
+legend("topright", lty=1:4, col = c(rep("orchid3",4),"hotpink2","palegreen3","royalblue2"),
+       leg=c("X", "X+1", "2X", "sqrt(X)", "1/X", "log(x)", "exp(x)"))
+```
+
+#### __Log Normal__
+Las variaciones de la distribución log-normal son las siguientes:
+```{r echo=FALSE, warning=FALSE,fig.height = 4,fig.align='center' }
+# Simulaciones con visualización de densidades Kernel
+set.seed (123)
+x <- rlnorm(500,meanlog = fit.logn$estimate[1], sdlog = fit.logn$estimate[2])
+x1 <- (x+1)
+x2 <- 2*x
+x3 <- sqrt(x)
+x4 <- 1/x
+x5 <- log(x)
+x6 <- exp(x)
+x=seq(0,max(danishuni$Loss), by=.025)
+plot(density(danishuni$Loss), ylim=c(0, 1), xlim=c(0, max(danishuni$Loss)), main="Densidades empíricas",
+     lwd=2, xlab="x", ylab="f_X(x)")
+lines(density(x1), lty=2, col= "orchid3",lwd=2)
+lines(density(x2), lty=3, col= "orchid3",lwd=2)
+lines(density(x3), lty=4, col= "orchid3",lwd=2)
+lines(density(x4), lty=1, col="hotpink2", lwd=2)
+lines(density(x5), lty=2, col="palegreen3", lwd=2)
+lines(density(x6), lty=3, col="royalblue2", lwd=2)
+legend("topright", lty=1:4, col = c(rep("orchid3",4),"hotpink2","palegreen3","royalblue2"),
+       leg=c("X", "X+1", "2X", "sqrt(X)", "1/X", "log(x)", "exp(x)"))
+```
+
+### METODO DE MOMENTOS(MME)
+#### __Exponencial__
+```{r echo=FALSE, warning=FALSE}
+fit.exp.MME <- fitdist(danishuni$Loss, "exp", method = "mme") 
+fit.exp.MME 
+```
+El párametro *rate* de esta distribución exponencial ajustada es 0.2954133.
+Los gráficos de densidad y qqplot muestran que la distribución se ajustan muy bien al lado izquierdo, pero al lado derecho, difiere mucho con los datos.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Graficos de la distribución Exponencial según MLE", warning=FALSE}
+plot(fit.exp.MME)
+```
+\newpage
+#### __Gamma__
+```{r echo=FALSE, warning=FALSE}
+fit.gamma.MME <- fitdist(danishuni$Loss, "gamma", method = "mme") 
+fit.gamma.MME 
+```
+Los párametros *shape* y *rate* de esta distribución gamma ajustada son 0.15839499 y 0.04679198 respectivamente.
+Difiere en los datos entre los cuantiles 40 a 100.
+```{r echo=FALSE,fig.height = 4, warning=FALSE, fig.align='center',fig.cap="Graficos de la distribución Gamma según MLE"}
+plot(fit.gamma.MME)
+```
+\newpage
+#### __Weibull__
+```{r echo=FALSE, warning=FALSE}
+memp  <-  function(x, order) mean(x^order)
+fit.wei.MME <- fitdist(danishuni$Loss, "weibull", method = "mme", discrete = FALSE, order=c(1, 2), memp = memp,start=list(shape=10, scale=10), lower=0, upper=Inf)
+fit.wei.MME
+```
+Los párametros *shape* y *scale* de esta distribución gamma ajustada son 0.4611369 y 1.4408074 respectivamente.
+A comparación del método de máxima verosimilitud, se tiene diferencias entre los cuantiles del 60% a 100%
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Graficos de la distribución Weibull según MLE"}
+plot(fit.wei.MME)
+```
+\newpage
+#### __Log Normal__
+```{r echo=FALSE, warning=FALSE}
+fit.logn.MME <- fitdist(danishuni$Loss, "lnorm", method = "mme") 
+fit.logn.MME 
+```
+Los párametros *meanlog* y *sdlog* de esta distribución gamma ajustada son 0.2245306 y 1.4105669 respectivamente.
+A comparación de las otras distribuciones con el metodo MLE, este modelo se ajusta mejor a los datos reales.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Graficos de la distribución Log-Normal según MLE"}
+plot(fit.logn.MME)
+```
+\newpage
+### CONTRASTE DE BONDAD DE AJUSTE - Distribuciones MME
+Mediante la función `gofstat` de la librería `fitdistrplus`, se realiza la prueba de bondad de ajuste para comparar las distribuciones ajustadas e identificar cual de ellas es la más adecuada para el dataset.
+```{r echo=FALSE, warning=FALSE}
+gofstat(list(fit.exp.MME, fit.gamma.MME, fit.wei.MME, fit.logn.MME), chisqbreaks=c(0:4, 9), discrete= FALSE,fitnames=c("Exponencial MME", "Gamma MME", "Weibull MME", "LogNormal MME"))
+```
+Los resultados del test muestran que la distribución Exponencial obtiene menor error con respecto a los datos de la muestra:
+
+|     | Exponencial | Gamma     | Weibull   | LogNormal |
+|-----|-------------|-----------|-----------|-----------|
+| AIC | 9620.793    | 13335.98  | 11559.64  | 9791.887 |
+| BIC | 9626.474    | 13347.35  | 11571.00  | 9803.249 |
+
+## VARIABLE __"Frecuencia de Eventos"__
+Esta variable contiene datos discretos y es asimetrica (como se comprobo con el coeficiente de simetria). Además se conoce que el valor más frecuente es 0 (Valor Mínimo). Entre las distribuciones que se ajustan estas caracteristicas se tienen:
+
+* Poisson
+
+* Binomial Negativa
+
+* Uniforme Discreta
+
+* Geométrica
+
+Estas distribuciones son sometidas a ajustes según el método de "Máxima Verosimilitud",  método de "Máxima Bondad de Ajuste", mediante "Medidas de Adecuación Kernel" y método de "Momentos".
+
+### METODO DE MAXIMA VEROSIMILITUD(MLE)
+
+#### __Poissson__
+```{r echo=FALSE, warning=FALSE}
+fit.pois <- fitdist(data$Events, "pois", method = "mle") #Ajuste de una Poisson
+fit.pois #Párametros
+```
+El párametro *lambda* de esta distribución Poisson ajustada es 0.5395916
+Los gráficos de densidad y cdf muestran que la distribución se ajustan muy bien, existen pequeñas diferencias.
+```{r echo=FALSE, warning=FALSE,fig.height = 3, fig.align='center',fig.cap="Graficos de la distribución Poisson según MLE", warning=FALSE}
+plot(fit.pois)
+```
+El grafico 22, mediante la función `root.period` de la libreria opVar, muestra mediante un histograma las variaciones contra los datos de la muestra.Se visualiza diferencias en el valor 0, 1, 3 y 5.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, warning=FALSE, fig.align='center',fig.cap="Grafico Root de la distribución Poisson según MLE"}
+fit <- root.period(danishuni,"days","poisson")
+```
+\newpage
+#### __Binomial Negativa__
+```{r echo=FALSE, warning=FALSE}
+fit.nbin <- fitdist(data$Events, "nbinom", method = "mle")
+fit.nbin 
+```
+Los párametros *size* y *mu* de esta distribución Binomial Negativa ajustada son 11.9156090 y 0.5396044 respectivamente.
+Los graficos de densidad y CDF no muestran diferencias con respecto a los datos reales, pero esto se comprobará con el test de bondad de ajuste.
+```{r echo=FALSE,fig.height = 3, warning=FALSE, fig.align='center',fig.cap="Graficos de la distribución Binomial Negativa según MLE"}
+plot(fit.nbin)
+```
+El grafico 23, mediante la función `root.period` de la libreria opVar, muestra que tiene mejor ajuste que la poisson y con diferencias en los valores 3, 4 y 5.
+```{r echo=FALSE, warning=FALSE,fig.height = 3, fig.align='center',fig.cap="Grafico Root de la distribución Binomial Negativa según MLE"}
+fit <-root.period(danishuni,"days","nbinomial", method="ML")
+```
+\newpage
+#### __Geométrica__
+```{r echo=FALSE, warning=FALSE}
+fit.geo <- fitdist(data$Events, "geom", method = "mle") 
+fit.geo 
+```
+El párametro *prob* de esta distribución geométrica ajustada es 0.6495229.
+Los gráficos de densidad y CDF muestra que no se ajusta bien a los valores minimos como 0 y 1. No tiene buen desempeño como las distribuciones Poisson y Binomial Negativa.
+```{r echo=FALSE, warning=FALSE,fig.height = 3, fig.align='center',fig.cap="Graficos de la distribución Geométrica según MLE"}
+plot(fit.geo)
+```
+\newpage
+### CONTRASTE DE BONDAD DE AJUSTE - Distribuciones MLE
+Mediante la función `gofstat` de la librería `fitdistrplus`, se realiza la prueba de bondad de ajuste para comparar las distribuciones ajustadas e identificar cual de ellas es la más adecuada para el dataset.
+```{r echo=FALSE, warning=FALSE}
+gofstat(list(fit.pois, fit.nbin, fit.geo), chisqbreaks = c(0:4, 9), discrete= TRUE,fitnames=c("Poisson", "Binomial Negativa", "Geométrica"))
+```
+Los resultados del test muestran que la distribución Poisson obtiene menor error con respecto a los datos de la muestra:
+
+|     | Poisson   | Binomial Negativa | Geométrica |
+|-----|-----------|-------------------|------------|
+| AIC | 7819.697  | 7817.864          | 8011.971   |
+| BIC | 7825.995  | 7830.460          | 8018.269   |
+
+\newpage
+La función `cdfcomp` permite ver una comparación gráfica de las distribuciones con respecto a los datos de la muestra:
+```{r echo=FALSE, warning=FALSE,fig.height = 3,fig.align='center' }
+CDF <- cdfcomp(list(fit.pois, fit.nbin, fit.geo),
+            ylab = "Probabilidad", datapch=".",
+            addlegend = TRUE,
+            datacol="grey40", fitcol=c("hotpink3","palegreen4","skyblue4"), lwd=2,
+            legendtext=c("Poisson", "Binomial Negativa", "Geométrica"),
+            main="Distribuciones ajustadas a la Frecuencia", plotstyle = "ggplot") +
+  theme_bw()
+CDF
+```
+Según el grafico, se observa que la distribución Binomial Negativa se ajusta mejor a laos datos seguida por la distribución Poisson
+\newpage
+
+#### Gráficos QQ-Plot y PP-Plot
+
+Los gráficos generados por la función `qqcomp` muestran la comparación de los cuantiles teóricos vs con los cuantiles reales.
+```{r echo=FALSE, warning=FALSE,fig.height = 3,fig.align='center' }
+qqcomp(list(fit.pois, fit.nbin, fit.geo), 
+       ylab="Cuantiles empíricos", xlab="Cuantiles teóricos",
+       fitcol=c("orchid3","hotpink2","palegreen3","royalblue2"), main="QQ-plot sobre Distribuciones Ajustadas a la Frecuencia", addlegend = TRUE,
+       legendtext=c("Poisson", "Binomial Negativa", "Geométrica"), fitpch=1:2)+
+  theme_bw()
+```
+La distribución Binomial Negativa se ajusta muy bien a los datos reales, en cambio la Geométrica se distorsiona mucho de ellos.
+La función `ppcomp` muestra las probabilidades teóricas contra las reales.
+```{r echo=FALSE, warning=FALSE,fig.height = 3,fig.align='center' }
+ppcomp(list(fit.pois, fit.nbin, fit.geo),  
+       ylab="Probabilidades empíricas", xlab="Probabilidades teóricas", fitcol=c("orchid3","hotpink2","palegreen3","royalblue2"),
+       main="PP-plot sobre distribuciones ajustadas a la Frecuencia", legendtext=c("Poisson", "Binomial Negativa", "Geométrica"),
+       plotstyle = "ggplot", fitpch=1:4)+
+  theme_bw()
+```
+Este grafico muestra como se ajustan mejor las distribuciones Binomial Negativa y Poisson.
+
+\newpage
+### MEDIDAS DE ADECUACIÓN
+Similar a la Severidad, es probable que el comportamiento de los datos de frecuencia sean explicados mejor mediante una modelos no parametricos (incluyendo una función kernel).
+
+#### __Poisson__
+Las variaciones de la distribución Poisson son las siguientes:
+```{r echo=FALSE, warning=FALSE,fig.height = 4,fig.align='center'}
+# Simulaciones con visualización de densidades Kernel
+set.seed (123)
+
+x <- rpois(500, lambda = fit.pois$estimate[1] )
+x1 <- (x+1)
+x2 <- 2*x
+x3 <- sqrt(x)
+x4 <- 1/x
+x5 <- log(x)
+x6 <- exp(x)
+x <- seq(min(data$Events),max(data$Events), by=1)
+plot(density(data$Events), ylim=c(0, 1), xlim=c(0,max(data$Events)), main="Densidades empíricas",
+     lwd=2, xlab="x", ylab="f_X(x)")
+lines(density(x1), lty=2, col= "orchid3",lwd=2)
+lines(density(x2), lty=3, col= "orchid3",lwd=2)
+lines(density(x3), lty=4, col= "orchid3",lwd=2)
+lines(density(x4), lty=1, col="hotpink2", lwd=2)
+lines(density(x5), lty=2, col="palegreen3", lwd=2)
+lines(density(x6), lty=3, col="royalblue2", lwd=2)
+legend("topright", lty=1:4, col = c(rep("orchid3",4),"hotpink2","palegreen3","royalblue2"),
+       leg=c("X", "X+1", "2X", "sqrt(X)", "1/X", "log(x)", "exp(x)"))
+```
+#### __Binomial Negativa__
+Las variaciones de la distribución binomial negativa son las siguientes:
+```{r echo=FALSE, warning=FALSE,fig.height = 4,fig.align='center' }
+# Simulaciones con visualización de densidades Kernel
+set.seed (123)
+x <- rnbinom(500,size = fit.nbin$estimate[1], mu = fit.nbin$estimate[2] )
+x1 <- (x+1)
+x2 <- 2*x
+x3 <- sqrt(x)
+x4 <- 1/x
+x5 <- log(x)
+x6 <- exp(x)
+x=seq(min(data$Events),max(data$Events), by=1)
+plot(density(data$Events), ylim=c(0, 1), xlim=c(0, max(data$Events)), main="Densidades empíricas",
+     lwd=2, xlab="x", ylab="f_X(x)")
+lines(density(x1), lty=2, col= "orchid3",lwd=2)
+lines(density(x2), lty=3, col= "orchid3",lwd=2)
+lines(density(x3), lty=4, col= "orchid3",lwd=2)
+lines(density(x4), lty=1, col="hotpink2", lwd=2)
+lines(density(x5), lty=2, col="palegreen3", lwd=2)
+lines(density(x6), lty=3, col="royalblue2", lwd=2)
+legend("topright", lty=1:4, col = c(rep("orchid3",4),"hotpink2","palegreen3","royalblue2"),
+       leg=c("X", "X+1", "2X", "sqrt(X)", "1/X", "log(x)", "exp(x)"))
+```
+#### __Geométrica__
+Las variaciones de la distribución geométrica son las siguientes:
+```{r echo=FALSE, warning=FALSE,fig.height = 4,fig.align='center' }
+# Simulaciones con visualización de densidades Kernel
+set.seed (123)
+x <- rgeom(500, prob = fit.geo$estimate[1] )
+x1 <- (x+1)
+x2 <- 2*x
+x3 <- sqrt(x)
+x4 <- 1/x
+x5 <- log(x)
+x6 <- exp(x)
+x=seq(min(data$Events),max(data$Events), by=1)
+plot(density(data$Events), ylim=c(0, 1), xlim=c(0, max(data$Events)), main="Densidades empíricas",
+     lwd=2, xlab="x", ylab="f_X(x)")
+lines(density(x1), lty=2, col= "orchid3",lwd=2)
+lines(density(x2), lty=3, col= "orchid3",lwd=2)
+lines(density(x3), lty=4, col= "orchid3",lwd=2)
+lines(density(x4), lty=1, col="hotpink2", lwd=2)
+lines(density(x5), lty=2, col="palegreen3", lwd=2)
+lines(density(x6), lty=3, col="royalblue2", lwd=2)
+legend("topright", lty=1:4, col = c(rep("orchid3",4),"hotpink2","palegreen3","royalblue2"),
+       leg=c("X", "X+1", "2X", "sqrt(X)", "1/X", "log(x)", "exp(x)"))
+```
+
+### METODO DE MOMENTOS(MME)
+#### __Poissson__
+```{r echo=FALSE, warning=FALSE}
+fit.poisMME <- fitdist(data$Events, "pois", method = "mme") #Ajuste de una Poisson
+fit.poisMME #Párametros
+```
+El párametro *lambda* de esta distribución Poisson ajustada es 0.5395916. El parametro obtenido es el mismo que por el metodo de Máxima Verosimilitud, por lo que la variación de los graficos de densidad y CDF son los mismos.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Graficos de la distribución Poisson según MME", warning=FALSE}
+plot(fit.poisMME)
+```
+\newpage
+#### __Binomial Negativa__
+```{r echo=FALSE, warning=FALSE}
+fit.nbinMME <- fitdist(data$Events, "nbinom", method = "mme")
+fit.nbinMME 
+```
+Los párametros *size* y *mu* de esta distribución Binomial Negativa ajustada son 12.0913698 y 0.5395916 respectivamente.
+Los graficos de densidad y CDF no muestran diferencias con respecto a los datos reales, pero esto se comprobará con el test de bondad de ajuste.
+```{r echo=FALSE,fig.height = 4, warning=FALSE, fig.align='center',fig.cap="Graficos de la distribución Binomial Negativa según MME"}
+plot(fit.nbinMME)
+```
+\newpage
+#### __Geométrica__
+```{r echo=FALSE, warning=FALSE}
+fit.geoMME <- fitdist(data$Events, "geom", method = "mme") 
+fit.geoMME 
+```
+El párametro *prob* de esta distribución geométrica ajustada es 0.6495229.
+La distribución resultante es la misma que la generada por el metodo de Máxima Verosimilitud. Presenta variaciones en la parte izquierda a comparación de los datos reales.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Graficos de la distribución Geométrica según MME"}
+plot(fit.geoMME)
+```
+\newpage
+### CONTRASTE DE BONDAD DE AJUSTE - Distribuciones MME
+Mediante la función `gofstat` de la librería `fitdistrplus`, se realiza la prueba de bondad de ajuste para comparar las distribuciones ajustadas e identificar cual de ellas es la más adecuada para el dataset.
+```{r echo=FALSE, warning=FALSE}
+gofstat(list(fit.poisMME, fit.nbinMME, fit.geoMME), chisqbreaks=c(0:4, 9), discrete= TRUE,fitnames=c("Poisson MME", "Binomial Negativa MME", "Geométrica MME"))
+```
+Los resultados del test muestran que la distribución Poisson es la mejor por que obtiene menor error:
+
+|     | Poisson   | Binomial Negativa | Geométrica |
+|-----|-----------|-------------------|------------|
+| AIC | 7819.697  | 7817.865          | 8011.971   |
+| BIC | 7825.995  | 7830.461          | 8018.269   |
+
+# ANÁLISIS DE LOS VALORES EXTREMOS
+Existe, bajo Basilea II, un conjunto de métodos cuantitativos para el cálculo de la carga de capital por riesgo operativo, pero no hay consenso sobre los mejores métodos a emplear. Una técnica que se ha vuelto potencialmente atractiva es la Teoría de Valor Extremo (EVT), la cual no parece ser directamente aplicable a satisfacer las estrictas normas establecidas por Basilea; esto se debe a que simplemente no hay suficientes datos.
+Los métodos estándar de modelización matemática del riesgo utilizan el lenguaje de teoría de la probabilidad. Dichos riesgos son variables aleatorias que pueden ser consideradas individualmente o vistas como parte de un proceso estocástico.
+Los potenciales valores de una situación de riesgo tienen una distribución de probabilidad para las pérdidas derivadas de los riesgos, pero hay un tipo de información que está en la distribución, llamada eventos extremos, los cuales se producen cuando un riesgo toma valores en la cola derecha de la distribución de pérdidas.
+En EVT hay dos tipos de enfoques que generalmente se aplican:
+a. El más tradicional es el modelo de bloques máximos (block-máxima); estos son modelos para grandes observaciones recolectadas a partir de grandes muestras de observaciones idénticamente distribuidas. Consiste fundamentalmente en partir las observaciones por bloques y en estos encontrar el máximo. Este método lleva a producir un error por una incorrecta selección del tamaño de los bloques.
+b. Una técnica más moderna es exceso de umbral (thershold exceedances); estos son modelos para todo tamaño de observaciones que exceden algún nivel superior (high level), y son en general los más utilizados en aplicaciones prácticas debido a su uso-eficaz en el manejo de los valores extremos. Al igual que el método block-máxima, esté lleva a un error en la mala selección del umbral. Los métodos de umbrales son más flexibles que los métodos basados en el máximo anual porque toman primero todos los excedentes por arriba de un umbral, adecuadamente alto, y de esta manera se usan mucho más datos.
+
+## DISTRIBUCIÓN GENERALIZADA DE BLOCK MÁXIMA
+Primero es necesario excluir los eventos de crisis financiera de Dinamarca, que afectan el comportamiento de las pérdidas, en este caso el periodo del dataset es Enero del 1980 a Diciembre del 1990. Durante ese periodo, Dinamarca tenía una economia similar a la Grecia de la actualidad, pero que se ha fortalecido en estos 40 años, por lo que no es necesario identificar un periodo especial dentro de la serie temporal.
+A continuación se presenta codigo utilizado en el libro `The QRM Guide Book` de Marius Hofert, donde aplica el teorema de Block Maxima sobre la serie temporal del Sotck Price de AT&T, dado que en este caso se trata de valores de perdidas se cambiaron las formulas para estimar los incrementos de perdidas, que es lo que nos interesa.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Serie Temporal de las Pérdidas Vikings Fish Co."}
+#rm("x1","x2","x3","x4","x5","x6","xi","d1","d2","mu","sig","getmode")
+S <- as.xts(danishuni$Loss,order.by = as.Date(danishuni$Date))
+X <- returns(S)# log-returns
+L <- X # losses; here: log-returns
+plot.zoo(L, xlab = "Time", ylab = "Pérdidas Vikings Fish Co (-log-returns)", col="royalblue2")
+## Buscar perdidas con casos extremos
+u <- 4
+abline(h = u, col = "maroon3")
+#u <- -4 #importantes perdidas por que se tratan de valores mayores de perdidas
+#abline(h = u, col = "maroon3")
+```
+La mayor perdida se obtuvo el 15/07/1980 con un valor de 263.25.
+```{r echo=FALSE, warning=FALSE}
+ii <- which((L > u))# eventos fuera del margen establecido
+index(L)[ii] # se identifica las fechas de esos eventos
+L[ii] # las perdidas de esas fechas
+```
+Se selecciona el caso del periodo previo al primer evento de mayor perdida.
+```{r echo=FALSE, warning=FALSE}
+(end <- index(L)[min(ii) - 1]) 
+crash <- index(L)[min(ii)]
+L[crash] # loss
+```
+Antes de este evento, la variacion de la perdida era de -13% a comparación del dia 12/07/1980 y -40% al mes anterior.
+```{r echo=FALSE, warning=FALSE}
+## Drops in danishuni
+## Recall: L_t = -log(S_t/S_{t-1}) = -log(1 + beta), where beta denotes the 'gain'
+##         => drop = -beta = -(exp(-L_t)-1) = -expm1(-L_t)
+expm1(sum(L['1980-07-12/1980-07-14']))
+expm1(sum(L['1980-06-14/1980-07-14'])) 
+expm1(sum(L['1980-03-14/1980-07-14'])) 
+```
+|                       | Periodo                  | % Drop   |
+|-----------------------|--------------------------|----------|
+| Vs. Semana Anterior   | 12/07/1980 - 14/07/1980  | -60.2%   |
+| Vs. Mes Anterior      | 14/06/1980 - 14/07/1980  | -40.90%  |
+| Vs. Trimestre Anterior| 14/03/1980 - 14/07/1980  | -0.09%   |
+
+En la figura 28 se muestra el comportamiento mensual.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Serie Temporal de las Pérdidas Vikings Fish Co. (Meses)"}
+## Data we work with
+time <- c("1980-01-01", as.character(end)) # from 1980 until 'end'
+L. <- -returns(S[paste0(time, collapse = "/")]) # grab out the data we work with
+## Plot the danishuni -log-returns
+plot.zoo(L., main = "Vikings Fish Co. losses (log-returns)",
+         xlab = "Time t", ylab = expression(L[t] == log(S[t]/S[t-1])), col="royalblue2")
+```
+
+Se utiliza la función `fit_GEV_MLE` para modelizar estos casos extremos semanales, esto es debido a que anualmente no es conveniente por las variaciones entre los periodos La distribución resultante obtiene los parámetros de shape, loc y scale:
+```{r echo=FALSE, warning=FALSE}
+## Block Maxima Method (BMM)
+M <- period.apply(L., INDEX = endpoints(L., "weeks"), FUN = max) # weekly maxima
+fit <- fit_GEV_MLE(M) # GEV maximum likelihood estimator
+stopifnot(fit$convergence == 0) # => converged
+(xi  <- fit$par[["shape"]]) # ~= 0.5278 => Frechet domain
+(mu  <- fit$par[["loc"]])
+(sig <- fit$par[["scale"]])
+fit$SE # standard errors
+ceiling(1/xi) # => infinite 2nd moment
+```
+Utilizando la distribución generada, se puede estimar la probabilidad del excedente dentro de un año y es del 3.53%, muy poco probable. Lo cual es real por que Dinamarca mejoro su economia a partir de esos periodos.
+```{r echo=FALSE, warning=FALSE}
+1-pGEV(max(tail(head(M, n = -1), n = 52)), shape = xi, loc = mu, scale = sig) # exceedance prob. ~= 7.95%
+
+```
+
+## ANÁLISIS PEAKS-OVER-THRESHOLD (UMBRAL)
+
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Serie Temporal de las Pérdidas Vikings Fish Co."}
+plot.zoo(S, xlab = "Time", ylab = "Pérdidas de Vikings Fish Co.", col="royalblue2") # BTC
+plot.zoo(L, main = "", xlab = "Time", ylab = "Pérdidas -log-returns", col="royalblue2") # -log-returns
+```
+Primero se elige un umbral, en este caso 25 (dado que el cuantil 99%, donde se realiza el gran salto al 100% en 263, es de 26 aproximadamente). Luego, se guardan los valores que exceden este umbral en un vector `loss.exc`:
+```{r echo=FALSE, warning=FALSE}
+u <- 25
+loss.exc <- danishuni$Loss[danishuni$Loss > u]
+loss.exc
+```
+Los casos que se excluyen son 24. Después, estos casos son rankeados para facilitar la estimación de su probabilidad:
+```{r include=FALSE}
+n.u <- length(loss.exc) #n de casos que superan u
+```
+El valor máximo (263.2507) obtiene el puesto 24.
+```{r echo=FALSE}
+rank(loss.exc)
+```
+```{r echo=FALSE, warning=FALSE}
+surv.prob <- 1 - (rank(loss.exc)/(n.u + 1))
+#Se obtiene la probabilibada como 1 menos cociente entre nº orden/110.
+#El valor 263.25 tiene la prob mas baja de ocurrencia en posición 2.
+surv.prob
+```
+
+En cuanto al grafico de Excesos vs Probabilidades, se observa que la pendiente es negativa y que la cola se aleja de los datos reales.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Probabilidades de Excesos Pérdidas Vikings Fish Co."}
+plot(loss.exc, surv.prob, log = "xy", xlab = "Excesos", 
+     ylab = "Probabilidades", ylim=c(0.01, 1), col="royalblue2")
+#Añadimos las prob. teoricas de la D.Pareto con estimador por minimos cuadrados de alfa
+alpha <- - cov(log(loss.exc), log(surv.prob)) / var(log(loss.exc)) # -(cov)/var
+x = seq(u, max(loss.exc), length = 100) #divide de u a max() 100 interv.
+y = (x / u)^(-alpha)
+lines(x, y)
+```
+
+En el grafico de Probabilidades de No Exceder,se muestra que los datos se distribuyen de forma similar.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Probabilidades de No Exceder Pérdidas Vikings Fish Co."}
+#Funcion de distribucion acumulada
+prob <- rank(loss.exc) / (n.u + 1)
+plot(loss.exc, prob, log = "x", xlab= "Excesos", ylab = "Probabilidades de no exceder", col="royalblue2")
+y = 1 - (x / u)^(-alpha)
+lines(x, y)
+```
+
+### Distribución Generalizada de Pareto (GPD)
+Una técnica muy reconocida es la distribución de Pareto generalizada, que se utiliza como aproximación para la distribución límite de los excesos de determinado umbral.
+Viene caracterizada por los parámetros de escala $\overline{\delta}$ y de forma $-\infty < \xi < +\infty$
+Según las condiciones anteriores, si los máximos por bloques siguen una distribución G, entonces la distribución de los excesos del umbral se encuentran dentro dentro de la familia de distribuciones de Pareto Generalizada.
+El comportamiento de la distribución de Pareto Generalizada está determinado por el parámetro $\xi$ :
+Si $\xi < 0$ , la distribución de los excesos tiene como límite superior u - $\delta / \overline{\xi}$
+ Si $\xi$ >=0, la distribución no tiene límite superior. En concreto, para el caso $\xi > 0$ se tiene la distribución de pareto ordinaria.
+En el caso en el que $\xi = 0$, la distribución se corresponde con una exponencial de parámetro $1/ \overline{\delta}$ 
+A partir de este punto, por simplicidad en la notación, el parámetro de escala de la distribución de Pareto Generalizada, $\overline{\delta}$, pasará a notarse como $\delta$
+Mediante la función `nllik.gp`, se obtiene la función de distribución generalizada ajustada a los datos:
+```{r echo=FALSE, warning=FALSE}
+nllik.gp <- function(par, u, data){
+  tau <- par[1]
+  xi <- par[2]
+    if ((tau <= 0) | (xi < -1))
+      return(1e6)
+    m <- length(data)
+      if (xi == 0)
+        m * log(tau) + sum(data - u) / tau
+    else {
+        if (any((1 + xi * (data - u) / tau) <= 0))
+          return(1e6)
+      m * log(tau) + (1 + 1 / xi) *
+         sum(log(1 + xi * (data - u) / tau))
+       }
+     }
+u <- 25
+tau.start <- mean(loss.exc) - u
+fit.gp <- nlm(nllik.gp, c(tau.start, 0), u = u, hessian = TRUE,
+              data = loss.exc)
+fit.gp
+```
+
+Los parámetros son:
+```{r echo=FALSE}
+fit.gp$estimate 
+```
+Con la función GDP generada, se generan 500 datos aleatorios y se grafican con respecto a los datos reales, como se muestra a continuación, hay variaciones pero se ajustan adecuadamente a los datos.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="GDP de las Pérdidas Vikings Fish Co. (Meses)"}
+x <- rgpd(500,u = 25, sigmau = fit.gp$estimate[1], xi = fit.gp$estimate[2]) 
+hist(danishuni$Loss[danishuni$Loss>26], pch=10, breaks = 50, prob = TRUE, main="Fraudes",
+     xlab =" X", ylab = "Frecuencia")
+curve(dgpd(x, 25), col="royalblue2", lwd = 2,
+      add = T) 
+```
+
+#### QQ Plot para la Distribución Generalizada de Pareto (DGP)
+El QQ plot del GDP muestra que los primeros cuantiles son ajustados de mejor manera que con el metodo de la Block Maxima.
+
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="QQPlot GDP Pérdidas Vikings Fish Co."}
+qqgpd <- function(data, u, tau, xi){
+  excess <- data[data > u]
+  m <- length(excess)
+  prob <- 1:m / (m + 1)
+  x.hat <- u + tau / xi * ((1 - prob)^-xi - 1)
+    ylim <- xlim <- range(x.hat, excess)
+    plot(sort(excess), x.hat, xlab = "Quantiles en la muestra",
+           ylab = "Quantiles ajustados", xlim = xlim, ylim = ylim, col="royalblue2")
+    abline(0, 1, col = "grey")
+    }
+
+qqgpd(danishuni$Loss, u = 26.042526, fit.gp$estimate[1] , fit.gp$estimate[2])
+```
+
+El grafico PP-Plot muestran que las probabilidades generadas por el GDP se ajustan adecuadamente a los datos reales.
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="PP-Plot Pérdidas Vikings Fish Co."}
+ppgpd <- function(data, u, tau, xi){
+  excess <- data[data > u]
+  m <- length(excess)
+  emp.prob <- 1:m / (m + 1)
+  prob.hat <- 1 - (1 + xi * (sort(excess) - u) / tau)^(-1/xi)
+  plot(emp.prob, prob.hat, xlab = "Probabilidades empíricas",
+         ylab = "Probabilidades ajustadas", xlim = c(0, 1),
+         ylim = c(0, 1), col="royalblue2")
+  abline(0, 1, col = "grey")
+}
+ppgpd(danishuni$Loss, u = 26.042526, fit.gp$estimate[1] , fit.gp$estimate[2])
+```
+
+# COMUNICACIÓN DE RESULTADOS: DISTRIBUCIÓN DE PÉRDIDAS AGREGADAS
+La Severidad se puede explicar mediante una distribución de `Log Normal (0.7869501,0.7165545)` y la frecuencia se expresa en una distribución `Poisson (0.5395916)`. Teniendo en cuenta estas caracteristicas recogidas en los estudios anteriores, se desarrolla la función de las pérdidas agregadas. Existen 3 funciones de aproximación:
+
+* Simulación
+
+* Normal
+
+* Normal-Power
+
+```{r include=FALSE}
+plweibullsum <- function(x, dfreq, argfreq, shape, scale, Nmax=10)
+  {
+    tol <- 1e-10; maxit <- 10
+    nbclaim <- 0:Nmax
+    dnbclaim <- do.call(dfreq, c(list(x=nbclaim), argfreq))
+    psumfornbclaim <- sapply(nbclaim, function(n)
+      pweibull(x, shape=shape*n, scale=scale))
+    psumtot <- psumfornbclaim %*% dnbclaim
+    dnbclaimtot <- dnbclaim
+    iter <- 0
+    while( abs(sum(dnbclaimtot)-1) > tol && iter < maxit)
+      {
+        nbclaim <- nbclaim+Nmax
+        dnbclaim <- do.call(dfreq, c(list(x=nbclaim), argfreq))
+        psumfornbclaim <- sapply(nbclaim, function(n)
+          pweibull(x, shape=shape*n, scale=scale))
+        psumtot <- psumtot + psumfornbclaim %*% dnbclaim
+        dnbclaimtot <- c(dnbclaimtot, dnbclaim)
+        iter <- iter+1
+         }
+    as.numeric(psumtot)
+}
+```
+```{r include=FALSE}
+#N- sigue una Poisson y X una Log-normal
+# Severidad
+parsev <- c(fit.logn$estimate[1], fit.logn$estimate[2]); parfreq <- fit.pois$estimate #Fijamos parametros v.a. severidad y frecuencia
+
+meansev <- mlnorm(1, parsev[1], parsev[2]) #Momento de orden 1 lognormal
+varsev <- mlnorm(2, parsev[1], parsev[2]) - meansev^2 #Momento de orden 2 lognormal
+skewsev <- (mlnorm(3, parsev[1], parsev[2]) -
+              3*meansev*varsev - meansev^3)/varsev^(3/2) #Coef.Asimetria lognormal
+
+# Frecuencia
+meanfreq <- varfreq <- parfreq[1]; skewfreq <- 1/sqrt(parfreq[1]) #Momento de orden 1 Poisson
+
+# V. Agregada
+meanagg <- meanfreq * meansev # Momento 1 Variable agregeda
+varagg <- varfreq * (varsev + meansev^2) # Varianza v. agregada
+skewagg <- (skewfreq*varfreq^(3/2)*meansev^3 + 3*varfreq*meansev*
+              varsev + meanfreq*skewsev*varsev^(3/2))/varagg^(3/2) # Coef.asimetria agre
+```
+```{r include=FALSE}
+#Simulación
+fsimul <- aggregateDist("simulation", model.freq = expression(y =rpois(parfreq)),
+                     model.sev = expression(y =rlnorm(parsev[1], parsev[2])),
+                     nb.simul = 1000)
+
+#Normal
+fnormal <- aggregateDist("normal", moments = c(meanagg, varagg))
+
+#Normal-Power
+fnpower <- aggregateDist("npower", moments = c(meanagg, varagg, skewagg))
+
+#Funcion exacta
+fexacta <- function(x) plnormsum(x, dpois, list(lambda=parfreq),
+                                  parsev[1], parsev[2], Nmax=100)
+```
+
+```{r echo=FALSE, warning=FALSE,fig.height = 4, fig.align='center',fig.cap="Aproximaciones a la Distribución Agregada de Pérdidas"}
+x <- seq(0,30) #Cambiar a 0,40
+
+plot(x, fexacta(x), type="l",
+        main="Distribución Agregada de Pérdidas", ylab="F(x)", col="grey69", lwd=2)
+lines(x, fsimul(x), lty=2, col = "skyblue3",lwd=2)
+lines(x, fnormal(x), lty=3,col = "palegreen3",lwd=2)
+lines(x, fnpower(x), lty=4, col = "orchid3",lwd=2)
+legend("bottomright", leg=c("Exacta", "Simulación",
+                              "Aprox.normal", "Approx.NP"),
+       col = c("grey69", "skyblue3", "palegreen3", "orchid3"),
+       lty = 1:4, text.col = "black")
+
+```
+La función ajustada por simulación se ajusta mejor a los datos que las otras opciones. La Normal Power también se ajusta pero no considera correctamente el valor 0, que es el más frecuente. Por lo que se recomienda la función generada por Simulación.
+
+\newpage
+
+# APÉNDICE: MEDICIÓN DEL RIESGO EXTREMO "VALUE AT RISK(VaR)"
+
+* VaR
+VaR(Valor en Riesgo) nace ante la preocupación del gerente financiero para responder "¿Cuál es la cantidad máxima que puedo esperar perder con una cierta probabilidad en un horizonte determinado?" y de la preocupación de los reguladores a garantizar que los bancos mantengan cantidades suficientes de reservas que cubran la mayoría de sus pérdidas materiales derivadas de los riesgos financieros.
+En el contexto del riesgo operativo, VaR es, hablando informalmente, la cantidad total de capital de un año que sería suficiente para cubrir todas las pérdidas inesperadas con un alto nivel de confianza.
+VaR es una poderosa herramienta estadística que ha ganado popularidad dentro de la comunidad financiera y se ha convertido en un punto de referencia para medir y pronosticar riesgos de mercado, crediticios, operativos y de otro tipo.
+Intuitivamente, VaR determina la peor pérdida posible que puede ocurrir con un nivel de confianza dado y para un período de tiempo determinado. $(1 - \alpha) *  100%$ VaR se define como el percentil $(1 - \alpha)$ de la distribución de pérdidas en un horizonte de tiempo objetivo t. $1 - \alpha$ se llama nivel de confianza. Por ejemplo, un VaR de 95% de un año es la cantidad total de pérdida que puede ser superada por el total de todas las pérdidas potenciales que pueden ocurrir durante un período de un año, no más del 5% del tiempo.
+Se deben especificar tres parámetros antes de calcular VaR:
+
+  * Nivel de confianza(generalmente se toma entre 95% y 99%)
+
+  * Horizonte de pronóstico
+
+  * Moneda base
+
+* CVaR
+CVaR (Valor en Riesgo Condicional) determina la cantidad de dinero que se espera perder si se produce un evento en la cola derecha de la distribución más allá del VaR. Formalmente, para un nivel de confianza dado $1 - \alpha$ y un horizonte de tiempo preespecificado $\Delta t$, CVaR se define como:
+$CVaR = E[S_{\Delta t}|S_{\Delta t}>VaR]$
+La relevancia de CVaR como medida de riesgo apropiada se vuelve cada vez más importante cuando la elección del modelo correcto se vuelve dependiente de eventos extremos.
+Se consideran la aproximación de la distribucion agregada de perdidas basada en una distribución de Severidad `Log Normal(0.7869501,0.7165545)` y la frecuencia en una distribución `Poisson(0.5395916)`.
+El nivel de confianza utilizado es del 98%. A continuación, utilice como referencia el calculo de VaR en el ejercicio de Riesgo Operativo añadido en el libro `The Quantitative Risk Management Exercise Book`, los resultados son teoricos:
+```{r echo=FALSE}
+## Fixed parameters and quantile
+lam <- fit.pois$estimate # Poi parameter
+mu <- fit.logn$estimate[1] # LN meanlog mean(log(L)) parameter; E(L) = exp(mu + (sig^2)/2)
+sig <- fit.logn$estimate[2] # LN sdlog = sd(log(L)) parameter; var(L) = (exp(sig^2)-1)*exp(2*mu + sig^2)
+q <- 26 # quantile 99% de las perdidas
+alpha <- 0.95#seq(0.95, 0.99, by=0.01) # VaR, ES confidence level
+
+## Theoretically correct formulas
+## Note: - If unknown, these could also be estimated.
+##       - For N ~ Poi(lam), EN = var(N) = lam and X ~ F (compound Poi distribution):
+##         + ES = EN * EX = lam * EX
+##         + var(S) = EN * var(X) + var(N) * (EX)^2
+##                  = lam * (var(X) + (EX)^2) = lam * E(X^2)
+##         + E(S^2) = var(S) + (ES)^2 = lam * E(X^2) + lam^2 * (EX)^2
+##         + skew(S) = E(((S-mean(S))/sd(S))^3) = mu_3 / mu_2^{3/2} (3rd central moment)
+##           If k_n denotes the nth cumulant, one can use that mu_2 = k_2, mu_3 = k_3
+##           and that for a compound Poi distribution k_n = lam * E(X^n), to see that
+##           skew(S) = k_3/k_2^{3/2} = lam * E(X^3) / sqrt((lam * E(X^2))^3)
+##                   = E(X^3) / sqrt(lam * E(X^2)^3)
+##           Note: One can also work with the 2nd central moment mu_2 = lam * E(X^2)
+##       - For X ~ LN(mu, sig^2), E(X^n) = exp(n * mu + (n * sig)^2 / 2)
+LN_moment <- function(n, mu, sig) exp(n * mu + (n * sig)^2 / 2)
+E.S <- lam * LN_moment(1, mu = mu, sig = sig) # ES
+var.S <- lam * LN_moment(2, mu = mu, sig = sig) # var(S)
+skew.S <- LN_moment(3, mu = mu, sig = sig) /
+    sqrt(lam * (LN_moment(2, mu = mu, sig = sig))^3) # skew(S)
+```
+## Aproximación Normal
+Mediante esta técnica se asume que la distribución de la perdida total sigue el comportamiento de una distribución normal con la media $\overline{x} = \lambda_{poisson} * Exponential(\mu_{Log}+\frac{(\delta_{log})^{2}}{2})$ y varianza $Var({x}) = \lambda_{poisson} * Exponential(2*\mu_{Log}+\frac{(2*\delta_{log})^{2}}{2})$. Se obtienen los siguientes resultados:
+
+```{r echo=FALSE}
+#- 1 Normal approximation
+
+## Idea: Assume S follows a normal distribution with parameters given by the
+##       (true or estimated; here: true) mean and variance of S, so
+##       S ~ N(E.S, var.S).
+
+## Tail probability, VaR, ES
+(tprob.N <- pnorm(q, mean = E.S, sd = sqrt(var.S), lower.tail = FALSE)) # P(S > q)
+print(paste0("VaR 95%: ",(VaR.N <- E.S + sqrt(var.S) * qnorm(alpha)))) # VaR_alpha(S)
+print(paste0("CVaR 95%: ",(ES.N <- E.S + sqrt(var.S) * dnorm(qnorm(alpha)) / (1-alpha)))) # ES_alpha(S)
+```
+## Aproximación Gamma Trasladada
+Este metodo se basa en que la Perdida Total se distribuye en una gamma con los mismos parámetros. Se obtuvo los siguientes resultados:
+```{r echo=FALSE}
+#- 2 Translated gamma
+
+## Idea: Assume S follows a translated gamma distribution with parameters chosen
+##       to match the (true or estimated; here: true) mean, variance and skewness
+##       of S.
+
+## Note: S = k + G where G ~ Gamma(shape, rate). Thus
+##       1) ES = k + shape/rate
+##       2) var(S) = shape/rate^2
+##       3) skew(S) = 2/sqrt(shape)
+##       and hence
+##       3) => shape = (2/skew(S))^2
+##       2) => rate = sqrt(shape/var(S))
+##       1) => k = ES - shape/rate
+shape <- (2/skew.S)^2
+rate <- sqrt(shape/var.S)
+k <- E.S - shape/rate
+
+## Tail probability, VaR, ES
+## Note: Let G ~ Gamma(shape, rate). Then
+##       - \bar{F}_S(q) = P(S > q) = P(S-k > q-k) = P(G > q-k) = \bar{F}_G(q-k)
+##       - VaR_alpha(S) = F^{-1}_S(alpha) = k + F_G^{-1}(alpha)
+##       - ES_alpha(S) = (1/(1-alpha)) int_alpha^1 VaR_u(S) du
+##                     = k + (1/(1-alpha)) int_alpha^1 F_G^{-1}(u) du
+##                     = k + (1/(1-alpha)) int_{F_G^{-1}(alpha)}^inf x*f_G(x) dx
+##         Note that x*f_G(x) = (shape/rate) * <density of Gamma(shape + 1, rate) at x>, so
+##                     = k + ((shape/rate) / (1-alpha)) * P(G' > F_G^{-1}(alpha))
+##                       for G' ~ Gamma(shape + 1, rate)
+(tprob.tg <- pgamma(q-k, shape = shape, rate = rate, lower.tail = FALSE)) # P(S > q) = P(G > q-k)
+print(paste0("VaR 95%: ",(VaR.tg <- k + qgamma(alpha, shape = shape, rate = rate)))) # VaR_alpha(S)
+print(paste0("CVaR 95%: ",(ES.tg <- k + ((shape/rate) / (1-alpha)) *
+     pgamma(qgamma(alpha, shape = shape, rate = rate),
+            shape = shape + 1, rate = rate, lower.tail = FALSE)) ))# ES_alpha(S)
+```
+## Recursión Panjer
+El algoritmo de Panjer está basado en el cálculo de la distribución compuesta mediante convoluciones. Se utiliza el hecho de que la distribución de la suma de dos variables aleatorias continuas independientes puede ser calculada como una convolución. Se simula las diferentes distribuciones compuestas de forma recursiva y se obtiene una función compuesta donde se estima la cola para determinar el VaR y CVaR. Los VaR y CVaR al 98% de confianza que se obtienen son los siguientes:
+
+```{r echo=FALSE}
+#- 3 Panjer recursion
+
+## Idea: - Assume that X_j's are discrete (iid in {0,1,2,...}) with f_k = P(X_1 = k)
+##         and that N is discrete (in {0,1,2,...}) with p_k = P(N = k) satisfying
+##         p_k = (a+b/k) * p_{k-1} for k >= 1 for some a + b >= 0 (Panjer class;
+##         so binomial, Poi or negative binomial); p_0 is such that all p's sum
+##         up to 1. Furthermore, all rvs are independent.
+##       - Then the compound sum S is discrete with s_{k,n} = P(S = k | N = n).
+##         The probability mass function s_{k,n+1} for S given N = n+1 can then
+##         be computed recursively via
+##               s_{k,n+1} = sum_{j=1}^{k-1} s_{j,n} f_{k-j}
+##         (compare the probability of S = k given N = n+1 with the probability
+##         of reaching j with n summands and k-j for the remaining summand).
+##         Based on this identity, one can show the Panjer recursion. To this end
+##         let s_k = P(S = k) and G(z) = E(z^N) be the generating function of N.
+##       - Panjer recursion:
+##         s_0 <- if(a == 0) G(f_0) else p_0/(1-f_0*a)^(1+b/a)
+##         s_k <- (1-f_0*a) * sum_{j=1}^k (a+bj/k) * f_j * s_{k-j}, k = 1,2,...
+nsteps <- 50000 # k; should be > floor(q)
+stopifnot(nsteps + 1 >= floor(q))
+
+## Discretize the severity distribution
+pts <- c(0, 1:(nsteps + 1) - 0.5) # => probabilities in (0, 0.5], (1/2, 1.5], (1.5, 2.5], ...
+f <- diff(plnorm(pts, meanlog = mu, sdlog = sig)) # length = nsteps + 1
+
+## Panjer recursion; note that for N ~ Poi(lam), we have
+## G(z) = exp(lam * (z-1)), a = 0 and b = lam
+a <- 0
+b <- lam
+s <- numeric(nsteps+1) # note: theoretical indices k in {0,1,2,...}; R indices in {1,2,3,...}
+s[1] <- exp(lam * (f[1] - 1)) # k = 0; s_0 = G(f_0) here
+fct <- 1 - f[1] * a
+for(k in 1:nsteps) { # k >= 1
+    j <- 1:k
+    s[k+1] <- fct * sum((a + b*j/k) * f[j+1] * s[k-j+1]) # s_k
+}
+## Note:
+## - s now contains the mass function of S. This can be used to estimate tail
+##   probabilities, VaR_alpha(S) and ES_alpha(S)
+## - With nsteps = 25000, the tail probability and VaR_alpha(S) estimates below
+##   will be ok, but there is a truncation error for ES_alpha(S) which then
+##   leads to a smaller ES_alpha(S) estimate than VaR_alpha(S).
+
+## Tail probability, VaR, ES
+S.df <- cumsum(s) # df of S at 0,1,2, ...
+(tprob.pr <- 1 - S.df[floor(q)]) # P(S > q) = 1 - P(S <= q)
+ii <- which(S.df >= alpha) # indices for which S.df >= alpha
+stopifnot(length(ii) > 0) # otherwise S.df < alpha everywhere
+print(paste0("VaR 95%: ",(VaR.pr <- min(ii)))) # VaR_alpha(S)
+print(paste0("CVaR 95%: ",(ES.pr <- sum((ii-1) * s[ii]) / (1-alpha)))) # ES_alpha(S) = (1/(1-alpha)) * int_{VaR_alpha}^1 x * s(x) dx
+
+```
+## Transformación FFT
+La Transformada rápida de Fourier es un algoritmo eficiente que permite calcular la transformada de Fourier discreta (DFT) y su inversa. La FFT es de gran importancia en una amplia variedad de aplicaciones, desde el tratamiento digital de señales y filtrado digital en general a la resolución de ecuaciones en derivadas parciales o los algoritmos de multiplicación rápida de grandes enteros.
+```{r echo=FALSE}
+### 4 Fast Fourier transform (FFT) #############################################
+
+nsteps <- 2^16
+
+## Discretize the severity distribution
+pts <- c(0, 1:(nsteps+1)- 0.5) # => probabilities in (0, 0.5], (1/2, 1.5], (1.5, 2.5], ...
+f <- diff(plnorm(pts, meanlog = mu, sdlog = sig)) # length = nsteps + 1
+
+## Fast Fourier transform
+f.hat <- fft(f) # Fast Fourier transform
+gf.hat <- exp(lam * (f.hat - 1)) # apply the Poisson generating function to the transformed mass function f
+s <- Re(fft(gf.hat, inverse = TRUE) / nsteps) # obtain the mass function of S
+## Note: We take the real part here, due to possible round-off errors which could
+##       introduce an imaginary part.
+
+## Tail probability, VaR, ES
+S.df <- cumsum(s) # df of S at 0,1,2, ...
+(tprob.fft <- 1 - S.df[floor(q)]) # P(S > q) = 1 - P(S <= q)
+ii <- which(S.df >= alpha) # indices for which S.df >= alpha
+stopifnot(length(ii) > 0) # otherwise S.df < alpha everywhere
+print(paste0("VaR 95%: ",(VaR.fft <- min(ii)))) # VaR_alpha(S)
+print(paste0("VaR 95%: ",((ES.fft <- sum((ii-1) * s[ii]) / (1-alpha))))) # ES_alpha(S) = (1/(1-alpha)) * int_{VaR_alpha}^1 x * s(x) dx
+```
+
+```{r}
+mc(danishuni, rfun="log-normal", type="poisson", period = "days")
+```
+
+
+## Conclusiones
+Las empresas enfrentan perdidas operativas en su dia a dia. Algunos ejemplos son las perdidas resultantes de errores de los empleados, fraude interno o externo, fallas en los equipos, problemas ante desastres naturales y vandalismo. 
+Este riesgo operativo afecta la eficiencia operacional en todas las unidades de negocios. En el caso de Vikings Fish Co. solo se cuenta con la información de una linea de negocio, pero es importante tener como paso futuro la información histórica de las otras lineas para modelizar el riesgo e implementar los modelos en el sistema de control de riesgo de la empresa.
+Quisiera incluir en este análisis, como punto relevante, que la información brindada es de los años 1980 a 1990, de una empresa danesa. Dinamarca ahora se presenta como un país con más solidez economica que en ese periodo, por que el modelo presentado en el informe no esta totalmente ajustado para los periodos futuros. Como pasos posteriores, se debe incluir la actualización de la información, incluyendo los eventos externos que pueden afectar en la valoración de las pérdidas de la empresa, y revisar si el modelo conserva los estimadores de precisión presentados en este estudio. En caso de diferir, que es lo más probable, se requiere ajustar las distribuciones y buscar un modelo de riesgo que sirva de soporte para la gestión de riesgos de Vikings Fish Co.
+
+## Bibliografía
+* CHERNOBAI, Anna S.; RACHEV, Svetlozar T.; FABOZZI, Frank J. Operational risk: a guide to Basel II capital requirements, models, and analysis. John Wiley & Sons, 2008.
+
+* ZALEWSKA, Anna. Operational Risk: Guide OpVar, 2010, Junio. Codigo R https://github.com/barryrowlingson/opVaR/blob/master/R/key.sum.R
+
+* HOFERT, Marius; FREY, Rüdiger. The Quantitative Risk Management Exercise Book. Codigo R: https://github.com/qrmtutorial/qrm/blob/master/code/The_QRM_Exercise_Book/08_Aggregate_Risk.R
+
+
+```{r generate_references, cache=FALSE, include=FALSE, results='hide'}
+#write.bibtex(file="references.bib", 
+#             append=file.exists("references.bib"))
+
+```

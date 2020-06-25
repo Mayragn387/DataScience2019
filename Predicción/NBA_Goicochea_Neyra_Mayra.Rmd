@@ -1,0 +1,311 @@
+---
+title: "Prediccion - Caso NBA"
+output:
+  word_document: default
+  html_notebook: default
+---
+_Nombre: Mayra Goicochea Neyra_
+Se tiene la informacion de los jugadores de la NBA para desarrollar un modelo predictivo que se ajuste adecuadamente y permita estimar el salario de otros jugadores.
+Los datos que se entregaron en la muestra son los siguientes:
+ - Nombre del Jugador
+ - Salario
+ - Draft Number de la NBA
+ - Edad
+ - Equipo
+ - Goals
+ - Minutos de juego
+ - Clasificación de eficiencia del jugador
+ - Porcentaje de disparo
+ - Tasa de intento de 3 puntos
+ - Tasa de intento de tiro libre
+ - Porcentaje de rebote ofensivo
+ - Porcentaje de rebote defensivo
+ - Porcentaje de rebote total
+ - Porcentaje de asistencia
+ - Porcentaje de robo
+ - Porcentaje de bloqueo
+ - Porcentaje de rotación
+ - Porcentaje de uso
+ - Acciones ofensivas ganadoras
+ - Acciones de victorias defensivas
+ - Acciones Ganadoras
+ - Acciones Ganadoras por 48 minutos
+ - Box Plus/Minus
+ - Valor sobre el jugador de reemplazo
+ 
+ Primero se carga la muestra entregada en un dataframe y se renombran las columnas. Adicionalmente se realiza un resumen de las caracteristicas de la información.
+
+```{r}
+setwd("C:/Users/Goicochea/Desktop/CUNEF/Cursos/Prediccion/Tarea")
+library(readr)
+mNba=read.csv("./nba.csv")
+colnames(mNba)<-c("Player","Salary","NBA_Country","NBA_DraftNumber","Age","Tm","G","MP","PER","TS","TPAr","FTr","ORB","DRB","TRB","AST","STL","BLK","TOV","USG","OWS","DWS","WS","WS48","OBPM","DBPM","BPM","VORP")
+summary(mNba)
+```
+```{r}
+cat("NA values:",sum(is.na(mNba)),"\n")
+```
+
+Se observa que se tiene valores ausentes en 4 variables (TS, TPAr, FTr, TOV). Es asi que se procede a ajustar estos datos con el metodo de imputacion por hotdeck.
+
+```{r}
+library(rminer)
+library(ggplot2)
+library(kknn)
+
+mNba<-imputation("hotdeck",mNba,"TOV")
+mNba<-imputation("hotdeck",mNba,"FTr")
+mNba<-imputation("hotdeck",mNba,"TPAr")
+mNba<-imputation("hotdeck",mNba,"TS")
+cat("NA values:",sum(is.na(mNba)),"\n")
+
+```
+
+Ahora si se puede proceder a proponer un modelo inicial para revisar el comportamiento de las variables explicativas.
+Se quita la variable Nombre del Jugador al no ser representativa para la prediccion del salario del jugador.
+
+```{r}
+set.seed(5)
+reg0<-lm(Salary~ .-Player, data=mNba)
+summary(reg0)
+```
+De igual forma se observa en el modelo inicial que el Pais NBA crea muchas variables dicotomicas no representativas para el modelo predictivo.
+```{r}
+reg01<-lm(Salary~ .-Player-NBA_Country, data=mNba)
+summary(reg01)
+```
+
+Ahora con el modelo inicial se ejecutaran algunas pruebas para revisar el comportamiento de las variables.
+_*ANALISIS DE LAS VARIABLES EXPLICATIVAS*_
+*1. Pruebas de Normalidad*
+ a. QQPLOT: Contrastamos graficamente la distribucion de densidad de la muestra con respecto a la distribucion normal.
+La linea continua se encuentra dentro del intervalo de confianza en el centro, pero en los extremos se aleja. No se puede afirmar que el comportamiento de las variables siga un distribucion normal.
+    
+```{r}
+library(carData)
+library(car)
+
+qqPlot(reg01, labels=row.names(mNbaF), id.method="identify", simulate=TRUE, main="Q-Q Plot")  
+```
+
+ b.Histograma + densidad + normal + rug
+Esta tecnica nos permite calcular el error residual del analisis de normalidad de la muestra.
+```{r}
+residplot <- function(fit, nbreaks=10) {
+  z <- rstudent(fit)
+  hist(z, breaks=nbreaks, freq=FALSE,
+       xlab="Studentized Residual",
+       main="Distribution of Errors")
+  rug(jitter(z), col="brown")
+  curve(dnorm(x, mean=mean(z), sd=sd(z)),
+        add=TRUE, col="blue", lwd=2)
+  lines(density(z)$x, density(z)$y,
+        col="red", lwd=2, lty=2)
+  legend("topright",
+         legend = c( "Normal Curve", "Kernel Density Curve"),
+         lty=1:2, col=c("blue","red"), cex=.7)
+}
+residplot(reg01)
+```
+El histograma nos grafica de forma discreta como los datos se agrupan en los rangos de valores. La linea descontinua roja representa la muestra y la linea azul, la distribucion normal. Como se observa, ambas curvas difieren tanto en mediana como en el rango de 0 a 2.
+ c. Jarque-Bera
+ 
+```{r}
+vResid=resid(reg01)
+library(fBasics)
+library(akima)
+jbTest(vResid)
+```
+ Mediante la prueba de Jarque-Vera, se puede indicar que siendo p-value menor que 0.05 no se puede aceptar la hipotesis nula (Los datos se comportan en forma de una distribucion normal).
+ 
+ d. Shapiro - Wilk
+
+```{r}
+shapiro.test(vResid)
+```
+
+De igual manera, la prueba de Shapiro nos indica que no se puede aceptar la hipotesis de que los datos se comportan en forma de una distribucion normal.
+
+*2. Pruebas de Homocedasticidad*
+ Se realiza el test de Breusch–Pagan para determinar si la varianza entre las variables es contaste.
+ 
+```{r}
+ncvTest(reg01) 
+```
+```{r}
+spreadLevelPlot(reg01) 
+```
+ 
+ Siendo el valor Chisquare mayor a 0.05, se acepta que las varianzas son constantes.
+ 
+*3. Validacion Global*
+
+```{r}
+library(gvlma)
+gvmodel <- gvlma(reg01) 
+summary(gvmodel)
+```
+
+ No se puede generar una validacion general debido a que existen variables correlacionadas. Con el supuesto de que las variables relacionadas son Tm (Equipo), formulamos un nuevo modelo:
+```{r}
+reg01<-lm(Salary~ .-Player-NBA_Country-Tm, data=mNba)
+library(gvlma)
+gvmodel <- gvlma(reg01) 
+summary(gvmodel)
+```
+ Efectivamente esas eran las variables correlacionadas. Vemos que este nuevo modelo pasa la prueba de homocedastacidad.
+ 
+ *4. Multicolinealidad*
+ Se realiza las pruebas en los siguientes casos:
+ - Todas las variables excepto el nombre del jugador.
+ - Todas las variables excepto el nombre del jugador y Pais.
+```{r}
+reg0<-lm(Salary~ .-Player, data=mNba)
+vif(reg0) 
+sqrt(vif(reg0)) > 2
+
+reg0<-lm(Salary~ .-Player-NBA_Country, data=mNba)
+vif(reg0) 
+sqrt(vif(reg0)) > 2
+
+```
+No se puede calcular el error debido a que las variables estan correlacionadas. Estos casos responden a multicolinealidad.
+
+La siguiente prueba, quitando las variables el nombre del jugador, Pais y Equipo.
+
+```{r}
+reg01<-lm(Salary~ .-Player-NBA_Country-Tm, data=mNba)
+vif(reg01) 
+sqrt(vif(reg01)) > 2
+```
+
+_*Observaciones Anomalas*_
+*1. Atípicos*
+Para identificar los valores atipicos de la muestra se realiza una prueba Bonferroni p-values.
+
+```{r}
+outlierTest(reg01)
+```
+
+Segun el test, se identifica las filas 114 y 328 como casos atipicos.
+
+*2. Influyentes*
+Mediante el grafico de influencia se puede identificar los valores influyentes:
+```{r}
+influencePlot(reg01, id.method="identify", main="Influence Plot", 
+              sub="Circle size is proportial to Cook's Distance" )
+```
+
+Los valores influyentes son las filas 114,143,166,328.
+Se procede a eliminar estos casos, por que sino distorsiarian el modelo predictivo.
+
+```{r}
+mNba<-mNba[-c(114,143,166,328),]
+```
+
+_*SELECCION DE VARIABLES*_
+
+A continuacion, se ejecutan las tecnicas de seleccion Both Direction Stepwise y Cross Validation. Cada algoritmo generara el mejor modelo y mediante el menor valor de AIC alcanzado se elegira el modelo predictivo resultante.
+Primero se iniciara con un modelo con todas las variables a excepcion del nombre del jugador.
+```{r}
+library(MASS)
+library (leaps)
+
+reg0<-lm(Salary~ .-Player, data=mNba)
+```
+
+*1. Both Direction Stepwise*
+```{r}
+#1. Forward Stepwise
+stepAIC(reg0, direction="both")
+```
+
+Este metodo selecciono el modelo Salary ~ NBA_DraftNumber + Age + G + MP + PER + TPAr + ORB + TRB + USG + WS + OBPM, obteniendo un AIC de 14825.03.
+
+
+*2. Cross Validation*
+Se validara con las tecnicas del cross validation la eficiencia de los 4 modelos que se han formulado.
+        Caso 1 (Inicial): Salary~.-Player-NBA_Country-Tm
+        Caso 2 (Summary): Salary~ NBA_DraftNumber+Age+G+MP
+        Caso 3 (Colinealidad): Salary~ NBA_DraftNumber + Age + FTr + AST + STL + TOV
+        Caso 4 (generado por Stepwise): Salary ~ NBA_DraftNumber + Age + G + MP + PER + TPAr + ORB + TRB + USG + WS + OBPM
+
+  a.Validation Set
+  
+```{r}
+library(ISLR)
+set.seed(400)
+mNbaF<-mNba[,c(2,4:5,7:28)] #Se eliminan las columnas Player, NBA_Country y Tm por que afectan a las pruebas (problema de multicolinealidad)
+numData=nrow(mNbaF)
+train=sample(numData ,numData/2)
+
+#Caso 1: reg0= Salary~.-Player-NBA_Country-Tm
+regres.train =lm(Salary~.,mNbaF ,subset =train ) 
+attach(mNbaF)
+mean((Salary-predict(regres.train ,Auto))[-train ]^2)
+
+#2.Caso (Summary): Salary~ NBA_DraftNumber+Age+G+MP
+regres.train2 =lm(Salary~ NBA_DraftNumber+Age+G+MP,mNbaF ,subset =train )
+mean((Salary-predict(regres.train2 ,Auto))[-train ]^2)
+
+#3.Caso (Colinealidad): Salary~ NBA_DraftNumber + Age + FTr + AST + STL + TOV
+regres.train3 =lm(Salary~ NBA_DraftNumber + Age + FTr + AST + STL + TOV,mNbaF ,subset =train )
+mean((Salary-predict(regres.train3 ,Auto))[-train ]^2)
+
+#4.Caso (Stepwise): Salary ~ NBA_DraftNumber + Age + G + MP + PER + TPAr + ORB + TRB + USG + WS + OBPM
+regres.train4 =lm(Salary ~ NBA_DraftNumber + Age + G + MP + PER + TPAr + ORB + TRB + USG + WS + OBPM,mNbaF ,subset =train )
+mean((Salary-predict(regres.train4 ,Auto))[-train ]^2)
+```
+  Se encontro que el modelo de Stepwise tiene el menor margen de error.
+  
+  b.Leave One Out Cross Validation
+
+```{r}
+library (boot)
+#1.Caso: reg0= Salary~.-Player-NBA_Country-Tm
+glm.fit1=glm(Salary~.,mNbaF ,family = gaussian())
+cv.err =cv.glm(mNbaF,glm.fit1)
+cv.err$delta[1]
+
+#2.Caso (Summary): Salary~ NBA_DraftNumber+Age+G+MP
+glm.fit2=glm(Salary~ NBA_DraftNumber+Age+G+MP,mNbaF ,family = gaussian())
+cv.err =cv.glm(mNbaF,glm.fit2)
+cv.err$delta[1] 
+
+#3.Caso (Colinealidad): Salary~ NBA_DraftNumber + Age + FTr + AST + STL + TOV
+glm.fit3=glm(Salary~ NBA_DraftNumber + Age + FTr + AST + STL + TOV,mNbaF ,family = gaussian())
+cv.err =cv.glm(mNbaF,glm.fit3)
+cv.err$delta[1]
+
+#4.Caso (Stepwise): Salary ~ NBA_DraftNumber + Age + G + MP + PER + TPAr + ORB + TRB + USG + WS + OBPM
+glm.fit4=glm(Salary ~ NBA_DraftNumber + Age + G + MP + PER + TPAr + ORB + TRB + USG + WS + OBPM,mNbaF ,family = gaussian())
+cv.err =cv.glm(mNbaF,glm.fit4)
+cv.err$delta[1] 
+```
+  Este metodo tambien selecciono el modelo generado por el Stepwise.
+  
+  c.K Fold Cross Validation
+  
+```{r}
+library (boot)
+#1.Caso: reg0= Salary~.-Player-NBA_Country-Tm
+glm.fit1=glm(Salary~.,mNbaF ,family = gaussian())
+cv.err =cv.glm(mNbaF,glm.fit1,K=10)
+cv.err$delta[1] #raw cross-validation estimate of prediction error
+
+#2.Caso (Summary): Salary~ NBA_DraftNumber+Age+G+MP
+glm.fit2=glm(Salary~ NBA_DraftNumber+Age+G+MP,mNbaF ,family = gaussian())
+cv.err =cv.glm(mNbaF,glm.fit2,K=10)
+cv.err$delta[1] #raw cross-validation estimate of prediction error
+
+#3.Caso (Colinealidad): Salary~ NBA_DraftNumber + Age + FTr + AST + STL + TOV
+glm.fit3=glm(Salary~ NBA_DraftNumber + Age + FTr + AST + STL + TOV,mNbaF ,family = gaussian())
+cv.err =cv.glm(mNbaF,glm.fit3,K=10)
+cv.err$delta[1]  #raw cross-validation estimate of prediction error
+
+#4.Caso (Stepwise): Salary ~ NBA_DraftNumber + Age + G + MP + PER + TPAr + ORB + TRB + USG + WS + OBPM
+glm.fit4=glm(Salary ~ NBA_DraftNumber + Age + G + MP + PER + TPAr + ORB + TRB + USG + WS + OBPM,mNbaF ,family = gaussian())
+cv.err =cv.glm(mNbaF,glm.fit4)
+cv.err$delta[1] #raw cross-validation estimate of prediction error
+```
+  De igual manera, el stepwise es el mejor bajo la revision de los tres metodos.

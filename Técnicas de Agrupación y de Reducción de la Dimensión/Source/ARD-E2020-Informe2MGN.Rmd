@@ -1,0 +1,538 @@
+---
+title: 'Reservas de Hotel - Informe Técnicas de Agrupación y Reducción de la Dimensión'
+author: 'Elaborado por: Mayra Goicochea Neyra'
+date: "22/01/2020"
+output:
+  word_document: default
+  pdf_document: default
+---
+# ANEXO: Código R
+## Librerias
+De forma similar al código R del informe 1, se utilizaron en este codigo las librerias: `readr`, `dplyr`, `tidyverse`,`ggplot2`, `ggpubr`y`corrplot`. Adicionalmente, se utilizan librerias propias de las técnicas de agrupación y análisis de reduccción de la dimensión:  `psych`, `factoextra`, `FactoMineR`, `gridExtra`, `cluster`,`factoextra`,`clustertend`, `memisc`,`NbClust`, `Rtsne`,`fpc` y`dendextend`
+
+```{r include=FALSE, warning=FALSE}
+library(readr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(ggpubr)
+library("graphics")
+# PCA
+library(corrplot)
+library(psych)
+library(factoextra)
+library(FactoMineR)
+##Cluster Libraries
+library(gridExtra)
+library(flexclust)
+library(cluster)
+library(factoextra)
+library(clustertend)
+library(memisc)
+library(NbClust)
+library(Rtsne)
+library(fpc)
+library(dendextend)
+```
+
+## Data Loading
+Como primer paso, se cargan los datos procesados en el informe 1 y se factoriza la variable "IsRepeatedGuest", dado que la función read.csv no lo reconoce como factor.
+
+```{r}
+set.seed(123)
+rawData  <- read.csv("../data/H1.csv")
+rawData_sample  <- read.csv("BookingsNotEncodeSample.csv")
+bookings_sample <- read_csv("BookingsEncodeSample.csv")
+bookings_ready <- read_csv("BookingsEncode.csv")
+```
+
+### Factorizacion de Variables Categoricas
+```{r include=FALSE}
+rawData$IsRepeatedGuest <- factor(format(rawData$IsRepeatedGuest, format = "%A"),levels = c("0", "1") , labels = c("No","Yes"))
+rawData_sample$IsRepeatedGuest <- factor(format(rawData_sample$IsRepeatedGuest, format = "%A"),levels = c("0", "1") , labels = c("No","Yes"))
+```
+
+Se crean dos subsets donde se dividen la variable objetivo de las variables explicativas.
+```{r include=FALSE}
+booking_raw.x <- rawData_sample[,-c(1,3)]
+booking_raw.y <-  rawData_sample[,1]
+```
+
+## Técnicas de Reducción de la Dimensión
+El dataset original tiene 31 variables, por lo que seria recomendable revisar mediante las técnicas de reducción si es posible disminuir las dimensiones sin perder mucha información.
+El dataset incluye variables categóricas y numéricas por lo que el análisis de correspondencias y el Análisis Factorial para Data Mixta (FAMD), la principal razón es que la proporción de las variables categoricas es mayor a las numericas, ademas de su importancia por guardar informacion de las reservas y los huespedes. Las numericas, en su mayoria, son discretas.
+
+### Análisis de Correspondencias
+La técnica que se utilizara es la simple, es decir, se trata de la evaluación de la relación entre dos dimensiones. Para facilitar la ejecución, se encapsuló el código en una función:
+
+```{r funCA, include=FALSE}
+funCA <- function(tb, title_var1,title_var2){
+  table.ca <- CA(tb, graph = FALSE)
+  fviz_ca_biplot(table.ca, map ="rowgreen",
+               arrow = c(FALSE, TRUE))+
+        ggtitle(paste("Contribución de",title_var2,"a las dimensiones"))
+}
+```
+
+#### Country vs ReservationStatus
+```{r}
+tb <- as.data.frame.matrix(table(rawData$ReservationStatus,rawData$Country))[ ,c("PRT","USA","GBR","IRL","ESP","CN","DEU","FRA","NLD")]
+funCA(tb,"Reservation Status", "Country")
+mosaicplot(tb, shade = TRUE, las=1, main = "Reservas")
+```
+
+#### MarketSegment vs ReservationStatus
+```{r}
+tb <- as.data.frame.matrix(table(rawData$ReservationStatus,rawData$MarketSegment))
+funCA(tb,"Reservation Status", "Market Segment")
+mosaicplot(tb, shade = TRUE, las=1, main = "Reservas")
+```
+
+#### MarketSegment vs DepositType
+```{r}
+tb <- as.data.frame.matrix(table(rawData$DepositType,rawData$MarketSegment))
+funCA(tb,"Deposit Type", "Market Segment")
+mosaicplot(tb, shade = TRUE, las=1, main = "Reservas")
+```
+
+#### Reserved Room Type vs Distribution Channel
+```{r}
+tb = as.data.frame.matrix(table(rawData$DistributionChannel, rawData$ReservedRoomType))
+funCA(tb,"Distribution Channel", "ReservedRoomType")
+```
+
+#### Reserved Room Type vs Country
+```{r}
+tb = as.data.frame.matrix(table(rawData$Country, rawData$ReservedRoomType))
+funCA(tb,"Country", "ReservedRoomType")
+```
+
+
+### Análisis de Componentes Principales
+No es óptimo para el caso, por que se tendria que excluir las variables categoricas y se perderia mucha informacion.
+
+
+### Análisis Factorial para Data Mixta (FAMD)
+FAMD es un método de componentes principales dedicado a analizar un dataset que contiene variables cuantitativas y categóricas. Hace posible analizar la similitud entre los individuos considerando ambos tipos de datos. Es un algoritmo que combina el análisis de componentes principales (PCA) y el análisis de correspondencias múltiple (MCA).
+
+
+```{r}
+book.famd <- FAMD(rawData_sample[,-c(1,3)], graph = TRUE)
+```
+
+```{r}
+eig.val <- get_eigenvalue(book.famd)
+head(eig.val)
+```
+
+```{r}
+fviz_screeplot(book.famd)
+```
+
+```{r}
+#Plot de las variables
+fviz_famd_var(book.famd, repel=TRUE)
+
+#Contribucion a la primera dimension
+fviz_contrib(book.famd, "var", axes=1)
+#Contribucion a la segunda dimension
+fviz_contrib(book.famd, "var", axes=2)
+```
+```{r}
+#Variables cuantitativas
+fviz_famd_var(book.famd,"quanti.var", col.var = "contrib",
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+              repel = TRUE)
+fviz_famd_var(book.famd, "quanti.var", col.var = "cos2",
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+              repel = TRUE)
+```
+
+
+```{r}
+#Variables cualitativas
+fviz_famd_var(book.famd, "quali.var", col.var = "contrib",
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07")
+              )
+```
+
+### Arbol de Decisión
+Para identificar las variables más significativas para la estimación de si una reserva será cancelada o no, el árbol de decisión es un modelo que permite generar métricas para identificarlas:
+
+```{r  echo = FALSE, message = FALSE, warning = FALSE, fig.width=5, fig.height=4.5}
+# Semilla aleatoria
+set.seed(1234)
+# Definimos una muestra aleatoria de aprendizaje del arbol
+train <- sample(nrow(rawData_sample), 0.8*nrow(rawData_sample))
+
+# Data frame para la muestra de aprendizaje y otro para la muestra de validaci?n
+rawData_sample.train <- rawData_sample[train,]
+rawData_sample.validate <- rawData_sample[-train,]
+
+# Vemos la distribucion de ambas muestras y comprobamos que est?n balanceadas
+table(rawData_sample.train$IsCanceled)
+table(rawData_sample.validate$IsCanceled)
+# Cargamos la libreria rpart
+library(rpart)
+# Estimamos el arbol
+arbol <- rpart(IsCanceled ~ ., data=rawData_sample.train, method="class",
+               parms=list(split="information"))
+# summary(arbol)
+# Tabla de complejidad param?trica
+arbol$cptable
+
+# Representamos gr?ficamente la curva cp
+plotcp(arbol)
+layout.show(layout(matrix(c(1),ncol=1)))
+
+# Podamos el arbol a partir del p?rametro de complejidad
+arbol.podado <- prune(arbol, cp = 0.01 )
+# Cargamos la librer?a para representar graficamente el ?rbol
+library(rpart.plot)
+prp(arbol.podado, type = 2, extra = 104,
+    fallen.leaves = TRUE, main="Decision Tree")
+layout.show(layout(matrix(c(1),ncol=1)))
+
+```
+
+```{r}
+df <- data.frame(imp = arbol.podado$variable.importance)
+df2 <- df %>% 
+  tibble::rownames_to_column() %>% 
+  dplyr::rename("variable" = rowname) %>% 
+  dplyr::arrange(imp) %>%
+  dplyr::mutate(variable = forcats::fct_inorder(variable))
+ggplot2::ggplot(df2) +
+  geom_col(aes(x = variable, y = imp),
+           col = "black", show.legend = F) +
+  coord_flip() +
+  scale_fill_grey() +
+  theme_bw()
+```
+
+## Análisis Cluster
+Ahora se identificará que técnica de clustering es óptima para clasificar las observaciones. Se evaluarán los métodos jerárquicos y no jerárquicos.
+
+Primero se crea un dataframe para tomar todos los valores de la muestra codificada bookingsEncode.csv a excepcion de ArrivalDateYear. Se separa en dos objetos x e y para proceder con el análisis cluster.
+
+```{r}
+bookings_cluster_y <- bookings_sample[,1]
+bookings_cluster_x <- bookings_sample[,-c(1,3)]
+```
+
+
+### Bondad del Cluster
+Se revisa si la muestra tiene la suficiente capacidad discriminante para clasificarlo en grupos. Según el coeficiente de hopkings, se tiene que la muestra es adecuada para evaluarla con un análisis cluster (la función `get_clust_tendency` indica que si el coeficiente es más cercano a 1 es óptimo)
+
+```{r}
+set.seed(123)
+bondad_ac = get_clust_tendency(bookings_cluster_x, 500)
+bondad_ac$hopkins_stat
+```
+
+### Matriz de Distancias
+La distancia de Gower se calcula como el promedio de las diferencias parciales entre individuos. Cada disparidad parcial(distancia de Gower) varía en [0 1], y depende del tipo de variable que es evaluada. Para este caso, se tiene muchas variables importantes de tipo categorico, por que un analisis de cluster con solo variables numericas no es óptimo (además de que muchas de las variables numericas son del tipo discreto o entero), por ello utilizare gower.
+
+```{r}
+dist.gower <- daisy(booking_raw.x, metric = "gower")
+fviz_dist(dist.gower, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4E07"), lab_size = 5) +
+  labs(title = "Distancias basado en Gower")
+```
+
+A continuación, se identifica las reservas más cercanas según la distancia de gower. Como se muestra, son muy similares, la distancia de gower es la más eficiente para la muestra.
+
+```{r}
+mat.gower <- as.matrix(dist.gower)
+rawData_sample[which(mat.gower == min(mat.gower[mat.gower != min(mat.gower)]), arr.ind = TRUE)[1, ], ]
+```
+
+### Técnicas de Clusters No Jerárquicos
+
+#### PAM: Particionamiento cercano a Medoides, es similar al algoritmo K-Means, pero más robusto sobre el ruido y los outliers. Y produce un "individuo típico" por cada cluster (muy útil para la interpretación). Su desventaja es que requiere que consume mucho tiempo y capacidad computacional.
+
+
+```{r}
+# Calcular la siluetas según el número de clusters mediante PAM
+sil_width <- c(NA)
+for(i in 2:10){
+  pam_fit <- pam(dist.gower,
+                 diss = TRUE,
+                 k = i)
+  sil_width[i] <- pam_fit$silinfo$avg.width
+}
+# Grafico de la silueta (Optimo: Maximo)
+plot(1:10, sil_width,
+     xlab = "Number of clusters",
+     ylab = "Silhouette Width")
+lines(1:10, sil_width)
+```
+
+```{r PAMfit}
+pam.fit <- pam(dist.gower.2, diss = TRUE, k = 2)
+```
+
+* `Cluster Plot` 
+
+```{r}
+tsne_obj <- Rtsne(dist.gower, is_distance = TRUE)
+tsne_data <- tsne_obj$Y %>%
+  data.frame() %>%
+  setNames(c("X", "Y")) %>%
+  mutate(cluster = factor(pam.fit$clustering))
+ggplot(aes(x = X, y = Y), data = tsne_data) +
+  geom_point(aes(color = cluster))
+```
+
+
+```{r}
+mat.pam <- cbind(pam.fit$clustering,rawData_sample)
+mat.pam[which(mat.gower == min(mat.gower[mat.gower != min(mat.gower)]), arr.ind = TRUE)[1, ], ]
+mat.pam[which(mat.gower == max(mat.gower[mat.gower != max(mat.gower)]), arr.ind = TRUE)[1, ], ]
+```
+
+```{r}
+tb <- table(pam.fit$clustering,mat.pam$IsCanceled)
+prop.table(tb)*100
+print(paste("Cluster 1: ", round(tb[1,2]/sum(tb[1,1:2])*100,2),"% Cancelaciones"))
+print(paste("Cluster 2: ", round(tb[2,2]/sum(tb[2,1:2])*100,2),"% Cancelaciones"))
+```
+
+
+#### Fuzzy Analysis Clustering: cada observación tiene una probabilidad de pertenecer a cada cluster. Esta técnica maneja el problema donde los puntos están ambiguamente entre dos centros, reemplazando la distancia con la probabilidad, que por supuesto podría ser alguna función de la distancia, como tener una probabilidad relativa a la inversa de la distancia. Luego, utiliza un centroide basado en estas probabilidades.
+
+```{r}
+sil_width <- c(NA)
+for(i in 2:10){
+  fuzzy_fit <- fanny(dist.gower,
+                 diss = TRUE,
+                 k = i)
+  sil_width[i] <- fuzzy_fit$silinfo$avg.width
+}
+# Grafico de la silueta (Optimo: Maximo)
+plot(1:10, sil_width,
+     xlab = "Number of clusters",
+     ylab = "Silhouette Width")
+lines(1:10, sil_width)
+```
+
+
+```{r}
+fanny.fit <- fanny(dist.gower, diss=TRUE, k=2)
+tsne_obj <- Rtsne(dist.gower, is_distance = TRUE)
+tsne_data <- tsne_obj$Y %>%
+  data.frame() %>%
+  setNames(c("X", "Y")) %>%
+  mutate(cluster = factor(fanny.fit$clustering))
+ggplot(aes(x = X, y = Y), data = tsne_data) +
+  geom_point(aes(color = cluster))
+```
+
+
+```{r}
+mat.fanny <- cbind(fanny.fit$clustering,rawData_sample)
+mat.fanny[which(mat.gower == min(mat.gower[mat.gower != min(mat.gower)]), arr.ind = TRUE)[1, ], ]
+mat.fanny[which(mat.gower == max(mat.gower[mat.gower != max(mat.gower)]), arr.ind = TRUE)[1, ], ]
+```
+
+```{r}
+tb <- table(fanny.fit$clustering,mat.fanny$IsCanceled)
+prop.table(tb)*100
+print(paste("Cluster 1: ", round(tb[1,2]/sum(tb[1,1:2])*100,2),"% Cancelaciones"))
+print(paste("Cluster 2: ", round(tb[2,2]/sum(tb[2,1:2])*100,2),"% Cancelaciones"))
+```
+
+### Técnicas de Clusters Jerárquicos
+
+Para evaluar estas técnicas, se calculara las métricas: 
+* Elbow method: mide lo compacto que son los grupos (que tan cercanos son las observaciones del mismo grupo)
+ 
+* Silhouette: mide la separación entre clusters.
+
+```{r}
+#Funcion para las métricas de metodos jerarquicos
+cstats.table <- function(dist, tree, k) {
+  clust.assess <- c("cluster.number","n","within.cluster.ss","average.within","average.between","wb.ratio","dunn2","avg.silwidth")
+  clust.size <- c("cluster.size")
+  stats.names <- c()
+  row.clust <- c()
+  output.stats <- matrix(ncol = k, nrow = length(clust.assess))
+  cluster.sizes <- matrix(ncol = k, nrow = k)
+  for (i in c(1:k)) {
+    row.clust[i] <- paste("Cluster-", i, " size")
+  }
+  for (i in c(2:k)) {
+    stats.names[i] <- paste("Test", i - 1)
+    
+    for (j in seq_along(clust.assess)) {
+      output.stats[j, i] <- unlist(cluster.stats(d = dist, clustering = cutree(tree, k = i))[clust.assess])[j]
+      
+    }
+    
+    for (d in 1:k) {
+      cluster.sizes[d, i] <- unlist(cluster.stats(d = dist, clustering = cutree(tree, k = i))[clust.size])[d]
+      dim(cluster.sizes[d, i]) <- c(length(cluster.sizes[i]), 1)
+      cluster.sizes[d, i]
+      
+    }
+  }
+  output.stats.df <- data.frame(output.stats)
+  cluster.sizes <- data.frame(cluster.sizes)
+  cluster.sizes[is.na(cluster.sizes)] <- 0
+  rows.all <- c(clust.assess, row.clust)
+  
+  # rownames(output.stats.df) <- clust.assess
+  output <- rbind(output.stats.df, cluster.sizes)[ ,-1]
+  colnames(output) <- stats.names[2:k]
+  rownames(output) <- rows.all
+  is.num <- sapply(output, is.numeric)
+  output[is.num] <- lapply(output[is.num], round, 2)
+  output
+}
+```
+
+* `Método Aglomerativo`, esta técnica considera inicialmente cada punto de datos como un grupo individual. En cada iteración, los grupos similares se fusionan con otros grupos hasta que se forma un grupo o grupos K (se van juntando o aglomerando).
+
+```{r}
+hclust.fit <- hclust(dist.gower, method = "complete") 
+plot(hclust.fit, main = "Agglomerative, complete linkage ",)
+
+```
+
+```{r}
+stats.hc <- cstats.table(dist.gower, hclust.fit, 7)
+stats.hc
+```
+
+ - Elbow 
+```{r}
+ggplot(data = data.frame(t(stats.hc)), 
+       aes(x = cluster.number, y = within.cluster.ss)) + 
+  geom_point() +
+  geom_line() +
+  ggtitle("Divisive clustering") +
+  labs(x = "Num.of clusters", y = "Within clusters sum of squares (SS)") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+ - Silhouette
+```{r}
+ggplot(data = data.frame(t(stats.hc)), 
+       aes(x = cluster.number, y = avg.silwidth)) + 
+  geom_point() +
+  geom_line() +
+  ggtitle("Divisive clustering") +
+  labs(x = "Num.of clusters", y = "Average silhouette width") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+ - Dendrograma
+```{r}
+ddplot <- as.dendrogram(hclust.fit)
+ddplot.col <- ddplot %>%
+  set("branches_k_color", k = 3, value =   c("darkslategray", "darkslategray4", "darkslategray3", "gold3", "darkcyan", "cyan3", "gold3")) %>%
+  set("branches_lwd", 0.6) %>%
+  set("labels_colors", 
+      value = c("darkslategray")) %>% set("labels_cex", 0.5)
+ggd1 <- as.ggdend(ddplot.col)
+ggplot(ggd1, theme = theme_minimal()) + labs(x = "Observaciones", y = "Altura", title = "Dendrograma Aglomerative, k = 3")
+```
+
+
+```{r}
+hclust.clust <- cutree(hclust.fit, k = 3)
+data.hclust.cls <- cbind(booking_raw.y, hclust.clust)
+tsne_data <- tsne_obj$Y %>%
+  data.frame() %>%
+  setNames(c("X", "Y")) %>%
+  mutate(cluster = factor(hclust.clust))
+ggplot(aes(x = X, y = Y), data = tsne_data) +
+  geom_point(aes(color = cluster))
+```
+
+
+```{r}
+mat.hclust <- cbind(hclust.clust,rawData_sample)
+mat.hclust[which(mat.gower == min(mat.gower[mat.gower != min(mat.gower)]), arr.ind = TRUE)[1, ], ]
+mat.hclust[which(mat.gower == max(mat.gower[mat.gower != max(mat.gower)]), arr.ind = TRUE)[1, ], ]
+```
+
+```{r}
+tb <- table(hclust.clust,mat.hclust$IsCanceled)
+prop.table(tb)*100
+print(paste("Cluster 1: ", round(tb[1,2]/sum(tb[1,1:2])*100,2),"% Cancelaciones"))
+print(paste("Cluster 2: ", round(tb[2,2]/sum(tb[2,1:2])*100,2),"% Cancelaciones"))
+print(paste("Cluster 3: ", round(tb[3,2]/sum(tb[3,1:2])*100,2),"% Cancelaciones"))
+```
+
+* `Método Divisivo (DIANA)`, esta técnica es opuesta a la aglomerativa. Inicialmente, considera todos los puntos de datos como un único grupo. En cada iteración, va separando los que no son similares (dividiendo)
+
+```{r}
+diana.fit <- diana(dist.gower.2, diss = TRUE, keep.diss = TRUE) 
+plot(diana.fit, main = "Divisive")
+```
+
+```{r}
+stats.dv <- cstats.table(dist.gower.2, diana.fit, 7)
+stats.dv
+```
+
+ - Elbow
+```{r}
+ggplot(data = data.frame(t(stats.dv)), 
+       aes(x = cluster.number, y = within.cluster.ss)) + 
+  geom_point() +
+  geom_line() +
+  ggtitle("Divisive clustering") +
+  labs(x = "Num.of clusters", y = "Within clusters sum of squares (SS)") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+ - Silhouette
+```{r}
+ggplot(data = data.frame(t(stats.dv)), 
+       aes(x = cluster.number, y = avg.silwidth)) + 
+  geom_point() +
+  geom_line() +
+  ggtitle("Divisive clustering") +
+  labs(x = "Num.of clusters", y = "Average silhouette width") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+#Dendrograma
+```{r}
+ddplot <- as.dendrogram(diana.fit)
+ddplot.col <- ddplot %>%
+  set("branches_k_color", k = 3, value =   c("darkslategray", "darkslategray4", "darkslategray3", "gold3", "darkcyan", "cyan3", "gold3")) %>%
+  set("branches_lwd", 0.6) %>%
+  set("labels_colors", 
+      value = c("darkslategray")) %>% set("labels_cex", 0.5)
+ggd1 <- as.ggdend(ddplot.col)
+ggplot(ggd1, theme = theme_minimal()) + labs(x = "Observaciones", y = "Altura", title = "Dendrograma Divisive k = 2")
+```
+
+
+
+```{r}
+diana.clust <- cutree(diana.fit, k = 3)
+data.diana.cls <- cbind(booking_raw.y, diana.clust)
+tsne_data <- tsne_obj$Y %>%
+  data.frame() %>%
+  setNames(c("X", "Y")) %>%
+  mutate(cluster = factor(diana.clust))
+ggplot(aes(x = X, y = Y), data = tsne_data) +
+  geom_point(aes(color = cluster))
+```
+
+```{r}
+mat.div <- cbind(diana.clust,rawData_sample)
+mat.div[which(mat.gower == min(mat.gower[mat.gower != min(mat.gower)]), arr.ind = TRUE)[1, ], ]
+mat.div[which(mat.gower == max(mat.gower[mat.gower != max(mat.gower)]), arr.ind = TRUE)[1, ], ]
+```
+
+```{r}
+tb <- table(diana.clust,mat.div$IsCanceled)
+prop.table(tb)*100
+print(paste("Cluster 1: ", round(tb[1,2]/sum(tb[1,1:2])*100,2),"% Cancelaciones"))
+print(paste("Cluster 2: ", round(tb[2,2]/sum(tb[2,1:2])*100,2),"% Cancelaciones"))
+print(paste("Cluster 3: ", round(tb[3,2]/sum(tb[3,1:2])*100,2),"% Cancelaciones"))
+```

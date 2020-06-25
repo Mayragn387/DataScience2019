@@ -1,0 +1,616 @@
+---
+title: "Caso EASY Share"
+author: "Mayra Goicochea Neyra"
+date: "05/02/2020"
+output:
+  word_document: default
+  pdf_document: default
+---
+* Asignatura: Fundamentos para el Análisis de Datos y la Investigación
+* Profesor: Sonia De la Paz Cobo
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, fig.align='center')
+```
+
+# 1. Introducción
+
+La encuesta SHARE realiza continuamente estudios sobre atributos y criterios importantes (como Salud, Bienestar económico, Trabajo, Estudios entre otros) del colectivo de personas mayores de 50 años, asi como su entorno social y familiar, en los países europeos e Israel. 
+
+Contiene la información de alrededor de 380000 encuestados. Es de mucha importancia para estudios académicos y gubernamentales con la finalidad de estimar la calidad de vida y consideraciones futuras para la mejora del bienestar de ésta población.
+
+En el siguiente informe, se realiza un estudio sobre la paridad de Género con respecto a la Calidad de Vida, Trabajo y Situación Económica, para tal objetivo se utilizó el conjunto de datos de SHARE de fines académicos (EasySHARE) que contiene los datos de las 7 encuestas realizadas a las fechas, de las cuales sólo se consideraron las dos últimas (Wave 6 y 7).
+
+# 2. Fuente de Datos
+
+El conjunto de datos de las encuestas 6 y 7 contienen 144708 registros con información demográfica, sobre conexión social, sobre condiciones de infancia, de salud, riesgos de comportamiento, laboral y sobre la situación económica de cada encuestado. Con la finalidad de revisar a detalle las diferencias entre la población de mujeres y hombres sobre como perciben su Calidad de Vida, y sesgando hacia indicadores más resaltantes como es la situación económica, se consideraron sólo los atributos de Situación economica del Hogar, Empleo y la variable de la encuesta `casp`, que es un estimador del encuestado en alusión a su bienestar fisico, material, social, emocional y de desarrollo.
+
+```{r warning=FALSE, include=FALSE}
+library(readxl)
+library(ggplot2)
+library("catspec")
+library(dplyr)
+library(skimr)
+library(tidyverse)
+library(ggpubr)
+library(alluvial)
+library(ggcorrplot)
+library(janitor)
+library(viridis)
+library(verification)
+library(countrycode)
+library(mvnormtest)
+#detach("package:plyr", unload = TRUE)
+#library(plyr)
+```
+
+```{r include=FALSE}
+plot_var <- function(datos=data,n_y, n_x, desc_col, isContinous, TopN=0) {
+  #Plot function: Se recibe los parametros
+  #               * Y: Vector de la columna objetivo (igual longitud de eda_column)
+  #               * X: Vector de la columna que se realiza el analisis
+  #               * desc_column: descripcion de la variable a analizar, para fines de grafico
+  #               * topN: Si se tiene varias categorias seleccionar cuanto sera el top
+  data_plot <- datos[, c(n_y, n_x)]
+ colorSex= c( "palevioletred2","skyblue4")
+  colnames(data_plot) <- c("Y", "Variable")
+  data_plot <- data_plot  %>%  mutate_if(sapply(data_plot, is.character), as.factor)
+  if (TopN > 0) {
+    vec_N <-
+      data_plot %>% dplyr::count(Variable) %>% mutate(pct = n / sum(n)) %>% top_n(TopN) %>% dplyr::select(Variable)
+    
+    plot.cat <-
+      data_plot %>% mutate(Variable = ifelse(
+        Variable %in% vec_N$Variable,
+        as.character(Variable),
+        "Other"
+      )) %>%
+      dplyr::count(Variable, Y) %>%
+      mutate(pct = n / sum(n))
+  }
+  else{
+    plot.cat <-
+      data_plot %>% dplyr::count(Variable, Y) %>%  mutate(pct = n / sum(n))
+  }
+  
+  
+  if (isContinous) {
+    #******Variables Continuas*****
+    #******Histograma por Variable Target + Densidad de Normal*****
+    p1 <- ggplot(data_plot, aes(x = Variable)) +
+      geom_histogram(aes(y = ..density.., fill = Y), bins = 30) +
+      theme_bw() +
+      scale_fill_manual(values=colorSex) +
+      stat_function(fun = dnorm,
+                    args = list(mean = mean(data_plot$Variable), sd = sd(data_plot$Variable)),
+                    colour = "red") +
+      labs(y = "Count", fill = "Sexo") +
+      theme(legend.position = "bottom",
+            legend.text = element_text(size = 7),
+            legend.title = element_blank(),
+            axis.title.y=element_blank(),
+            axis.title.x=element_blank()
+            ) +
+      facet_grid( Y~.)
+
+      
+    #******Boxplot por Variable Target*****
+    my_comparisons <- list(c("Male", "Female"))
+    p2 <- ggboxplot(
+      data_plot,
+      x = "Y",
+      y = "Variable",
+      palette = colorSex,
+      color = "Y",
+      shape = "Y",
+      alpha = 0.5,
+      ylab = desc_col,
+      fill = "Y"
+    )+ 
+      theme_bw()+
+      theme(legend.position = "bottom",
+            legend.text = element_text(size = 7),
+            legend.title = element_blank(),
+            axis.title.y=element_blank(),
+            axis.title.x=element_blank()
+            ) +
+      stat_compare_means(comparisons = my_comparisons) +
+      stat_compare_means(label.y = 50, method ="t.test")
+    
+      figure<- ggarrange(p1,
+                p2,
+                ncol = 2)
+      annotate_figure(figure,
+               top = text_grob(paste0("Encuestados según Género y ",desc_col)))
+  } 
+  else{
+ 
+      #ggplot(data_plot, aes(x = Variable,  group = Y)) +
+      #geom_bar(aes(y = ..prop.., fill = factor(..x..)), stat = "count") +
+      #geom_text(
+      #  aes(
+      #    label = scales::percent(..prop.., accuracy = 0.01),
+      #    y = ..prop..
+      #  ),
+      #  stat = "count",
+      #   vjust=-.5,
+      #  size = 3
+      #) +
+      #labs(y = "Percent", fill = "Sexo",  xlab=desc_col) +
+      #facet_grid( ~ Y) +
+      #scale_y_continuous(labels = scales::percent) +
+      #scale_fill_viridis(discrete = TRUE) +
+      #theme_bw() +
+      #theme(axis.text.x = element_text(angle = 90, hjust = 1),
+      #      legend.position = "none")
+      
+        ggplot(plot.cat, aes(x = Variable, y = n, fill = Y)) +
+        geom_bar(aes(x = reorder(Variable, -n)), stat = "identity") +
+        geom_text(
+          aes(label = paste0(sprintf("%1.1f", pct * 100), "%")),
+          position = position_stack(),
+          angle = 90,
+          hjust = 1,
+          size = 3,
+          check_overlap = TRUE,
+          color = "white"
+        ) +
+        theme_bw() +
+        theme(axis.text.x = element_text(angle = 30, hjust = 1, size=10),
+              legend.position = "none",
+              axis.title.y=element_blank(),
+              axis.title.x=element_blank()
+              ) +
+        labs(title = paste0("Proporción de Encuestados según Género por ",desc_col)) +
+        scale_fill_manual(values = colorSex)
+  }
+}
+```
+
+```{r include=FALSE}
+# Se realiza la carga de datos
+load(file = "easySHARE_rel7_0_0.rda")
+rawShare <- easySHARE_rel7_0_0 %>% filter(wave %in% c(6,7))
+ctab(table(rawShare$female)) #Poblacion Mujer 1 y Poblacion Hombres 0
+```
+
+
+```{r echo=FALSE}
+data <- rawShare[, c(4,12,59,96:109, 
+                     10, 16, 23,27)]# estas ultimas no son de la tarea
+
+data$Sexo <- as.factor(ifelse(rawShare$female == 0,"Male","Female"))
+
+data$ep005_ <- factor(as.numeric(data$ep005_),levels = c(-15,-12,1,2,3,4,5,97) , labels = c("no information","don’t know / refusal","Retired","Employed or Self Employed","Unemployed","Permanently sick or disabled","Homemaker","Other"))
+data$ep009_mod <- factor(as.numeric(data$ep009_mod),levels = c(-15,-12,-10,-9,1,2,3) , labels = c("no information","don’t know / refusal","SHARELIFE interview","not applicable filtered","Employee","Civil Servant","Self-Employed"))
+data$ep011_mod <- factor(as.numeric(data$ep011_mod),levels = c(-15,-12,-10,-9,1,2) , labels = c("no information","don’t know / refusal","SHARELIFE interview","not applicable filtered","Short-Term","Permanent"))
+data$ep026_mod <- factor(as.numeric(data$ep026_mod),levels = c(-15,-12,-10,-9,1,2,3,4) , labels = c("no information","don’t know / refusal","SHARELIFE interview","not applicable filtered","Strongly Agree","Agree","Disagree","Strongly Disagree"))
+data$ep036_mod <- factor(as.numeric(data$ep036_mod),levels = c(-15,-12,-10,-9,1,5) , labels = c("no information","don’t know / refusal","SHARELIFE interview","not applicable filtered","Yes","No"))
+
+data$co007_ <- factor(as.numeric(data$co007_),levels = c(-15,-12,1,2,3,4) , labels = c("no information","don’t know / refusal","With great dificulty","With some dificulty","Fairly easily","Easily"))
+
+data$country_mod <- as.factor(countrycode(as.numeric(data$country_mod), origin="iso3n", destination = "country.name"))
+data$mar_stat <- factor(as.numeric(data$mar_stat),levels = c(-15,-12,1,2,3,4,5,6) , labels = c("no information","don’t know / refusal","married and living together", "registered partnership","married, living separated","never married","divorced","widowed"))
+
+```
+
+# 3. Muestras poblacionales
+
+Se tiene dos muestras poblacionales, las cuales se identifican mediante la variable `female`, que son el colectivo de Mujeres (con un 56.8% de encuestados) y el colectivo de Hombres (con un 43.2%). Ambas muestras son independientes porque se generaron de encuestas realizadas a individuos distintos, esta premisa es considerada en el análisis de los atributos relacionados.
+
+```{r echo=FALSE}
+var_target="Sexo"
+colorSex= c( "palevioletred2","skyblue4")
+data %>%  dplyr::count(Sexo)  %>% 
+  mutate(prop = paste0(round(n/sum(n),3)*100,"%")) %>%
+  ggplot(aes(x = Sexo, y=n, fill = Sexo)) + 
+  geom_bar(stat="identity") +
+  geom_text(aes(label = prop), vjust = 1,color = "white", size = 5) + 
+  theme_bw()+
+  scale_fill_manual(values=colorSex) 
+
+```
+
+La encuesta se realizó en 27 paises europeos e Israel, la proporción de encuestados según género se muestra en el siguiente gráfico. Estonia es el país con mayor tasa de encuestados. También se puede observar que las tasas de ambas poblaciones se mantienen entre los paises, esto rasgo es muy importante por que nos indica que no hay sesgo por país en cuanto a una población determinada.
+
+```{r echo=FALSE}
+data %>% dplyr::count(country_mod, Sexo) %>%  
+  mutate(pct=n/sum(n)) %>%
+  ggplot(aes(x = country_mod, y=n, fill = Sexo)) +
+  geom_bar(aes(x = reorder(country_mod,-n)), stat="identity") +
+  geom_text(aes(label=paste0(sprintf("%1.1f", pct*100),"%")), position=position_stack(), 
+            angle=90, hjust=1, size =3, check_overlap = TRUE, color="white")+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1),
+                legend.position = "none")+
+  labs(title="Proporcion de Encuestados según Género por País", x="País", y="Número Encuestados")+
+  
+  scale_fill_manual(values=colorSex) 
+```
+
+En cuanto al rango de Edad, el rango mayoritario es el de 60 a 70 años. El siguiente gráfico muestra que la distribución de los colectivos se mantiene, lo que permite que el análisis sea adecuado porque no hay sesgo hacia determinada población.
+
+```{r warning=FALSE, echo=FALSE}
+library(plyr)
+plotAge <- data %>% mutate(ageCut = cut(age, breaks = seq(0, 100, 10), right = FALSE) ) %>%
+  mutate(ageCut= as.factor(ifelse(is.na(as.character(ageCut)),"No information",as.character(ageCut)))) %>%
+  group_by(ageCut,Sexo) %>% tally()
+plotAge$n <- ifelse(plotAge$Sexo == "Male", -1*plotAge$n, plotAge$n)
+ggplot(plotAge,aes(x = ageCut, y = n, fill = Sexo)) + 
+  geom_bar(subset = .(Gender == "Female"), stat = "identity") + 
+  geom_bar(subset = .(Gender == "Male"), stat = "identity") + 
+  scale_y_continuous(breaks=seq(-15000, 15000, 7500),
+                     labels = paste0(as.character(c(seq(15, 0, -7.5), seq(7.5, 15, 7.5))), "mil"))+
+  coord_flip() + 
+  scale_fill_manual(values=colorSex) + 
+  labs(title="Proporción de Encuestados según Edad y Género", x="Edad", y="Número Encuestados")+
+  theme_bw()
+```
+
+## 3.1. Indice de Calidad de Vida
+
+La variable `casp` mide la calidad de vida y se basa en cuatro subescalas de control, autonomía, placer y autocorrelación. Con fines de hacer un análisis comparativo según el Género, los valores negativos que significan que no se tiene información verificada de los encuestados se apartaran para revisar los casos de los encuestados que si brindaron el estimador (corresponde al 0.06% casos con valores ausentes, no es muy significativo, además que para las pruebas de inferencia se tiene suficiente número de observaciones).
+
+Como se observa en el histograma, la distribución de ésta variable en ambos colectivos no parece una Normal, es asimetrica con cola a la izquierda, sin embargo se contrastará mediante las pruebas correspondientes. El diagrama de bloques nos muestra en detalle, que los rangos, sin considerar los valores atipicos, que las mujeres tienen un valor minimo ligeramente menor al de los hombres, aunque no es lo suficiente para concluir que el grupo femenino estime su calidad de vida menor al de los varones.
+
+```{r echo=FALSE}
+data.casp <- filter(data, data$casp>0)
+plot_var(data.casp,grep(var_target, colnames(data.casp)),grep("casp", colnames(data.casp))[1],"Medida Calidad Vida",TRUE)
+```
+
+Mediante las graficas qqnorm muestran asimetría hacia la derecha y los test de shapiro wilk encuentran evidencias significativas de que los datos no proceden de poblaciones con distribución normal. Sin embargo, dado que el tamaño del grupo es grande se puede considerar que el t-test sigue siendo suficientemente robusto.
+
+```{r echo=FALSE}
+par(mfrow = c(1, 2))
+qqnorm(data.casp[data.casp$Sexo == "Female","casp"], xlab = "", ylab = "",
+       main = "Female", col = "palevioletred2")
+qqline(data.casp[data.casp$Sexo== "Female","casp"])
+qqnorm(data.casp[data.casp$Sexo == "Male","casp"], xlab = "", ylab = "",
+       main = "Male", col = "skyblue4")
+qqline(data.casp[data.casp$Sexo == "Male","casp"])
+```
+
+```{r tstCaspF, echo=FALSE}
+set.seed(1234)
+d.model <- data.casp[data.casp$Sexo == "Female",]
+n <- nrow(d.model)
+id_train <- sample(1:n , 5000)
+muestraFemale <- d.model[id_train,"casp"]
+shapiro.test(muestraFemale)
+```
+```{r tstCaspM, echo=FALSE}
+set.seed(1234)
+d.model <- data.casp[data.casp$Sexo == "Male",]
+n <- nrow(d.model)
+id_train <- sample(1:n , 5000)
+muestraMale <- d.model[id_train,"casp"]
+shapiro.test(muestraMale)
+```
+
+A continuación, mediante pruebas de contraste de igualdad de varianza muestral se estima si es necesario ajustar la prueba t-test con corrección de Welch. Dado que las muestras no cumplen el criterio de normalidad, es recomendable usar el test Leven o el test no paramétrico de Fligner-Killen (ambos basados en la mediana). 
+
+```{r echo=FALSE,warning=FALSE}
+library(car)
+fligner.test(casp~Sexo, data=data.casp)
+```
+
+```{r echo=FALSE,warning=FALSE}
+leveneTest(casp~Sexo, data=data.casp, center="median")
+```
+
+Los tests muestran que no se puede aceptar la hipotesis nula "Varianzas homogéneas", es por ello que la prueba t-test se debe realizar con corrección de Welch.
+
+```{r echo=FALSE,warning=FALSE}
+t.test(x = data.casp[data.casp$Sexo == "Female","casp"],
+       y = data.casp[data.casp$Sexo == "Male","casp"],
+       alternative = "two.sided", mu = 0, var.equal = FALSE, conf.level = 0.95)
+```
+```{r echo=FALSE,warning=FALSE}
+library(effsize)
+cohen.d(formula = casp ~ Sexo, data = data.casp, paired = FALSE)
+```
+
+Con un nivel de confianza del 95%, la prueba de T-test no acepta la hipotesis nula con un intervalo de confianza de <-0.92:-0.78>. Se puede concluir que hay evidencias para considerar que existen diferencias entre el valor medio de casp en las mujeres y en los hombres. Aunque, mediante la prueba de d-Cohen, estima que el efecto es muy pequeño (-0.13).
+
+## 3.2. Módulo Empleo
+
+La población objetivo de esta encuesta es las personas mayores de 50 años, por lo que atributos relacionados a la situación laboral del encuestado es muy relevante para el estudio de su calidad de vida. Se sabe que una persona puede sentirse con más confianza y motivación, si realiza actividades que le gusten o también si reciben incentivos, o cuando recibe cargos de responsabilidad. Con la finalidad de revisar estas hipótesis, consideró que las variables `ep005`, situación actual laboral, y `ep011_mod`, régimen laboral, mostrarán resultados que lleven a conclusiones sobre esta población y las muestras según género.
+
+Con respecto a la "Situación Laboral Actual", se tiene que 59.40% de los encuestados son retirados y el 23.82% son empleados de alguna empresa o autonomos.
+
+```{r echo=FALSE}
+ctab(table(data$ep005_))
+```
+
+La distribución según género muestra una proporcion homogenea en todas las categorias de la variable. A excepción, de la categoria `Homemaker` que representa el 7.9% de mujeres encuestadas.
+
+```{r echo=FALSE}
+plot_var(data, grep(var_target, colnames(data)),grep("ep005_", colnames(data))[1],"Situación Actual de Trabajo",FALSE)
+```
+
+El siguiente gráfico de cajas muestra que las categorias se distribuyen de forma similar en ambas muestras poblacionales. También se observa que la caja de "Empleados" tiene rangos mayores en la variable `casp` en ambas muestras.
+
+```{r echo=FALSE}
+pal = c( "hotpink3","palevioletred2","khaki2",
+             "palegreen2","paleturquoise2","skyblue2",
+             "skyblue4","orchid4")
+ggboxplot(data, x = "ep005_", y = "casp", palette = pal, color = "ep005_",  shape = "ep005_",  alpha = 0.5,fill = "ep005_")+ 
+      facet_grid( .~Sexo) +
+      theme_bw()+
+      theme(legend.position = "bottom",
+            legend.text = element_text(size = 7),
+            legend.title = element_blank(),
+            axis.title.y=element_blank(),
+            axis.title.x=element_blank(),
+            axis.text.x = element_blank()
+            ) 
+
+```
+
+Existen información ausente en algunos encuestados, que para fines de análisis más detallado, y considerando que se tiene un gran conjunto de observaciones, se extraen los casos "No information" y "Don't Know / Refusal" por no tener información verificada. Asimismo, se agruparon las categorias en "Empleados" y "No Empleados" (donde se incluyen los retirados) para estudiar a detalle las caracteristicas relevantes de cada muestra (Hombres y Mujeres).
+
+El diagrama de cajas resultante muestra que la categoria Empleados tiene mayor rango de casp con respecto a la caja de No Empleados. 
+
+```{r echo=FALSE}
+data.empleo <- data[!(as.character(data$ep005_) %in% c("no information","don’t know / refusal")),] %>% 
+  mutate(ep005_ = as.factor(ifelse(as.character(ep005_) == "Employed or Self Employed", "Employed", "Unemployed")))
+
+ggboxplot(data.empleo, x = "ep005_", y = "casp", palette = colorSex, color = "Sexo",  shape = "Sexo",  alpha = 0.5,fill = "Sexo")+ 
+      theme_bw()+
+      theme(legend.position = "none",
+            legend.text = element_blank(),
+            legend.title = element_blank(),
+            axis.title.y=element_blank(),
+            axis.title.x=element_blank(),
+            axis.text.x = element_text(angle=90,size = 7)
+            ) +
+  labs(title = "Comparación de Género con respecto a CASP y Situación Laboral Actual")
+    
+```
+
+Se tienen 18413 mujeres empleadas que corresponden al 22.7% de la muestra de mujeres encuestadas. Y el 16053 hombres que son empleados que corresponde al 25.97%.
+
+```{r echo=FALSE}
+ctab(table(data.empleo$Sexo,data.empleo$ep005_))
+```
+
+La prueba de contraste de igualdad de proporciones nos permite afirmar, con un 95% de confianza, que hay una tasa entre 2.759% y 3.66% mayor de incidencia de empleos en hombres que mujeres. Además que se confirma con un p-valor menor a 0.05, que la tasa de empleo es diferente entre mujeres y hombres.
+
+```{r echo=FALSE}
+prop.test(x=c(16053,18413), n=c(61813,80898), alternative = "two.sided", correct=FALSE)
+```
+
+En cuanto al Regimen Laboral de los encuestados, se tiene que 3.33% de "Régimen Permanente" y el 0.53% representan a "Temporales". Adicionalmente, se tiene mucha información no verificada que recae en las categorias "No information", "don't know / refusal", "Sharelife interview" y "No applicable filtered".
+
+```{r echo=FALSE}
+ctab(table(data$ep011_mod))
+```
+```{r echo=FALSE}
+plot_var(data, grep(var_target, colnames(data)),grep("ep011_mod", colnames(data))[1],"Regimen Laboral",FALSE)
+```
+
+De manera similar al indicador de Situación Laboral, se filtrarán solo los casos con régimen laboral para continuar con el estudio detallado de esta característica.
+
+La variable `casp` es mayor en las observaciones con Régimen Permanente tanto para mujeres como para hombres. También se observa que en la categoria "Temporal", las mujeres presentan mayor valor en casp a diferencia de los hombres, pero esto puede deberse a que la mayoria de la categoria Temporal son casos de mujeres encuestadas.
+
+```{r echo=FALSE}
+data.regimen <- data[(as.character(data$ep011_mod) %in% c("Short-Term","Permanent")),] %>%
+  mutate(ep011_mod = as.factor(as.character(ep011_mod)))
+
+ggboxplot(data.regimen, x = "ep011_mod", y = "casp", palette = colorSex, color = "Sexo",  shape = "Sexo",  alpha = 0.5,fill = "Sexo")+ 
+      theme_bw()+
+      theme(legend.position = "none",
+            legend.text = element_blank(),
+            legend.title = element_blank(),
+            axis.title.y=element_blank(),
+            axis.title.x=element_blank(),
+            axis.text.x = element_text(angle=90,size = 7)
+            ) +
+  labs(title = "Comparación de Género con respecto a CASP y Régimen Laboral")
+    
+```
+
+El 87.4% de casos de hombres son de régimen Permanente, en el caso de las mujeres, es el 85.5%. 
+
+```{r echo=FALSE}
+ctab(table(data.regimen$Sexo,data.regimen$ep011_mod))
+```
+
+La prueba de contraste de igualdad de proporciones nos permite afirmar, con un 95% de confianza, que hay una tasa entre 0.1858% y 3.79% mayor de incidencia de que el empleo en hombres sea por regimen Permanente a comparación del que tiene las mujeres. Además que se confirma con un p-valor menor a 0.05, que la tasa de empleo en regimen permanente es diferente entre mujeres y hombres.
+
+```{r echo=FALSE}
+prop.test(x=c(2141,2683), n=c(2448,3139), alternative = "two.sided", correct=FALSE)
+```
+
+## 3.3. Modulo Ingreso Hogar
+
+Otros áspectos importantes de interés para la población objetivo de esta encuesta, son los relacionados a la seguridad y  situación económica del hogar, debido a que contribuye al bienestar del encuestado, mientras su hogar no tenga muchas dificultades puede vivir con tranquilidad, es por ello muy importante considerarlas para el estudio de paridad de género.
+
+La variable `co007_` guarda las categorias de respuesta ante la pregunta si hay estabilidad económica en el hogar. Se observa que el 30.38% de los encuestados respondieron que su familia llega a fin de mes con tranquilidad, un 27.77% con tranquilidad mas ajustada, mientras que el 39.48% con dificultad y el 2.37% de información ausente o no verificada.
+
+```{r echo=FALSE}
+ctab(table(data$co007_))
+```
+
+```{r echo=FALSE}
+plot_var(data, grep(var_target, colnames(data)),grep("co007_", colnames(data))[1],"Estabilidad Económica en Hogar",FALSE)
+```
+
+El siguiente gráfico de cajas muestra que las categorias se distribuyen de forma similar en ambas muestras poblacionales. También se observa que la caja de "Easily" tiene rangos mayores en la variable `casp` en ambas muestras.
+
+```{r}
+pal = c( "hotpink3","khaki2",
+             "palegreen2","paleturquoise2","skyblue2","orchid4")
+ggboxplot(data, x = "co007_", y = "casp", palette = pal, color = "co007_",  shape = "co007_",  alpha = 0.5,fill = "co007_")+ 
+      facet_grid( .~Sexo)+
+      theme_bw()+
+      theme(legend.position = "bottom",
+            legend.text = element_text(size = 7),
+            legend.title = element_blank(),
+            axis.title.y=element_blank(),
+            axis.title.x=element_blank(),
+            axis.text.x = element_blank()
+            ) 
+    
+```
+
+De manera similar a los atributos del módulo Empleo, se filtrarán solo los casos con información verificada, excluyendo las categorias "no information" y "don't know / refusal". También, se agruparán las categorías "Easily" y "Fairly Easily" como "Easily" y las otras dos categorias como "With Dificulty" para realizar el estudio de diferencias de medias.
+
+La variable `casp` es mayor en las observaciones con estabilidad económica en el hogar tanto para mujeres como para hombres, lo cual es razonable porque al tener menos preocupaciones el encuestado puede percibir una mejor calidad de vida.
+
+```{r echo=FALSE}
+data.estab <- data[!(as.character(data$co007_) %in% c("no information","don’t know / refusal")),] %>%
+  mutate(co007_ = as.factor(ifelse(as.character(co007_) %in% c("Easily","Fairly easily"), "Easily", "With dificulty")))
+
+ggboxplot(data.estab, x = "co007_", y = "casp", palette = colorSex, color = "Sexo",  shape = "Sexo",  alpha = 0.5,fill = "Sexo")+ 
+      theme_bw()+
+      theme(legend.position = "none",
+            legend.text = element_blank(),
+            legend.title = element_blank(),
+            axis.title.y=element_blank(),
+            axis.title.x=element_blank(),
+            axis.text.x = element_text(angle=90,size = 7)
+            ) +
+  labs(title = "Comparación de Género con respecto a CASP y Estabilidad Economica del Hogar")
+    
+```
+
+El 57.5% de mujeres encuestadas han respondido que llevan sin problemas la situación económica en su hogar. Y el 62.2% de hombres encuestados han respondido lo mismo.
+
+```{r echo=FALSE}
+ctab(table(data.estab$Sexo,data.estab$co007_))
+```
+
+La prueba de contraste de igualdad de proporciones nos permite afirmar, con un 95% de confianza, que hay una tasa entre 4.1% y 5.1% mayor de incidencia de que haya estabilidad económica en el hogar de los hombres a comparación de las mujeres. Además que se confirma con un p-valor menor a 0.05, que la tasa de estabilidad económica en el hogar es diferente entre mujeres y hombres.
+
+```{r echo=FALSE}
+prop.test(x=c(38137,46012), n=c(61347,79935), alternative = "two.sided", correct=FALSE)
+```
+
+La variable `thinc_m` es de cáracter numérico y guarda el ingreso neto de la vivienda, como indica la metodología de SHARE se tiene valores imputados y algunos etiquetados con valores negativos que muestran que no se tiene la información verificada. De forma similar a la variable `casp`, y como se tiene una muestra grande, se consideraron solo los valores mayores a 0 para el análisis de inferencia.
+
+¿El ingreso neto del Hogar tendrá relación con la Calidad de Vida?, dado que la Calidad de Vida o `casp` estima el bienestar en varios aspectos del encuestado entre ellos el de desarrollo (sobre cumplimiento de metas) y emocional, si debe guardar relación por que un individuo que tenga un ingreso de hogar menor podría pasar situaciones dificiles y su bienestar verse afectado. Mediante un gráfico de dispersión, se puede observar que que mientras el estimador de `casp` es mayor, también es mayor el ingreso neto.
+
+```{r echo=FALSE}
+data.casp.t <- filter(data.casp,data.casp$thinc_m > 0)
+ggplot(data.casp.t, aes(x=thinc_m, y=casp, color=Sexo))+
+  geom_point()+
+  theme_bw() +
+  scale_color_manual(values=colorSex)+
+  scale_x_log10() +
+  facet_grid( .~Sexo)+
+  labs(title="Relación de Indicador Calidad de Vida con respecto a la Situacion Económica del Hogar")
+
+```
+
+En cuanto a los ratios de correlación, se puede observar que son variables ligeramente correlacionadas. Es así que podriamos concluir que no están muy relacionadas la variable `casp` y el ingreso neto del hogar para las muestras.
+
+```{r}
+mcor <-data.frame(data.casp.t$thinc_m, data.casp.t$casp)
+colnames(mcor) <- c("thinc_m","casp")
+mcorF <-mcor[data.casp.t$Sexo=="Female",]
+mcorM <-mcor[data.casp.t$Sexo=="Male",]
+PerformanceAnalytics::chart.Correlation(mcor)
+PerformanceAnalytics::chart.Correlation(mcorF)
+PerformanceAnalytics::chart.Correlation(mcorM)
+```
+
+Por otro lado, los gráficos de histograma de la variable `Ingreso Neto del Hogar` con respecto a las poblaciones según Género muestran un comportamiento similar en ambas, aunque la muestra de mujeres muestra que su mediana se encuentra en los 18000 euros, mientras que el de los hombres es 22000.
+
+```{r echo=FALSE}
+data.think <- filter(data,data$thinc_m > 0)
+ggplot(data.think, aes(x = thinc_m)) +
+      geom_histogram(aes(y = ..density.., fill = Sexo), bins = 30) +
+      theme_bw() +
+      scale_fill_manual(values=colorSex) +
+      stat_function(fun = dnorm,
+                    args = list(mean = mean(data.think$thinc_m), sd = sd(data.think$thinc_m)),
+                    colour = "red") +
+      labs(y = "Count", fill = "Sexo") +
+      theme(legend.position = "bottom",
+            legend.text = element_text(size = 7),
+            legend.title = element_blank(),
+            axis.title.y=element_blank(),
+            axis.title.x=element_blank()
+            ) +
+      scale_x_log10() +
+      facet_grid( .~Sexo) +
+    labs(title="Histograma de la Situacion Económica del Hogar según Género")
+```
+
+Como siguiente paso, se realizaron las pruebas de inferencia para comprobar si ambas muestras presentan diferencias significativas. De manera similar a lo realizado con la variable `casp`, primero se evalua si ambas muestras se distribuyen en forma de una distribución normal (gaussiana), aparentemente por lo visto en los histogramas no son simétricas. Los gráficos `qqnorm` muestran que tienen asimetrias hacia la derecha. 
+
+```{r echo=FALSE}
+par(mfrow = c(1, 2))
+qqnorm(data.think[data.think$Sexo == "Female","thinc_m"], xlab = "", ylab = "",
+       main = "Female", col = "palevioletred2")
+qqline(data.think[data.think$Sexo== "Female","thinc_m"])
+qqnorm(data.think[data.think$Sexo == "Male","thinc_m"], xlab = "", ylab = "",
+       main = "Male", col = "skyblue4")
+qqline(data.think[data.think$Sexo == "Male","thinc_m"])
+```
+
+Mientras que las pruebas de Shapiro-Wilk encuentran evidencias significativas de que los datos no se distribuyen en forma normal (Contraste de Normalidad). Como se indico en el análisis de la variable `casp`, el tamaño de la muestra en grande y la prueba de t-test se puede considerar suficientemente robusta.
+
+```{r tstCaspF2, echo=FALSE}
+set.seed(1234)
+d.model <- data.think[data.think$Sexo == "Female",]
+n <- nrow(d.model)
+id_train <- sample(1:n , 5000)
+muestraFemale <- d.model[id_train,"thinc_m"]
+shapiro.test(muestraFemale)
+```
+
+```{r tstCaspM2, echo=FALSE}
+set.seed(1234)
+d.model <- data.think[data.think$Sexo == "Male",]
+n <- nrow(d.model)
+id_train <- sample(1:n , 5000)
+muestraMale <- d.model[id_train,"thinc_m"]
+shapiro.test(muestraMale)
+```
+
+El siguiente paso, fue realizar pruebas de contrastes de igualdad de varianza, con la finalidad de revisar si se requiere ajustar la prueba t-test mediante la corrección de Welch. Las pruebas de Leven y Fligner-Killen, recomendables dado que no se cumple el criterio de normalidad por que se basan en el estudio de la mediana, mostraron que no se puede aceptar la hipotesis nula "Varianzas homogéneas" (con p-valor <0.05). 
+
+```{r echo=FALSE,warning=FALSE}
+library(car)
+fligner.test(thinc_m~Sexo, data=data.think)
+```
+
+```{r echo=FALSE,warning=FALSE}
+leveneTest(thinc_m~Sexo, data=data.think, center="median")
+```
+
+La prueba T-test con corrección de Welch muestra que hay diferencias significativas entre el ingreso medio de las mujeres encuestadas y el ingreso medio de los hombres encuestados con un intervalo de confianza al 95% entre los valores -5639.431 a -4307.327 (Dado que el intervalo es negativo, el valor del ingreso medio de los hombres encuestados es mayor al de las mujeres). El tamaño de efecto medido por d-Cohen es muy pequeño (-0.11).
+
+```{r echo=FALSE,warning=FALSE}
+t.test(x = data.think[data.think$Sexo == "Female","thinc_m"],
+       y = data.think[data.think$Sexo == "Male","thinc_m"],
+       alternative = "two.sided", mu = 0, var.equal = FALSE, conf.level = 0.95)
+```
+
+```{r echo=FALSE,warning=FALSE}
+library(effsize)
+cohen.d(formula = thinc_m ~ Sexo, data = data.think, paired = FALSE)
+```
+
+
+# 4. Conclusiones
+
+* La mayoria de encuestados es de sexo Femenino, que representa el 56.8% de las encuestas 6 y 7. El rango de edad mayoritario es entre los 60 a 70 años.
+
+* La calidad de Vida o variable `casp` es una variable numérica, no presenta un comportamiento normal en ambas poblaciones, sin embargo se puede afirmar que hay diferencias significativas entre hombres y mujeres encuestados. A un 95% de confianza, se considera que los hombres tiene un indice medio mayor que las mujeres.
+
+* Sobre las variables de Empleo, se comprobo por pruebas de inferencias en las muestras, que la tasa de empleo en hombres es entre 2.759% a 3.66% mayor a las mujeres a un 95% de confianza. En cuanto a la tasa de incidencia en Régimen Permanente, los hombre presentan mayor incidencia.
+
+* Sobre la estabilidad en el Hogar, de forma similar existe mayor incidencia en hombres a comparación de las mujeres. También, mediante la prueba t-test, se estimo que hay diferencias significativas entre ambas poblaciones.
+
+# 5. Referencias Bibliográficas
+
+* Análisis de la Actividad Física y Satisfacción Vital en personas mayores de 60 años, Tesis Doctoral, Maria Antonia Parra Rizo, Universidad Miguel Hernández de Elche, Departamento de Psicología de la Salud.
+
+* T-test de medias independientes y dependientes con R, por Joaquin Amat Rodrigo, [link](https://rpubs.com/Joaquin_AR/218467)
+
+* Inferencia para variables categóricas dicotómicas (proporciones). Intervalos de confianza y test de hipótesis, por Joaquin Amat Rodrigo, [link](https://rpubs.com/Joaquin_AR/218468)
+
+

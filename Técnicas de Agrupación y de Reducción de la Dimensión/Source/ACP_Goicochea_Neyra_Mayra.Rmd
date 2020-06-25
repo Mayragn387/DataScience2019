@@ -1,0 +1,121 @@
+---
+title: "Estructura temporal"
+author: "Mayra Goicochea Neyra"
+date: "28/10/2019"
+output:
+  pdf_document: default
+  word_document: default
+---
+
+# Caso ACP
+
+## Introducción
+Para analizar el rendimiento de bonos norteamericanos, se recoge la información de 978 observaciones de los rendimientos de 10 bonos a distintos plazos entre el 2 de enero de 1995 y el 30 de septiembre de 1998.
+Se tiene la información en 10 variables.
+```{r}
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(kknn)
+library(factoextra)
+library(FactoMineR)
+setwd("~/GitHub/MasterDS2019/Técnicas de Agrupación y de Reducción de la Dimensión/Source")
+raw_data <- read.csv("../Data/ACPTIUSD.csv", sep = ";")
+
+colnames(raw_data[,-1])
+
+```
+El objetivo del siguiente analisis es predecir el valor de un bono a 10 años, para cumplir con esa finalidad, se consideró la muestra de las primeras 949 observaciones como activas, y las siguientes 29 observaciones como suplementarias para comprobar el modelo resultante.
+
+## Análisis Exploratorio de Datos (EDA)
+```{r}
+dfData <- rminer::imputation("hotdeck",raw_data,"DEPO.1M")
+dfData <- dfData[,-1]
+dfData.act <- dfData[1:949,]
+dfData.sup <- dfData[950:978,]
+
+m.corr <- cor(dfData)
+corrr::rplot(m.corr, legend = TRUE, colours = c("firebrick1", "black","darkcyan"), print_cor = TRUE)
+det(m.corr)
+```
+La matriz de correlaciones muestra alta relacion entre las variables. La determinante es muy cercana a cero, no se puede concluir que sean linealmente dependientes, pero si que hay cierta multicolinealidad.
+
+###Prueba de Bartlett, 
+
+```{r}
+psych::cortest.bartlett(m.corr)
+```
+Según la prueba de bartlett, aparentemente hay multicolinealidad entre las variables.
+
+### Prueba KMO (Kaiser-Meyer-Olkin) 
+
+```{r}
+psych::KMO(dfData[,-10])
+```
+Mediante la prueba de Kaiser-Meyer-Olkin, se verifica que la mayoria de variables pueden ser explicadas por otras, es así que un análisis de componentes principales puede ser adecuado para reducir la cantidad de variables.
+
+## Análisis de Componentes Principales
+```{r}
+acp <- PCA(dfData[,-10],scale.unit = TRUE, graph = T) 
+```
+Según el PCA, se puede representar la información al 98.31% con dos componentes. Dejando el 77.78% de las variables solo se perdería el 1.69% de la información. 
+También se pueden diferenciar dos grupos de variables. 
+En cuanto a las variables, DEPO.1M estaría mejor explicada por la dimensión 2, a diferencia de las otras, que están mas asociadas a la dimensión 1.
+
+### Varianza Explicada
+```{r}
+fviz_eig(acp, addlabels = TRUE, hjust = -0.3) +
+  labs(title = "Scree plot / Gráfico de sedimentación", x = "Dimensiones", y = "% Varianza explicada") +
+  theme_minimal()
+```
+
+Los dos primeros componentes explican el 98.3% de la varianza total. Se puede concluir que los otros 7 componentes no son significativos para la varianza.
+
+### Calidad de Representación
+```{r}
+fviz_pca_var(acp, col.var = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+             repel = TRUE ) +
+  labs(title = "Mapa de ejes principales", subtitle = "cos2")
+fviz_cos2(acp, choice = "var", axes = 1:2)
+```
+
+Las variables IRS.3Y, IRS.4Y e IRS.5Y son las mejores representadas por el componente principal 1. Las otras variables también son adecuadamente representadas dado su coeficiente de mayor e igual a 0.98.
+
+### Contribución a los CP
+```{r}
+fviz_contrib(acp, choice = "var", axes = 1 ) +
+  labs(title = "Contribuciones a la Dim 1")
+
+fviz_contrib(acp, choice = "var", axes = 2 ) +
+  labs(title = "Contribuciones a la Dim 2")
+```
+Las variables DEPO.12M, IRS.2Y, IRS.3Y, IRS.5Y, DEPO.6M, e IRS.7Y son muy bien explicadas por la dimensión 1. En cambio, las variables DEPO.1M y DEPO.3M son mejor representadas por la dimensión 2. Todas las variables contribuyen a demostrar la variabilidad del dataset.
+
+## No Rotación o Ajuste de Rotación
+
+```{r}
+psych::principal(dfData[,-10], nfactors = 2, rotate = "none")
+
+```
+
+Con dos componentes se puede explicar el 98% de la varianza. El primer componente es el que tiene más porcentaje de interpretación de la varianza.
+
+```{r}
+#Varimax
+psych::principal(dfData[,-10],nfactors = 2, rotate = "varimax")
+```
+
+Con una rotación Varimax, se tiene un mejor modelo, donde los pesos de las variables se diferencian mejor, y los componentes principales explican la varianza de forma más equilibrada.
+
+## Conclusiones
+
++ Dado que la muestra tiene multicolinealidad, nos permite reducir las dimensiones mediante el Análisis de Componentes Principales.
++ Se observó mediante los graficos y calculos generados que se puede explicar el modelo mediante 2 componentes.
++ El ajuste Varimex, permite identificar más fácilmente que componente tiende a asociarse con cada variable. Además, permite que se equilibren los autovalores.
+
+## Bibliografía
+
++ STHDA, en sitio web: http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/112-pca-principal-component-analysis-essentials/#data-standardization
++ Análisis de Componentes Principales, rpub por Joaquín Amat en sitio web: https://rpubs.com/Joaquin_AR/287787
++ Análisis de Componentes Principales, rpub por Cristina Gil en sitio web: https://rpubs.com/Cristina_Gil/PCA

@@ -1,0 +1,192 @@
+---
+title: "CP003 - Modelos No Lineales"
+author: "Mayra Goicochea Neyra"
+date: "23/10/2019"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+# Caso Bike Sharing
+
+## Introducción
+Se solicita realizar un modelo predictivo sobre la asignación de las bicicletas para prestámo. Los sistemas de prestamo de bicicletas son la nueva generación de alquiler de bicicletas donde el proceso desde la suscripción, alquiler y retorno se ha vuelto automático.
+
+El proceso de alquiler de bicicletas está altamente correlacionado con el entorno ambiental y estacional. 
+El dataset Bike Sharing considera el registro histórico de dos años (2011 y 2012) del sistema Capital Bikeshare de Washington D.C., EE. UU., que está disponible públicamente en http://capitalbikeshare.com/system-data.
+Se agregó la información meteorológica y estacional correspondiente (proveniente de http://www.freemeteo.com) 
+
+```{r}
+library(dplyr)    
+library(readr)
+library(kknn)
+library(rsample) 
+library(tidyverse)
+library(ggplot2)
+library(skimr)
+library(gam)
+library(splines)
+hour_rawdata <- read.csv("../Data/hour.csv")
+day_rawdata <- read.csv("../Data/day.csv")
+dim(day_rawdata)
+dim(hour_rawdata)
+```
+Se tiene 731 casos diarios con 16 variables, adicionalmente se tiene la información por hora, que está representada en 17379 casos.
+Las variables son las siguientes:
+* instant: Índice de registro
+* dteday: Fecha
+* season: Estación del año (1: primavera, 2: verano, 3: otoño, 4: invierno)
+* yr: Año (0: 2011, 1: 2012)
+* mnth: Mes (1 a 12)
+* hr: Hora (0 a 23)
+* holiday: si el día es feriado o no (extraído de http://dchr.dc.gov/page/holiday-schedule)
+* weekday: Día de la semana
+* workingday: Si el día no es fin de semana ni feriado es 1, de lo contrario es 0.
+* weathersit: Clima expresado en 4 factoresÑ
+  + 1: despejado, pocas nubes, parcialmente nublado, parcialmente nublado
+  + 2: Niebla + Nublado, Niebla + Nubes rotas, Niebla + Pocas nubes, Niebla
+  + 3: nieve ligera, lluvia ligera + tormenta eléctrica + nubes dispersas, lluvia ligera + nubes dispersas
+  + 4: lluvia intensa + paletas de hielo + tormenta eléctrica + niebla, nieve + niebla
+* temp: temperatura normalizada en grados Celsius. Los valores se dividen en 41 (máx.)
+* atemp: Sensación térmica normalizada en grados Celsius. Los valores se dividen en 50 (máx.)
+* hum: Humedad normalizada. Los valores se dividen en 100 (máx.)
+* windspeed: Velocidad del viento normalizada. Los valores se dividen en 67 (máx.)
+* casual: Número de alquileres por usuarios ocasionales.
+* registered: Número de alquileres por usuarios registrados.
+* cnt: Número total de bicicletas alquiladas, incluidas las casuales y las registradas
+
+## EDA
+
+La variable dependiente (o target) es CNT y las variables explicativas son: SEASON, HOLIDAY, WEEKDAY, WORKINGDAY, WEATHERSIT, TEMP, ATEMP. HUM y WINDSPEED.
+```{r}
+#---------------------Data Wrangling------------------------------
+#Se quitan los campos instant y date
+bday <- day_rawdata[,-c(1,2)]
+bhour <- hour_rawdata[,-c(1,2)]
+#Se asignan los factores correspondientes a las variables: yr, season, holiday, weathersit
+bday$yr <- factor(format(bday$yr, format = "%A"), levels = c("0", "1") , labels = c("2011","2012"))
+bhour$yr <- factor(format(bhour$yr, format = "%A"), levels = c("0", "1") , labels = c("2011","2012"))
+
+bday$season <- factor(format(bday$season, format = "%A"),levels = c("1", "2","3","4") , labels = c("Spring","Summer","Fall","Winter"))
+bhour$season <- factor(format(bhour$season, format = "%A"),levels = c("1", "2","3","4") , labels = c("Spring","Summer","Fall","Winter"))
+
+bday$holiday <- factor(format(bday$holiday, format = "%A"),levels = c("0", "1") , labels = c("Working Day","Holiday"))
+bhour$holiday <- factor(format(bhour$holiday, format = "%A"),levels = c("0", "1") , labels = c("Working Day","Holiday"))
+
+bday$weathersit <- factor(format(bday$weathersit, format = "%A"),levels = c("1", "2","3","4") ,labels = c("Good:Clear/Sunny","Moderate:Cloudy/Mist","Bad: Rain/Snow/Fog","Worse: Heavy Rain/Snow/Fog"))
+bhour$weathersit <- factor(format(bhour$weathersit, format = "%A"),levels = c("1", "2","3","4") ,labels = c("Good:Clear/Sunny","Moderate:Cloudy/Mist","Bad: Rain/Snow/Fog","Worse: Heavy Rain/Snow/Fog"))
+
+ggplot(bday, aes(x = cnt)) + 
+  geom_histogram(colour = "blue", fill = 'skyblue', bins=30) +
+  ggtitle("Frecuencia de prestamos de bicicletas")
+min(bday$cnt)
+max(bday$cnt)
+mean(bday$cnt)
+median(bday$cnt)
+sd(bday$cnt)
+```
+En cuanto a la frecuencia de la variable CNT, actua en forma discreta (número enteros y positivos). Los valores mínimo y máximo son 22 y 8714 respectivamente, en cuanto a su valor medio es 4504.3 con una desviación típica de 1937.21. La mediana es de 1937.21.
+
+```{r}
+ggplot(bday, aes(x = season, y = cnt)) +
+  geom_boxplot( aes(colour=season)) +
+  ggtitle("Total prestamos (Cnt) vs Season") +
+  theme_bw()
+ggplot(bday, aes(x = weathersit, y = cnt)) +
+  geom_boxplot( aes(colour=weathersit)) +
+  ggtitle("Total prestamos (Cnt) vs Weather") +
+  theme_bw()
+ggplot(bday, aes(x = holiday, y = cnt)) +
+  geom_boxplot( aes(colour=holiday)) +
+  ggtitle("Total prestamos (Cnt) vs Holiday/Working Day") +
+  theme_bw()
+```
+
+En cuanto a la relación con Season, el número promedio de alquiler de bicicletas es mayor en verano y otoño. En cuanto a primavera toma valores menores a las otras estaciones. Con respecto al clima, en un clima bueno y soleado se tiene el valor promedio mayor de alquiler.
+Sobre la variable Holiday, se muestra que el número medio de alquileres es ligeramente mayor en working day que en holiday; sin embargo, la muestra indica que hay más varianza en los días feriados y no se podría afirmar que tengan menores valores con respecto a los días laborales.
+
+```{r}
+bday %>% mutate(temperature = temp*41) %>%
+  ggplot( aes(temperature,cnt)) +
+  geom_point(alpha = 0.5, aes(color = temperature)) +
+  geom_smooth(colour = "red") +
+  ggtitle("Count by Temperature") +
+  scale_color_continuous(low = '#55D8CE',high = '#FF6E2E') +
+  theme_bw()
+bday %>% mutate(feel_temperature = atemp*50) %>%
+  ggplot( aes(feel_temperature,cnt)) +
+  geom_point(alpha = 0.5, aes(color = feel_temperature)) +
+  geom_smooth(colour ="red") +
+  ggtitle("Count by Feeling Temperature") +
+  scale_color_continuous(low = '#55D8CE',high = '#FF6E2E') +
+  theme_bw()
+```
+
+Cuando se compara el número de alquiler con la temperatura, no se tiene una tendencia lineal, pero si se observa que los valores incrementan cuando la temperatura llega valores entre 20 y 25, de alli decrece a temperaturas altas. De similar manera actua con respecto a la sensación térmica. 
+
+```{r}
+bday %>% mutate(windspeed = windspeed*67) %>%  
+  ggplot(aes(windspeed,cnt)) +
+  geom_point(alpha = 0.5, aes(color = windspeed)) +
+  geom_smooth(colour = "red") +
+  ggtitle("Count by Windspeed") +
+  scale_color_continuous(low = '#55D8CE',high = '#FF6E2E') +
+  theme_bw()
+```
+
+Sobre la velocidad del viento, el número de alquiler crece ligeramente cuando se acerca a la velocida 10 y luego decrece, esto sería debido a lo riesgoso que puede ser utilizar bicicleta cuando el viento sopla fuertemente.
+
+```{r}
+bday %>% mutate(hum = hum*100) %>%  
+  ggplot(aes(hum,cnt)) +
+  geom_point(alpha = 0.5, aes(color = hum)) +
+  geom_smooth(colour="red") +
+  ggtitle("Count by Humidity") +
+  scale_color_continuous(low = '#55D8CE',high = '#FF6E2E') +
+  theme_bw()
+```
+
+Sobre la humedad, el valor más alto se tiene cuando se tiene humedad de 67.5% y de alli decrece.
+
+```{r}
+ggplot(bhour, aes(hr,cnt)) +
+  geom_point() +
+  ggtitle("Count by Working Day") +
+  geom_point(aes(color = temp), position = "jitter") +
+  scale_color_gradientn(colours = c('dark blue','blue','light blue','light green','yellow','orange','red'))+
+  theme_bw() +
+  facet_grid(~workingday)
+```
+Se muestra en estos graficos como en un día laborable, el alquiler de bicicletas es mayor en horas de 6 a 8 de la mañana y 17:30 a 20 horas. En cambio, en el caso de un día no laborable, el alquiler es mayor entre las 12 a 18  horas.
+
+## Matriz de Correlación
+
+```{r}
+mday_cor <- bday %>% mutate(temp = 41*temp, atemp = atemp*50, hum = hum*100, windspeed = windspeed*67 )
+colnames(mday_cor) <- c("Season", "Year","Month", "Holiday","Weekday","Working day","Weather","Temperature","Feeling Temperature","Humidity","Windspeed","Casual","Registered","Count")
+corrplot::corrplot.mixed(cor(mday_cor[,c("Count","Temperature","Feeling Temperature","Humidity","Windspeed")]))
+PerformanceAnalytics::chart.Correlation(mday_cor[,c("Count","Temperature","Feeling Temperature","Humidity","Windspeed")],histogram = TRUE, pch = 19)
+```
+Mediante la matriz se observa que las variables Temperature y Feeling Temperature estan altamente correlacionadas con el número de alquiler.
+
+## Modelos No lineales
+
+Se formula el modelo inicial: cnt ~ s(temp,df=9.1)+s(atemp,df=8.8)+s(hum,df=4.55)+s(windspeed,df=6.01)+season+holiday+weekday+workingday+weathersit
+```{r}
+gam1 <- gam(cnt ~ s(temp,df=9.1)+s(atemp,df=8.8)+s(hum,df=4.55)+s(windspeed,df=6.01)+season+holiday+weekday+workingday+weathersit, data=bday)
+summary(gam1)
+```
+
+El p-value obtenido para la función del predictor windspeed (0.476) no muestra evidencias de que la relación entre cnt y windspeed no sea lineal, es asi que deja la posibilidad de crear un modelo con menor complejidad con una relación lineal. 
+El análisis ANOVA dará respuesta de que modelo es más conveniente. Para ello, se formuló 5 modelos de menor a mayor complejidad. 
+
+```{r}
+m_1 <- gam(cnt ~ s(temp,df=9.1)+s(atemp,df=8.8)+s(hum,df=4.55)+season+holiday+weekday+workingday+weathersit, data=bday)
+m_2 <- gam(cnt ~ s(temp,df=9.1)+s(atemp,df=8.8)+s(hum,df=4.55)+windspeed+season+holiday+weekday+workingday+weathersit, data=bday)
+m_3 <- gam(cnt ~ s(temp,df=9.1)+s(atemp,df=8.8)+s(hum,df=4.55)+s(windspeed,df=6.01)+season+holiday+weekday+workingday+weathersit, data=bday)
+m_4 <- gam(cnt ~ s(temp,df=9.1)+s(atemp,df=8.8)+s(hum,df=4.55)+season+holiday+weekday+workingday, data=bday)
+m_5 <- gam(cnt ~ s(atemp,df=8.8)+windspeed+season+holiday+weekday+weathersit, data=bday)
+anova(m_1,m_2,m_3,m_4,m_5,test='F')
+```
+
+El segundo modelo resulta ser el mejor, con las variables windspeed, season, holiday, weekday, workingday, weathersit con relación lineal y ajustando las variables temperature, feeling temperature y humidity a splines.

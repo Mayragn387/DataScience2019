@@ -1,0 +1,331 @@
+---
+title: 'Reservas de Hotel - Informe Modelo Predictivo de Regresión'
+author: 'Elaborado por: Mayra Goicochea Neyra'
+date: "23/01/2020"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+# ANEXO: Código R
+
+## Librerías
+
+```{r, include=FALSE}
+library(skimr)
+library(kknn)
+library(dplyr)
+library(tidyverse)
+library(rminer)
+library(ggplot2)
+library(faraway)
+library(readr)
+library(verification)
+library(MASS)
+library(leaps)
+library(janitor)
+library(ggfortify)
+library(ggpubr)
+library(InformationValue)
+knitr::opts_chunk$set(echo = F, warning = F, fig.align = "center")
+```
+## Funciones
+
+```{r}
+plot_pred_type_distribution <- function(df, threshold) {
+  v <- rep(NA, nrow(df))
+  v <- ifelse(df$pred >= threshold & df$y == 1, "TP", v)
+  v <- ifelse(df$pred >= threshold & df$y == 0, "FP", v)
+  v <- ifelse(df$pred < threshold & df$y == 1, "FN", v)
+  v <- ifelse(df$pred < threshold & df$y == 0, "TN", v)
+  df$pred_type <- v
+  
+  FP <- nrow(df[(df$pred_type=="FP"),])/nrow(df)*100
+  FN <- nrow(df[(df$pred_type=="FN"),])/nrow(df)*100
+  
+  ggplot(data=df, aes(x=y,y=pred )) + 
+    geom_violin(fill="black", color="black") + 
+    geom_jitter(aes(color=pred_type), alpha=0.6) +
+    geom_hline(yintercept=threshold, color="red", alpha=0.6) + 
+    scale_color_discrete(name = "type") +
+    labs(title=sprintf("Threshold at %.2f", threshold), subtitle = paste(sprintf("FP %.2f",FP),sprintf("FN %.2f",FN)))
+}
+```
+
+```{r include=FALSE}
+binclass_eval <- function (actual, predict) {
+  cm = table(as.integer(actual), as.integer(predict), dnn=c('Actual','Predicted'))
+  ac = (cm['1','1']+cm['0','0'])/(cm['0','1'] + cm['1','0'] + cm['1','1'] + cm['0','0'])
+  pr = cm['1','1']/(cm['0','1'] + cm['1','1'])
+  rc = cm['1','1']/(cm['1','0'] + cm['1','1'])
+  fs = 2* pr*rc/(pr+rc)
+  list(cm=cm, recall=rc, precision=pr, fscore=fs, accuracy=ac)
+}
+```
+
+## Data Loading
+
+```{r}
+rawData  <- read.csv("../data/H1.csv")
+bookings_ready  <- read_csv("BookingsEncode.csv")
+```
+
+
+## División de Train y Test
+
+Se divide los datos en dos muestras `Train` y `Test` con la proporcion de 80% y 20% respectivamente.
+```{r include=FALSE}
+set.seed(123)
+bookings_ready <- bookings_ready[,-3]
+n <- nrow(bookings_ready)
+id_train <- sample(1:n , 0.8*n)
+book.train = bookings_ready[id_train,]
+book.test = bookings_ready[-id_train,]
+```
+
+El grafico de estratificación según el valor de IsCanceled se observa que la proporción de casos es similar en ambas muestras:
+
+```{r echo=FALSE}
+df.plot <- book.train[,1]
+df.plot$subset <- 'train'
+tb.train <- tabyl(df.plot$IsCanceled, sort=T)
+tb.train$subset <- 'train'
+df.plot <- book.test[,1]
+df.plot$subset <- 'test'
+tb.test <- tabyl(df.plot$IsCanceled, sort=T)
+tb.test$subset <- 'test'
+df.plot <- rbind(tb.train,tb.test)
+colnames(df.plot) <-c('IsCanceled','n','percent','subset')
+
+ggplot(df.plot, aes(x=subset,y=n, label=paste(round(percent*100,2),"%",sep=""))) +
+  geom_bar(aes(color = IsCanceled, fill = IsCanceled),
+    stat = "identity") +
+  geom_text(size = 6, position = position_stack(vjust = 0.5),colour="white")+
+  theme_classic()
+
+```
+
+## Modelamiento
+
+`Modelo Regresión Logística`
+La variable objetivo $Y{i}$ del modelo que se desarrolla en el presente trabajo tiene un comportamiento dicotómico (0: la reserva no se cancela o 1: la reserva se cancela), el modelo de regresión que mejor se acomoda es de Regresión Logística, donde se estima la probabilidad de que la observación (con valores en las caracteristicas que consideramos variables explicativas) pertenezca a cada grupo, la asignación final del grupo se determinará después con el valor del cutoff.
+
+Primero se iniciará con un modelo básico considerando las 45 variables (se excluyó Arrival DateYear debido a que es información no replicable para las nuevas reservas)
+
+### Modelo Inicial (Todas las variables)
+
+```{r echo=FALSE, warning=FALSE}
+book.glm0 <- glm(IsCanceled~., family = binomial,book.train)
+sumary(book.glm0)
+```
+
+### Modelo 2: Seleccion de Variables por Chi-Square Test
+
+```{r warning=FALSE}
+#Reduccion de variables segun la prueba de Chi Square
+drop1(book.glm0,test = "Chi")
+```
+
+```{r echo=FALSE, warning=FALSE}
+book.glm1 <- glm(IsCanceled~LeadTime+ ArrivalDateMonth + ArrivalDateWeekNumber + ArrivalDateDayOfMonth + StaysInWeekendNights + StaysInWeekNights + Adults + Children+ Babies + IsRepeatedGuest + PreviousCancellations + PreviousBookingsNotCanceled + BookingChanges + Agent + Company + DaysInWaitingList + ADR + RequiredCarParkingSpaces + TotalOfSpecialRequests + AssignedRoomTypeWOE + CountryWOE + ReservedRoomTypeWOE, family = binomial(link="logit"),book.train)
+book.glm1$aic
+```
+
+### Modelo 3: Regularizacion de Variables
+
+```{r echo=FALSE}
+library(glmnet)
+book_train_x <- model.matrix(IsCanceled ~ ., book.train)[, -1]
+book_train_y <- log(book.train$IsCanceled)
+lasso    <- glmnet(book_train_x, book_train_y, family="binomial", alpha = 1.0, standardize = TRUE) 
+elastic1 <- glmnet(book_train_x, book_train_y, family="binomial", alpha = 0.25, standardize = TRUE) 
+elastic2 <- glmnet(book_train_x, book_train_y, family="binomial", alpha = 0.75, standardize = TRUE) 
+ridge    <- glmnet(book_train_x, book_train_y, family="binomial", alpha = 0.0, standardize = TRUE)
+p.lasso <- plot(lasso, xvar = "lambda", main = "Lasso (Alpha = 1)")
+p.ridge <- plot(ridge, xvar = "lambda", main = "Ridge (Alpha = 0)")
+p.en1 <- plot(elastic1, xvar = "lambda", main = "ElasticNet (Alpha = 0.25)")
+p.en2 <- plot(elastic2, xvar = "lambda", main = "ElasticNet (Alpha = 0.75)")
+```
+
+Según la curva de Error medio, lasso es el más óptimo:
+```{r echo=FALSE}
+set.seed(123)
+fold_id <- sample(1:10, size = length(book_train_y), replace = TRUE)
+
+tuning_grid <- tibble::tibble(
+  alpha      = seq(0, 1, by = .1),
+  mse_min    = NA,
+  mse_1se    = NA,
+  lambda_min = NA,
+  lambda_1se = NA
+)
+for (i in seq_along(tuning_grid$alpha)) {
+  fit <- cv.glmnet(book_train_x, book_train_y, family="binomial", alpha = tuning_grid$alpha[i], foldid = fold_id)
+  tuning_grid$mse_min[i]    <- fit$cvm[fit$lambda == fit$lambda.min]
+  tuning_grid$mse_1se[i]    <- fit$cvm[fit$lambda == fit$lambda.1se]
+  tuning_grid$lambda_min[i] <- fit$lambda.min
+  tuning_grid$lambda_1se[i] <- fit$lambda.1se
+}
+tuning_grid %>%
+  mutate(se = mse_1se - mse_min) %>%
+  ggplot(aes(alpha, mse_min)) +
+  geom_line(size = 2, colour = "#f7ad36") +
+  geom_ribbon(aes(ymax = mse_min + se, ymin = mse_min - se),fill = "#ffedb8", alpha = .5) +
+  ggtitle("MSE: one standard error") +
+  theme_minimal()
+```
+
+### Modelo 4, 5 y 6: Seleccion de Variables a través de Stepwise
+
+Se ajusta el modelo seleccionando las variables necesarias mediante tres modos: Backward, Forward y Both.
+```{r include=FALSE,warning=FALSE}
+null.model <- glm(IsCanceled ~ 1, family = binomial, book.train)
+#1. Forward Stepwise
+book.aic.for <- step(null.model, scope=list(lower=null.model, upper=book.glm0),family=binomial, k = 10, direction="forward")
+#2. Backward Stepwise
+book.aic.back <- step(null.model, scope=list(lower=null.model, upper=book.glm0),family=binomial, k = 10, direction="backward")
+#3. Both Direction Stepwise
+book.aic.both <- step(null.model, scope=list(lower=null.model, upper=book.glm0),family=binomial, k = 10, direction="both")
+
+```
+
+Los resultados del modelo Backward:
+AIC 37939, el más alto de los 3.
+```{r}
+summary(book.aic.back)
+```
+Los resultados del modelo Forward: AIC 22461
+```{r}
+summary(book.aic.for)
+```
+Los resultados del modelo Forward, igual al Forward, AIC 22461 :
+```{r}
+summary(book.aic.both)
+```
+
+## Resultados OutSample y Selección del Modelo:
+
+Primero se calculan las predicciones de cada modelo:
+```{r predicted, echo=FALSE, warning=FALSE}
+#Modelo Basico 0
+glm0.predicted <- predict(book.glm0, book.test, type = "response")
+glm0.cutoff <- optimalCutoff(book.test$IsCanceled, glm0.predicted)[1] 
+
+#Modelo de Variables Reducidas
+glm1.predicted <- predict(book.glm1, book.test, type = "response")
+glm1.cutoff <- optimalCutoff(book.test$IsCanceled, glm1.predicted)[1] 
+
+#Modelo de Regularizacion
+book_test_x <- model.matrix(IsCanceled ~ ., book.test)[, -1]
+reg.predicted <- predict(fit,book_test_x, type="response" )
+reg.cutoff <- optimalCutoff(book.test$IsCanceled, reg.predicted)[1] 
+
+#Modelo StepWise
+step1.predicted <- predict(book.aic.both, book.test, type = "response")#(Both Direction)
+step1.cutoff <- optimalCutoff(book.test$IsCanceled, step1.predicted)[1] 
+step2.predicted <- predict(book.aic.for, book.test, type = "response") #(Forward Direction)
+step2.cutoff <- optimalCutoff(book.test$IsCanceled, step2.predicted)[1] 
+step3.predicted <- predict(book.aic.back, book.test, type = "response") #(Backward Direction)
+step3.cutoff <- optimalCutoff(book.test$IsCanceled, step3.predicted)[1] 
+
+```
+
+### Matriz de Confusión
+
+* `Modelo 1 (Inicial)` se estimo el cutoff de 1, predice con mucho error.
+
+```{r}
+# plot the prediction distribution
+predictions <- data.frame(y = book.test$IsCanceled, pred = NA)
+predictions$pred <- glm0.predicted
+plot_pred_type_distribution(predictions,glm0.cutoff)
+```
+
+* `Modelo 2: Chi Square` se estimo el cutoff de 0.52 y su matriz de confusion es la siguiente:
+
+```{r}
+confusionMatrix(book.test$IsCanceled, glm1.predicted, threshold = glm1.cutoff)
+```
+La grafica de la matriz es la siguiente: 
+```{r}
+# plot the prediction distribution
+predictions <- data.frame(y = book.test$IsCanceled, pred = NA)
+predictions$pred <- glm1.predicted
+plot_pred_type_distribution(predictions,glm1.cutoff)
+```
+
+* `Modelo 3: Lasso` se estimo el cutoff de 0.43 y su matriz de confusion es la siguiente:
+
+```{r}
+confusionMatrix(book.test$IsCanceled, reg.predicted, threshold = reg.cutoff)
+```
+La grafica de la matriz es la siguiente: 
+
+```{r}
+# plot the prediction distribution
+predictions <- data.frame(y = book.test$IsCanceled, pred = NA)
+predictions$pred <- reg.predicted
+plot_pred_type_distribution(predictions,reg.cutoff)
+```
+
+* `Modelo 4: Stepwise Both` se estimo el cutoff de 0.52 y su matriz de confusion es la siguiente:
+
+```{r}
+confusionMatrix(book.test$IsCanceled, step1.predicted, threshold = step1.cutoff)
+```
+La grafica de la matriz es la siguiente: 
+```{r}
+# plot the prediction distribution
+predictions <- data.frame(y = book.test$IsCanceled, pred = NA)
+predictions$pred <- step1.predicted
+plot_pred_type_distribution(predictions,step1.cutoff)
+```
+
+* `Modelo 4: Stepwise Forward` se estimo el cutoff de 0.52 y su matriz de confusion es la siguiente:
+Su matriz de confusion es la siguiente:
+```{r}
+confusionMatrix(book.test$IsCanceled, step2.predicted, threshold = step2.cutoff)
+```
+La grafica de la matriz es la siguiente: 
+```{r}
+# plot the prediction distribution
+predictions <- data.frame(y = book.test$IsCanceled, pred = NA)
+predictions$pred <- step2.predicted
+plot_pred_type_distribution(predictions,step2.cutoff)
+```
+
+* `Modelo 5: Stepwise Backward` se estimo el cutoff de 0.27 y su matriz de confusion es la siguiente:
+Su matriz de confusion es la siguiente:
+```{r}
+confusionMatrix(book.test$IsCanceled, step2.predicted, threshold = step3.cutoff)
+```
+
+### Tabla comparativa
+
+```{r}
+glm0.eval <-  binclass_eval(book.test$IsCanceled, glm0.predicted >= glm0.cutoff)
+glm1.eval <-  binclass_eval(book.test$IsCanceled, glm1.predicted >= glm1.cutoff)
+reg.eval <-  binclass_eval(book.test$IsCanceled, reg.predicted >= reg.cutoff)
+step1.eval <-  binclass_eval(book.test$IsCanceled, step1.predicted >= step1.cutoff)
+step2.eval <-  binclass_eval(book.test$IsCanceled, step2.predicted >= step2.cutoff)
+```
+
+
+```{r echo=FALSE}
+compare <- data.frame(Method = c("Full Model","Model Reducido ChiSquare","Model Regularizado","Stepwise Both","Stepwise Forward"), Accuracy = NA, Precision = NA, Recall = NA, FScore = NA)
+compare$Accuracy <- c(glm0.eval$accuracy,glm1.eval$accuracy,reg.eval$accuracy,step1.eval$accuracy,step2.eval$accuracy)
+compare$Precision <- c(glm0.eval$precision,glm1.eval$precision,reg.eval$precision,step1.eval$precision,step2.eval$precision)
+compare$Recall <- c(glm0.eval$recall,glm1.eval$recall,reg.eval$recall,step1.eval$recall,step2.eval$recall)
+compare$FScore <- c(glm0.eval$fscore,glm1.eval$fscore,reg.eval$fscore,step1.eval$fscore,step2.eval$fscore)
+compare$AIC <- c(glm0.eval$fscore,glm1.eval$fscore,reg.eval$fscore,step1.eval$fscore,step2.eval$fscore)
+compare
+```
+
+### Curva ROC
+```{r}
+roc.plot(x = book.test$IsCanceled == 1,
+         pred = cbind(glm0.predicted,glm1.predicted,reg.predicted,step1.predicted,step2.predicted,step3.predicted),
+         legend=TRUE, leg.text=c("Full Model","Model Reduced ChiSquare","Regularized Model","Stepwise Both","Stepwise Forward","Stepwise Backward"), col=cols, show.thres=FALSE)
+#$roc.vol
+```
+

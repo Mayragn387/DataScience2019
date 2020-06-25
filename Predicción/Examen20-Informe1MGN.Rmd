@@ -1,0 +1,646 @@
+---
+title: 'Reservas de Hotel - Informe Operaciones preliminares'
+author: 'Elaborado por: Mayra Goicochea Neyra'
+date: "22/01/2020"
+output:
+  word_document: default
+  pdf_document: default
+---
+# ANEXO: Código R
+## Librerías
+Se utilizaron las siguientes librerías para el procesamiento de las operaciones comunes y operaciones específicas de las asignaturas *Técnicas de Agrupación y Redución de la Dimensión* y *Predición*:
+* `readr` : se encarga de la carga de los datos desde el archivo **H1.csv**.
+* `dplyr` y `tidyverse` : se utilizan para la modificación de los dataframes y las columnas.
+* `skimr` : muestra un resumen de los datos cargados.
+* `cleandata`, `onehot` y `sqldf`: se utilizaron para la codificación de los valores de algunas variables categóricas para que faciliten el procesamiento de los modelos predictivos y de agrupación y segmentación.
+* `ggplot2`,`PerformanceAnalytics` y `ggpubr`: contienen las funciones para generar las representaciones gráficas.
+
+```{r, include=FALSE}
+##Data Wrangling Libraries
+library(readr)
+library(dplyr)
+library(tidyverse)
+library(readr)
+library(skimr)
+##Data Cleaning Libraries
+library(cleandata)
+library(onehot)
+library(sqldf)
+##Graphic Libraries
+library(ggplot2)
+library(ggpubr)
+library("PerformanceAnalytics")
+knitr::opts_chunk$set(echo = F, warning=F, fig.align = "center")
+rawData  <- read_csv("../data/H1.csv")
+bookings <- rawData
+```
+
+## Funciones
+Se crearon las funciones `plot_var` (representa las variables de forma grafica con respecto a la variable IsCanceled) y `getSample` (realiza un muestro basado en las frecuencias de las variables con la finalidad de obtener una muestra representativa) con la finalidad de encapsular código que se utiliza de forma recurrente.
+
+```{r, include=FALSE}
+#Plot function
+plot_var <- function(data, desc_col, column, continous, topN=0){
+  data$IsCanceled <- factor(format(data$IsCanceled, format = "%A"),levels = c("0", "1") , labels = c("No","Yes"))
+  data_plot <- data[,c(1,column)]
+  colnames(data_plot) <- c("IsCanceled", "Variable" )
+  t_cols <- c("#B7E3C0","#DBBAE5")
+  if (topN > 0){
+    var.top.df <- data_plot %>% group_by(IsCanceled, Variable) %>% tally() %>% top_n(topN)
+    var.top <- var.top.df$Variable
+    p2.df <- data_plot[data_plot$Variable %in% var.top,]
+    p1.df <- data_plot %>% group_by(Variable)  %>% summarise(n=n()) %>% top_n(topN) %>%
+      mutate(prop = paste0(round(n/sum(n),3)*100,"%"))
+    p3.df <- data_plot %>% group_by(IsCanceled, Variable) %>% tally() %>% top_n(topN)
+  } else {
+    p2.df <- data_plot
+    p1.df <- data_plot %>% group_by(Variable)  %>% summarise(n=n()) %>%
+      mutate(prop = paste0(round(n/sum(n),3)*100,"%"))
+    p3.df <- data_plot %>% group_by(IsCanceled, Variable) %>% tally()
+  }
+  if(continous){
+  #******Variables Continuas*****
+      #******Histograma por Variable Target*****
+      p1 <- ggplot(data_plot,aes(Variable)) +
+        geom_histogram(bins=20 ,col="black", aes(fill = ..count..))+
+        scale_fill_gradient("Count", low = "#adeae2", high = "#1796a1") +
+        labs(x = desc_col)+
+        theme_classic()
+      #******Densidad por Variable Target*****
+      p2 <- ggplot(data_plot) +
+        geom_density(aes(x = Variable, fill = IsCanceled), alpha = 0.3, linetype=0) +
+        scale_fill_manual(values=t_cols) +
+        labs( x = desc_col) +
+        theme_classic()+
+        theme(legend.position = "bottom")
+      #******Boxplot por Variable Target*****
+      p3 <- ggboxplot(data_plot, x = "IsCanceled", y = "Variable",
+                      color = "IsCanceled",  shape = "IsCanceled", alpha=0.5, 
+                      ylab="desc_col",
+                      fill = "IsCanceled", palette = t_cols )
+    }
+  else{
+    #*******Variables Categoricas******
+    #**Dot chart**
+    #p1 <- data_plot %>% group_by(Variable)  %>% summarise(n=n()) %>%
+    #  mutate(prop = paste0(round(n/sum(n),3)*100,"%")) %>%
+    #  ggdotchart(x = "Variable", y = "n", color = "Variable", 
+    #             sorting = "descending", add = "segments",
+    #             add.params = list(color = "lightgray", size = 2), group = "Variable",
+    #             dot.size = 9, label = "prop",legend="desc_col",
+    #             font.label = list(color = "black", size = 7, vjust = 0.5), 
+    #             ggtheme = theme_pubr()) +
+    #    geom_hline(yintercept = 10000, linetype = 2, color = "lightgray")
+      #**Densidad por Variable Target**
+    #p2 <- ggplot(data_plot) +
+    #  geom_density(aes(x = Variable, fill = IsCanceled), alpha = 0.5, linetype=0)+
+    #  scale_fill_manual(values = t_cols) +
+    #  labs( x = desc_col) +
+    #  theme_classic() +
+    #  theme(legend.position = "bottom", axis.text.x = element_text(angle=90))
+      #**Bar plot by Target Variable**
+    #p3 <- data_plot %>% group_by(IsCanceled, Variable) %>% tally() %>%
+    #  ggplot(aes(x = Variable, y = n, fill = IsCanceled)) +
+    #  geom_bar(stat = "identity") +
+    #  geom_text(aes(label = n), vjust = 1,color = "white", size = 2) +
+    #  scale_fill_manual(values = t_cols) +
+    #  labs( x = desc_col) +
+    #  theme_classic() +
+    #  theme(legend.position = "bottom", axis.text.x = element_text(angle=90))
+    p1 <- ggdotchart(p1.df, x = "Variable", y = "n", color = "Variable", 
+                 sorting = "descending", add = "segments",
+                 add.params = list(color = "lightgray", size = 2), group = "Variable",
+                 dot.size = 9, label = "prop",legend="desc_col",
+                 font.label = list(color = "black", size = 7, vjust = 0.5), 
+                 ggtheme = theme_pubr()) +
+      geom_hline(yintercept = 10000, linetype = 2, color = "lightgray")
+    #**Densidad por Variable Target**
+    p2 <- ggplot(p2.df) +
+      geom_density(aes(x = Variable, fill = IsCanceled), alpha = 0.5, linetype=0)+
+      scale_fill_manual(values = t_cols) +
+      labs( x = desc_col) +
+      theme_classic() +
+      theme(legend.position = "bottom", axis.text.x = element_text(angle=90))
+    
+    #**Bar plot by Target Variable**
+    p3 <-  ggplot(p3.df, aes(x = Variable, y = n, fill = IsCanceled)) +
+      geom_bar(stat = "identity") +
+      geom_text(aes(label = n), vjust = 1,color = "white", size = 2) +
+      scale_fill_manual(values = t_cols) +
+      labs( x = desc_col) +
+      theme_classic() +
+      theme(legend.position = "bottom", axis.text.x = element_text(angle=90))
+  }
+  
+  ggarrange(p1, ggarrange(p2, p3 ,ncol = 2, labels = c("B", "C")),
+            nrow = 2, 
+            labels = "A")
+  #ggarrange(p2, p3 ,ncol = 2, labels = c("B", "C"))
+}
+```
+
+
+```{r, include=FALSE}
+#Funcion para obtener una muestra significativa, permite ejecutarla con datos mixtos.
+getSample <- function(d,n_sample){
+  # Remove the useless "id" column
+  dimensions <- setdiff(names(d),"ArrivalDateYear")
+  # Desired sample size
+  set.seed(123)
+  generated <- head(d,0)
+  while (nrow(generated) < n_sample) {
+    # For debug purposes
+    cat(nrow(generated),"\n")
+    flush.console()
+    tmp <- d
+  
+    # Calculate the histogram for each dimension
+    # and select one value at a time, slicing the
+    # original dataset according to its histogram
+    for (i in 1:length(dimensions)) {
+  
+      colname = dimensions[i]
+      if (class(d[[colname]]) %in% c("numeric") &&
+          sum(d[[colname]] == as.integer(d[[colname]]),na.rm = TRUE) == 0
+          ) {
+        # Numerical variable. Histogram with Rice's Rule
+  
+        # If there are NA's, stratify on those
+  
+        na_count <- sum(is.na(tmp[[colname]]))
+        not_na_count <- length(tmp[[colname]]) - na_count
+  
+        s <- sample(c(0,1),prob = c(not_na_count,na_count),1)
+  
+        if (s == 0) {
+          # Histogram stratification based on breaks calculated on the
+          # population
+  
+          n_breaks <- floor(2*sum(!is.na(d[[colname]]))**((1/3)))
+          bar_size <- (max(d[[colname]],na.rm = TRUE) - min(d[[colname]],na.rm = TRUE))/n_breaks
+  
+          breaks <- sapply(0:n_breaks,function(i) {min(d[[colname]],na.rm = TRUE) + i*bar_size})
+  
+          h <- hist(tmp[[colname]],breaks=breaks,plot = F)
+  
+          # Select one bar of the histogram according to the density
+          bar_id  <- sample(1:length(h$mids),prob = h$counts,1)
+  
+          bar_start <- h$breaks[bar_id]
+          bar_end <- h$breaks[bar_id + 1]
+  
+          tmp <- tmp[tmp[[colname]] >= bar_start & tmp[[colname]] < bar_end & !is.na(tmp[[colname]]),]
+        } else {
+          # NA
+          tmp <- tmp[is.na(tmp[[colname]]),]
+        }
+  
+      } else {
+        # Categorical variable
+  
+        # Histogram for the selected dimension
+        aggr <- as.data.frame(table(tmp[,colname],useNA="ifany"))
+        names(aggr) <- c("dim","count")
+  
+        # Generate a value according to the histogram
+        generated_value <- sample(aggr$dim,prob=aggr$count,1)
+  
+        # Slice the actual multivariate histogram in order to
+        # take only records with the selected value on the
+        # selected dimension
+        if (!is.na(generated_value)) {
+          tmp <- tmp[tmp[[colname]] == generated_value & !is.na(tmp[[colname]]),]
+        }
+        else {
+          tmp <- tmp[is.na(tmp[[colname]]),]
+        }
+      }
+  
+    }
+  
+    # Once the procedure finishes, we get a bulk of records
+    # with the same values of each dimension. Let's take
+    # one of these records uniformly
+    random_index <- sample(1:nrow(tmp),1)
+    new_record <- tmp[random_index,]
+  
+    # Let's remove duplicates
+    inserted_record <- sqldf("select * from new_record except select * from generated")
+  
+    # Insert in the "generated" data frame and repeat until desired sample size is reached
+    generated <- rbind(generated,inserted_record)
+    
+  }
+  return(generated)
+}
+```
+
+## Análisis Exploratorio
+### Principales Estadísticas de los datos cargados
+
+```{r}
+skim(rawData)
+```
+
+### Variable Target `IsCanceled`
+Se factoriza la variable IsCanceled para facilitar las representaciones gráficas:
+```{r}
+rawData %>% mutate(IsCanceled = factor(format(IsCanceled, format = "%A"),levels = c("0", "1") , labels = c("No","Yes"))) %>% group_by(IsCanceled) %>% summarise(n=n()) %>%
+  mutate(prop = paste0(round(n/sum(n),3)*100,"%")) %>%
+  ggplot(aes(x = IsCanceled, y=n, fill = IsCanceled)) + 
+  geom_bar(stat="identity") +
+  geom_text(aes(label = prop), vjust = 1,color = "white", size = 5) + 
+  theme_classic()
+```
+
+```{r}
+rawData %>% 
+  ggplot(aes(x = ArrivalDateYear, fill = IsCanceled)) + 
+  geom_bar() +
+  #geom_text(aes(label = prop), vjust = 1,color = "white", size = 5) + stat="identity"
+  theme_classic()
+```
+
+### Variables
+#### Lead Time (Días de anticipación de la reserva)
+
+```{r echo=FALSE}
+plot_var(rawData, "Lead Time", column = grep("LeadTime", colnames(rawData)),continous = TRUE)
+```
+
+#### Variables de la Fecha de Arribo
+
+```{r echo=FALSE}
+plot_var(rawData, "Arrival Year", column = grep("ArrivalDateYear", colnames(rawData)),continous = TRUE)
+```
+
+
+```{r echo=FALSE}
+plot_var(rawData, "Arrival Date Week Number", column = grep("ArrivalDateWeekNumber", colnames(rawData)),continous = TRUE)
+```
+
+```{r echo=FALSE}
+plot_var(rawData, "Arrival Month", column = grep("ArrivalDateMonth", colnames(rawData)),continous = FALSE)
+```
+
+
+```{r echo=FALSE}
+plot_var(rawData, "Arrival Date Day Of Month", column = grep("ArrivalDateDayOfMonth", colnames(rawData)),continous = TRUE)
+```
+
+#### Noches de estadía en fines de semana
+
+```{r echo=FALSE}
+plot_var(rawData, "Stays In Weekend Nights", column = grep("StaysInWeekendNights", colnames(rawData)),continous = TRUE)
+```
+
+#### Noches de estadía entre semana
+
+```{r echo=FALSE}
+plot_var(rawData, "Stays In Week Nights", column = grep("StaysInWeekNights", colnames(rawData)),continous = TRUE)
+```
+
+#### Número de Adultos
+
+```{r echo=FALSE}
+plot_var(rawData, "Adults", column = grep("Adults", colnames(rawData)),continous = TRUE)
+```
+
+#### Número de Niños
+
+```{r echo=FALSE}
+plot_var(rawData, "Children", column = grep("Children", colnames(rawData)),continous = TRUE)
+```
+
+#### Número de Bebes
+
+```{r echo=FALSE}
+plot_var(rawData, "Babies", column = grep("Babies", colnames(rawData)),continous = TRUE)
+```
+
+#### Número de Cancelaciones Previas
+
+```{r echo=FALSE}
+plot_var(rawData, "Previous Cancellations", column = grep("PreviousCancellations", colnames(rawData)),continous = TRUE)
+```
+
+#### Número de Reservas Previas no Canceladas
+
+```{r echo=FALSE}
+plot_var(rawData, "Previous Bookings Not Canceled", column = grep("PreviousBookingsNotCanceled", colnames(rawData)),continous = TRUE)
+```
+
+#### Número de Cambios en la Reserva
+
+```{r echo=FALSE}
+plot_var(rawData, "Booking Changes", column = grep("BookingChanges", colnames(rawData)),continous = TRUE)
+```
+
+#### Número de Días en la Lista de Espera
+
+```{r echo=FALSE}
+plot_var(rawData, "Days In Waiting List", column = grep("DaysInWaitingList", colnames(rawData)),continous = TRUE)
+```
+
+#### Ratio Promedio Diario de transacciones
+
+```{r echo=FALSE}
+plot_var(rawData, "AverageDailyRate", column = grep("ADR", colnames(rawData)),continous = TRUE)
+```
+
+#### Espacios de Estacionamiento requeridos
+
+```{r echo=FALSE}
+plot_var(rawData, "Required Car Parking Spaces", column = grep("RequiredCarParkingSpaces", colnames(rawData)),continous = TRUE)
+```
+
+#### Número total de solicitudes especiales
+
+```{r echo=FALSE}
+plot_var(rawData, "Total Of Special Requests", column = grep("TotalOfSpecialRequests", colnames(rawData)),continous = TRUE)
+```
+
+#### Meal
+
+```{r echo=FALSE}
+plot_var(rawData, "Meal", column = grep("Meal", colnames(rawData)),continous = FALSE)
+```
+
+#### Country
+
+```{r echo=FALSE}
+plot_var(rawData, "Country", column = grep("Country", colnames(rawData)),continous = FALSE, topN = 10)
+```
+
+##### Is Repeated Guest
+
+```{r echo=FALSE}
+rawData$IsRepeatedGuest <- factor(format(rawData$IsRepeatedGuest, format = "%A"),levels = c("0", "1") , labels = c("No","Yes"))
+plot_var(rawData, "Is Repeated Guest", column = grep("IsRepeatedGuest", colnames(rawData)),continous = FALSE)
+```
+
+#### Market Segment
+
+```{r echo=FALSE}
+plot_var(rawData, "Market Segment", column = grep("MarketSegment", colnames(rawData)),continous = FALSE)
+```
+
+##### Distribution Channel
+
+```{r echo=FALSE}
+plot_var(rawData, "Distribution Channel", column = grep("DistributionChannel", colnames(rawData)),continous = FALSE)
+```
+
+#### Reserved Room Type
+
+```{r echo=FALSE}
+plot_var(rawData, "Reserved Room Type", column = grep("ReservedRoomType", colnames(rawData)),continous = FALSE)
+```
+
+#### Assigned Room Type
+
+```{r echo=FALSE}
+plot_var(rawData, "Assigned Room Type", column = grep("AssignedRoomType", colnames(rawData)),continous = FALSE)
+```
+
+#### Deposit Type
+
+```{r echo=FALSE}
+plot_var(rawData, "Deposit Type", column = grep("DepositType", colnames(rawData)),continous = FALSE)
+```
+
+#### Agent
+
+```{r echo=FALSE}
+plot_var(rawData, "Agent", column = grep("Agent", colnames(rawData)),continous = FALSE,topN=15)
+```
+
+#### Company
+
+```{r echo=FALSE}
+plot_var(rawData, "Company", column = grep("Company", colnames(rawData)),continous = FALSE,topN=15)
+```
+
+#### Customer Type
+
+```{r echo=FALSE}
+plot_var(rawData, "Customer Type", column = grep("CustomerType", colnames(rawData)),continous = FALSE)
+```
+
+#### Reservation Status
+
+```{r echo=FALSE}
+plot_var(rawData, "Reservation Status", column = grep("ReservationStatus", colnames(rawData))[1],continous = FALSE)
+```
+
+### Matriz de Correlación
+
+```{r}
+nums <- unlist(lapply(rawData, is.numeric)) 
+cor.mat <- rawData[,nums]
+cor.mtest <- function(mat, ...) {
+  mat <- as.matrix(mat)
+  n <- ncol(mat)
+  p.mat <- matrix(NA, n, n)
+  diag(p.mat) <- 0
+  for (i in 1:(n - 1)) {
+    for (j in (i + 1):n) {
+      tmp <- cor.test(mat[, i], mat[, j], ...)
+      p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
+    }
+  }
+  colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
+  p.mat
+}
+# matrix of the p-value of the correlation
+p.mat <- cor.mtest(cor.mat)
+corrplot::corrplot(cor(cor.mat), type="upper", order = "hclust", tl.cex = 0.5,
+                   p.mat = p.mat,sig.level = 0.01, insig = "blank")
+```
+```{r}
+chart.Correlation(rawData[,nums], histogram=TRUE, pch=19)
+```
+
+
+## Preparación de la Data
+
+### Variable ArrivalDateMonth
+Dado que su valores son los meses de año, se puede convertir en una variable ordinal, de esa manera facilitará el manejo de esta en las técnicas de `agrupación` y `predición`.
+```{r}
+#ArrivalDateMonth
+levels <- c('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October','November', 'December')
+bookings$ArrivalDateMonth <- factor(bookings$ArrivalDateMonth, order = TRUE , levels)
+x <- as.data.frame(bookings$ArrivalDateMonth)
+bookings$ArrivalDateMonth <- encode_ordinal( x, levels, none = '', out.int = FALSE,full_print = TRUE)
+bookings$ArrivalDateMonth <- as.numeric(unlist(bookings$ArrivalDateMonth))
+```
+
+### Variables Categóricas
+En el caso de las variables del tipo cáracter (`CustomerType`,`DepositType`,`DistributionChannel`,`MarketSegment`,`Meal`), se convertirán en categóricas y se agregaran las columnas dummy (de cáracter dicotómico:0-1):
+
+```{r}
+#CustomerType
+x <- as.data.frame(bookings$CustomerType)
+encoder <- onehot(x, max_levels = 15)
+x_encoder <- predict(encoder, x, stringsAsFactors = TRUE)
+n <- grep("CustomerType", colnames(bookings))
+bookings <- cbind(bookings[,-n], x_encoder)
+
+#DepositType
+x <- as.data.frame(bookings$DepositType)
+encoder <- onehot(x, max_levels = 15)
+x_encoder <- predict(encoder, x, stringsAsFactors = TRUE)
+n <- grep("DepositType", colnames(bookings))
+bookings <- cbind(bookings[,-n], x_encoder)
+
+#DistributionChannel
+x <- as.data.frame(bookings$DistributionChannel)
+encoder <- onehot(x, max_levels = 15)
+x_encoder <- predict(encoder, x, stringsAsFactors = TRUE)
+n <- grep("DistributionChannel", colnames(bookings))
+bookings <- cbind(bookings[,-n], x_encoder)
+
+#MarketSegment
+x <- as.data.frame(bookings$MarketSegment)
+encoder <- onehot(x, max_levels = 15)
+x_encoder <- predict(encoder, x, stringsAsFactors = TRUE)
+n <- grep("MarketSegment", colnames(bookings))
+bookings <- cbind(bookings[,-n], x_encoder)
+
+#Meal
+x <- as.data.frame(bookings$Meal)
+encoder <- onehot(x, max_levels = 15)
+x_encoder <- predict(encoder, x, stringsAsFactors = TRUE)
+n <- grep("Meal", colnames(bookings))
+bookings <- cbind(bookings[,-n], x_encoder)
+```
+
+Las variables `AssignedRoomType`, `Country` y `ReservedRoomType` tienen más de 5 niveles por lo que convertir en columnas dicotómicas y agregarlas al dataset es ineficiente (por ejemplo en el caso de `Country` tiene 125 niveles de factor lo que implica agregar 124 columnas, no es óptimo). Por ello, se utiliza la función *WOE* para convertir los valores categóricos a numéricos en base a su peso con respecto a la variable objetivo (IsCanceled)[4]
+
+```{r}
+#AssignedRoomType
+n <- grep("AssignedRoomType", colnames(bookings))
+bookings$AssignedRoomTypeWOE <- InformationValue::WOE(X=as.factor(bookings$AssignedRoomType),Y=bookings$IsCanceled)
+bookings <- bookings[,-n]
+
+#Country
+n <- grep("Country", colnames(bookings))
+bookings$CountryWOE <- InformationValue::WOE(X = as.factor(bookings$Country),Y=bookings$IsCanceled)
+bookings <- bookings[,-n]
+
+#ReservedRoomType
+n <- grep("ReservedRoomType", colnames(bookings))
+bookings$ReservedRoomTypeWOE <- InformationValue::WOE(X=as.factor(bookings$ReservedRoomType),Y=bookings$IsCanceled)
+bookings <- bookings[,-n]
+```
+
+Las variables Agent y Company guarda los códigos de los agentes y compañías de viajes, pero tienen una categoría **NULL**, para reducir la complejidad de los datos se agregará un código **999** que identificará estos casos.
+```{r}
+#Agent
+bookings$Agent <- as.numeric(ifelse(bookings$Agent == "NULL", 999, bookings$Agent))
+
+#Company
+bookings$Company <- as.numeric(ifelse(bookings$Company == "NULL", 999, bookings$Company))
+```
+
+Las variables ReservationStatus y ReservationStatusDate guarda información actualizada que no se tendrá definida al momento de que ingresar la reserva.
+```{r}
+#ReservationStatus y ReservationStatusDate
+n1 <- grep("ReservationStatus", colnames(bookings))[1]
+n2 <- grep("ReservationStatusDate", colnames(bookings))
+bookings <- bookings[,-c(n1,n2)]
+```
+
+```{r include=FALSE}
+colnames(bookings) <- c("IsCanceled","LeadTime","ArrivalDateYear","ArrivalDateMonth","ArrivalDateWeekNumber",
+                        "ArrivalDateDayOfMonth","StaysInWeekendNights","StaysInWeekNights","Adults","Children",
+                        "Babies","IsRepeatedGuest","PreviousCancellations","PreviousBookingsNotCanceled","BookingChanges",
+                        "Agent","Company","DaysInWaitingList","ADR","RequiredCarParkingSpaces",
+                        "TotalOfSpecialRequests","CustomerTypeContract","CustomerTypeGroup","CustomerTypeTransient","CustomerTypeTransientParty",
+                        "DepositTypeNoDeposit","DepositTypeNonRefund","DepositTypeRefundable","DistributionChannelCorporate","DistributionChannelDirect",
+                        "DistributionChannelTATO","DistributionChannelUndefined", "MarketSegmentComplementary","MarketSegmentCorporate","MarketSegmentDirect",
+                        "MarketSegmentGroups","MarketSegmentOfflineTATO","MarketSegmentOnlineTA","MealBB","MealFB",
+                        "MealHB","MealSC","MealUndefined","AssignedRoomTypeWOE","CountryWOE",
+                        "ReservedRoomTypeWOE")
+```
+
+Finalmente se guarda la información codificada en csv:
+```{r}
+write.csv(bookings, file = "BookingsEncode.csv",row.names = FALSE)
+```
+
+### Generación de la Muestra
+
+Para la asignatura de Técnicas de Agrupación y Reducción de la Dimensión, se necesita procesar los algoritmos mediante una muestra, dada la carga computacional que requiere los modelos (Distancias y Clustering). Se encontró una técnica de muestreo que se basa en ponderaciones según los histogramas de los datos[4].
+```{r include=FALSE}
+rawData$Agent <- as.numeric(ifelse(rawData$Agent == "NULL", 999, rawData$Agent))
+rawData$Company <- as.numeric(ifelse(rawData$Company == "NULL", 999, rawData$Company))
+rawData$ADR <- as.numeric(rawData$ADR)
+rawData$AssignedRoomType <- as.factor(trimws(paste("AR-",as.character(rawData$AssignedRoomType))))
+rawData$ArrivalDateMonth <- as.factor(rawData$ArrivalDateMonth)
+rawData$Meal <- as.factor(rawData$Meal)
+rawData$Country <- as.factor(rawData$Country)
+rawData$MarketSegment <- as.factor(trimws(paste("MS-",as.character(rawData$MarketSegment))))
+rawData$DistributionChannel <- as.factor(trimws(paste("DC-",as.character(rawData$DistributionChannel))))
+rawData$ReservedRoomType <- as.factor(rawData$ReservedRoomType)
+rawData$DepositType <- as.factor(rawData$DepositType)
+rawData$CustomerType <- as.factor(rawData$CustomerType)
+```
+Se creó la función `getSample` para encapsular el código de muestreo. Con ella, se extrae un subconjunto de datos de 2000 observaciones de los datos codificados y de los datos no codificados:
+```{r include=FALSE}
+rawData_sample <- getSample(rawData[,-c(30:31)],2000)
+#Guardar dataframe in csv
+write.csv(rawData_sample, file = "BookingsNotEncodeSample.csv",row.names = FALSE)
+```
+
+```{r}
+rawData_sample %>% group_by(IsCanceled) %>% summarise(n=n()) %>%
+  mutate(prop = paste0(round(n/sum(n),3)*100,"%")) %>%
+  ggplot(aes(x = IsCanceled, y=n, fill = IsCanceled)) + 
+  geom_bar(stat="identity") +
+  geom_text(aes(label = prop), vjust = 1,color = "white", size = 5) + 
+  theme_classic()
+```
+
+
+```{r include=FALSE}
+bookings_sample <- getSample(bookings,2000)
+```
+
+```{r}
+bookings_sample %>% mutate(IsCanceled = factor(format(IsCanceled, format = "%A"),levels = c("0", "1") , labels = c("No","Yes"))) %>% group_by(IsCanceled) %>% summarise(n=n()) %>%
+  mutate(prop = paste0(round(n/sum(n),3)*100,"%")) %>%
+  ggplot(aes(x = IsCanceled, y=n, fill = IsCanceled)) + 
+  geom_bar(stat="identity") +
+  geom_text(aes(label = prop), vjust = 1,color = "white", size = 5) + 
+  theme_classic()
+```
+
+#### Preparación de los datos para Series Temporales
+Con la finalidad de desarrollar un modelo predictivo para el pronóstico del número semanal de las reservas, se necesita previamente que preparar los datos y que se construya la siguiente estructura:
+
+| Fecha de Reserva | Número de Reservas |
+|-----------------:|:-------------------|
+|    05/11/2014    |         12         |
+
+Se considero para los campos lo siguiente:
+* `Fecha de Reserva`: es la fecha resultante de la Fecha de arribo menos los dias de Lead Time.
+* `Número de Reservas`: se cuantifica las observaciones (reservas) realizadas en el día de reserva.
+
+Adicionalmente, se completa los registros de todos las fechas con el uso de la función `complete` y se reemplaza los valores ausentes del número de reservas con 0, finalmente se suma los números de reserva por fecha para eliminar duplicados.
+
+```{r}
+bookings.ts <- bookings %>% mutate(DateReservation = as.Date(paste(as.character(ArrivalDateYear),str_pad(as.character(ArrivalDateMonth),2,side="left",pad="0"),str_pad(as.character(ArrivalDateDayOfMonth),2,side="left",pad="0"),sep="-"),"%Y-%m-%d")-LeadTime, var=1)%>%
+  dplyr::select(DateReservation,var) %>%
+  complete(DateReservation = seq.Date(min(DateReservation), max(DateReservation), by="day"))%>%
+  replace(is.na(.), 0) %>%
+  group_by(DateReservation) %>% summarise(reservations = sum(var))
+write.csv(bookings.ts, file = "BookingsTimeSeries.csv",row.names = FALSE)
+
+```
+
+
+
+
+
+

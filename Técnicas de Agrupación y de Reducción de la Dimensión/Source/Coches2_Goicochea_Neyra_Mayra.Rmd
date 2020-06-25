@@ -1,0 +1,436 @@
+---
+title: "Tarea 04 - Reaprticion de Coches"
+author: "Mayra Goicochea Neyra"
+date: "26/11/2019"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, warning=F, fig.align = "center", out.width='50%', out.height='50%')
+#Librerias
+##Data Wrangling Libraries
+library(dplyr)
+library(haven)
+library(kknn)
+library(Hmisc)
+library(dbplyr)
+library(tidyverse)
+##Graphic and Summary Libraries
+library(ggplot2)
+library(gridExtra)
+library(flexclust)
+##Cluster Libraries
+library(cluster)
+library(factoextra)
+library(clValid)
+library(clustertend)
+library(memisc)
+library(NbClust)
+rawData <- read_sav("~/GitHub/MasterDS2019/Técnicas de Agrupación y de Reducción de la Dimensión/Data/tterreno.sav")
+coches <- rawData
+rownames(coches) = make.names(substring(coches$modelo,1,15), unique = TRUE)
+coches$marca <- factor(coches$marca, levels = c('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17'),
+                       labels = c('ASIA MOTORS','CHEVROLET','DAIHATSU','FORD','JEEP','KIA','LADA','LAND ROVER','MERCEDES'
+                                  ,'MITSUBISHI','NISSAN','OPEL','SSANGYONG','SUZUKI','TATA','TOYOTA','UAZ'))
+
+coches$cilindro <- as.numeric(coches$cilindro)
+
+coches$plazas <- as.numeric(coches$plazas)
+
+coches$acel2 <- factor(coches$acel2, levels = c('1','2'),
+                        labels = c('Menor a 10 segundos','Mayor a 10 segundos'))
+```
+
+# Introducción
+
+Se tiene la información de 125 vehículos Todo Terreno clásicos adquiridos por el dueño de Family Office. La información que se nos ha entregado está clasificada en las siguientes características:
+
+* `Marca :` Marca del Vehículo.
+
+* `Modelo :` Modelo del Vehículo.
+
+* `PVP :` El precio de Venta del Vehículo (en pesetas).
+
+* `Cilindro :` Número de cilindros.
+
+* `CC :` Cilindrada del Vehículo (en cm. cúbicos).
+
+* `Potencia :` Potencia (CV).
+
+* `RPM :` Revoluciones por minuto.
+
+* `Peso :` Peso del vehículo.
+
+* `Plazas :` Número de asientos que tiene el vehículo.
+
+* `Cons90 :` Consumo de combustible cuando tiene velocidad de 90 Km/h.
+
+* `Cons120 :` Consumo de combustible cuando tiene velocidad de 120 Km/h.
+
+* `ConsUrb :` Consumo de combustible cuando transita en zona urbana.
+
+* `Velocida :` Velocidad máxima.
+
+* `Acelerac :` Aceleración de 0 a 100.
+
+* `Acel2 :` Tiempo de aceleración.
+
+En el anterior trabajo, se realizó un análisis de las características que son relevantes para hacer la distribución, considerando que se cuenta con 10 lugares de estacionamiento. El análisis comprendió una revisión exploratorio de los datos, matriz de correlación de las variables y un estudio de las distancias en base a sus índices de correlación. Se concluyó con que las características relevantes son _Marca, Plazas, Aceleración, Velocidad Máxima, Consumo Urbano y el Precio_.
+
+La finalidad de éste informe es realizar el agrupamiento de los vehículos de forma eficiente, considerando las 10 propiedades del dueño y que cada residencia puede albergar 15 coches. Para lograr éste objetivo primero se completará la información ausente (en la revisión exploratoria se encontraron 83 casos con valores NA, y dado que la muestra es de los 125 vehículos a distribuir no se puede omitir ninguno), luego se escalarán las características numéricas, y finalmente se realizará el análisis cluster de las observaciones.
+
+# Análisis Exploratorio de Datos
+
+Los datos incluyen 125 observaciones con 15 variables, de las cuales 3 son categóricas y 12 numéricas. Existen 83 casos con observaciones ausentes que luego se imputaran. Se convirtieron las variables categóricas en factor.
+
+```{r Summary}
+summary(coches)
+```
+
+Sobre la imputación de las observaciones ausentes, se buscó en internet los pesos de los modelos "Maverick 2.7 TD GL 3" y "Maverick 2.7 TD GLS" y se añadió al dataframe.
+
+```{r Peso, include=FALSE}
+#Ajustes de casos NA de peso
+coches[is.na(coches$peso),2]
+coches["Maverick.2.7.TD", 8] <- 1730
+coches["Maverick.2.7.TD.1", 8] <- 1850
+
+#Ajustes de consumo (valores NA)
+coches[is.na(coches$cons90)|is.na(coches$cons120)|is.na(coches$consurb),2]
+```
+
+Los modelos NISSAN Patrol, ASIA MOTORS Rocsta, JEEP Cherokee 2.5 TD Jamb, Korando K4 D, UAZ Marathon, Rav4 y Niva 1.9 Diesel no cuentan con información en los campos de consumo, es así que se reemplazan con el valor medio del grupo que se asemeja en las características de peso, potencia y rpm de cada uno.
+
+```{r Consumo, include=FALSE}
+#modelo NISSAN Patrol
+consumo <- coches[((coches$peso >= 1845) & (coches$peso <= 1865) & (coches$potencia >= 90) & (coches$rpm >= 4000) & (coches$rpm <= 5000)),]
+
+coches[((coches$peso == 1850) & (coches$potencia == 95) & (coches$rpm == 4800)), 10] = mean(consumo$cons90,na.rm=TRUE)
+coches[((coches$peso == 1860) & (coches$potencia == 95) & (coches$rpm == 4800)), 10] = mean(consumo$cons90,na.rm=TRUE)
+
+coches[((coches$peso == 1850) & (coches$potencia == 95) & (coches$rpm == 4800)), 11] = mean(consumo$cons120,na.rm=TRUE)
+coches[((coches$peso == 1860) & (coches$potencia == 95) & (coches$rpm == 4800)), 11] = mean(consumo$cons120,na.rm=TRUE)
+coches$cons120 <- round(coches$cons120, 2)
+coches[((coches$peso == 1850) & (coches$potencia == 95) & (coches$rpm == 4800)), 12] = mean(consumo$consurb,na.rm=TRUE)
+coches[((coches$peso == 1860) & (coches$potencia == 95) & (coches$rpm == 4800)), 12] = mean(consumo$consurb,na.rm=TRUE)
+coches$consurb <- round(coches$consurb, 2)
+consumo <- coches[((coches$peso >= 1970) & (coches$peso <= 2030) & (coches$potencia >= 90) & (coches$rpm >= 4000) & (coches$rpm <= 5000)),]
+coches[((coches$peso == 1985) & (coches$potencia == 95) & (coches$rpm == 4800)), 10] = mean(consumo$cons90,na.rm=TRUE)
+coches[((coches$peso == 2020) & (coches$potencia == 95) & (coches$rpm == 4800)), 10] = mean(consumo$cons90,na.rm=TRUE)
+coches$cons90 <- round(coches$cons90, 2)
+coches[((coches$peso == 1985) & (coches$potencia == 95) & (coches$rpm == 4800)), 11] = mean(consumo$cons120,na.rm=TRUE)
+coches[((coches$peso == 2020) & (coches$potencia == 95) & (coches$rpm == 4800)), 11] = mean(consumo$cons120,na.rm=TRUE)
+coches$cons120 <- round(coches$cons120, 2)
+coches[((coches$peso == 1985) & (coches$potencia == 95) & (coches$rpm == 4800)), 12] = mean(consumo$consurb,na.rm=TRUE)
+coches[((coches$peso == 2020) & (coches$potencia == 95) & (coches$rpm == 4800)), 12] = mean(consumo$consurb,na.rm=TRUE)
+coches$consurb <- round(coches$consurb, 2)
+
+# Valores Ausentes en el Modelo ASIA MOTORS Rocsta
+consumo <- coches[((coches$peso >= 1170) & (coches$peso <= 1250) & (coches$potencia >= 80) & (coches$rpm >= 5000) & (coches$rpm <= 6000)),]
+coches[((coches$peso == 1220) & (coches$potencia == 85) & (coches$rpm == 5500)), 11] = mean(consumo$cons120,na.rm=TRUE)
+coches$cons120 <- round(coches$cons120, 2)
+consumo <- coches[((coches$peso >= 1240) & (coches$peso <= 1300) & (coches$potencia >= 65) & (coches$rpm >= 4000) & (coches$rpm <= 5000)),]
+coches[((coches$peso == 1270) & (coches$potencia == 72) & (coches$rpm == 4250)), 11] = mean(consumo$cons120,na.rm=TRUE)
+coches$cons120 <- round(coches$cons120, 2)
+
+# Valores Ausentes en el Modelo JEEP Cherokee 2.5 TD Jamb
+coches[((coches$peso == 1470) & (coches$potencia == 115) & (coches$rpm == 4000)), 11] = coches[((coches$peso == 1450) & (coches$potencia == 115) & (coches$rpm == 4000)), 11]
+coches[((coches$peso == 1470) & (coches$potencia == 115) & (coches$rpm == 4000)), 12] = coches[((coches$peso == 1450) & (coches$potencia == 115) & (coches$rpm == 4000)), 12]
+
+# Valores Ausentes en el Modelo Korando K4 D
+consumo <- coches[((coches$peso >= 1540) & (coches$peso <= 1630) & (coches$potencia >= 65) & (coches$rpm >= 4000) & (coches$rpm <= 5000)),]
+coches[((coches$peso == 1590) & (coches$potencia == 68) & (coches$rpm == 4300)), 10] = mean(consumo$cons90,na.rm=TRUE)
+coches$cons90 <- round(coches$cons90, 2)
+coches[((coches$peso == 1590) & (coches$potencia == 68) & (coches$rpm == 4300)), 11] = mean(consumo$cons120,na.rm=TRUE)
+coches$cons120 <- round(coches$cons120, 2)
+
+# Valores Ausentes en el Modelo UAZ Marathon
+consumo <- coches[((coches$peso >= 1500) & (coches$peso <= 1680) & (coches$potencia >= 70) & (coches$rpm >= 4000) & (coches$rpm <= 5000)),]
+coches[((coches$peso == 1590) & (coches$potencia == 76) & (coches$rpm == 4500)), 10] = mean(consumo$cons90,na.rm=TRUE)
+coches$cons90 <- round(coches$cons90, 2)
+coches[((coches$peso == 1590) & (coches$potencia == 76) & (coches$rpm == 4500)), 11] = mean(consumo$cons120,na.rm=TRUE)
+coches$cons120 <- round(coches$cons120, 2)
+
+# Valor Ausente en Consumo Urbano del modelo Rav4
+coches[((coches$peso == 1150) & (coches$potencia == 129) & (coches$rpm == 5600)), 12] = coches[((coches$peso == 1220) & (coches$potencia == 129) & (coches$rpm == 5600)), 12]
+
+# Valor Ausente en Consumo 120 del modelo Niva 1.9 Diesel
+consumo <- coches[((coches$peso >= 1100) & (coches$peso <= 1300) & (coches$potencia >= 60) & (coches$potencia <= 80) & (coches$rpm >= 4000) & (coches$rpm <= 5200)),]
+coches[((coches$peso == 1180) & (coches$potencia == 64) & (coches$rpm == 4600)), 11] = mean(consumo$cons120,na.rm=TRUE)
+coches$cons120 <- round(coches$cons120, 2)
+```
+
+En cuanto a los modelos Vitara Xaloc y TelcoLine pick-up no tienen valor en velocidad máxima. Se reemplaza con la información de internet.
+
+```{r Velocidad, include=FALSE}
+coches[105, 13] = 150
+coches[106, 13] = 150
+coches[114, 13] = 140
+cochesSinNA <- coches[!(is.na(coches$acelerac)),]
+modelo <- lm(acelerac ~ potencia + peso + velocida + acel2,data = cochesSinNA)
+coches[is.na(coches$acelerac),14] <- predict(modelo,
+                                            coches[is.na(coches$acelerac),])
+```
+
+Finalmente ya tenemos toda la información completa y se puede continuar con el análisis Cluster.
+
+```{r NA, echo=FALSE}
+cat("NA values:",sum(is.na(coches)),"\n")
+```
+
+# Análisis Cluster
+
+## A.Preparación y Escalamiento de los Datos
+
+Para realizar el análisis cluster es necesario basarse en variables explicativas numéricas escaladas.
+
+```{r Escalar, include=FALSE}
+coches.num <- coches[,-c(1,2,15)]
+rownames(coches.num) <- rownames(coches)
+#Se escalan las variables numéricas
+performScaling = T 
+if (performScaling) {
+  for (colName in names(coches.num)) {
+    if(class(coches.num[,colName]) == 'integer' | class(coches.num[,colName]) == 'numeric') {
+     coches.num[,colName] = scale(coches.num[,colName])
+     }
+  }
+}
+```
+
+## B.Validación de Idoneidad Cluster
+
+Antes de utilizar las funciones cluster, se debe verificar si la información cuenta con rasgos suficientes para la segmentación, en éste caso se utiliza el estadístico de Hopkings, que contrasta las siguientes hipótesis:
+
+* `H0 :` el dataset está distribuido uniformemente (no se identifican clusters claramente)
+
+* `H1:` el dataset no está distribuido (contiene clusters)
+
+Si el valor del estadístico de Hopkins es cercano a 0 (menor a 0.5) se rechaza la H0, que significa que la data no está distribuida uniforme y se concluye que la data puede ser segmentada.
+
+```{r Hopkins, out.width='50%', out.height='50%'}
+set.seed(789)
+hopkins(coches.num, n = nrow(coches.num) - 1)
+```
+
+El estadístico de Hopkins resulta 0.276129, nos indica que se tiene información que puede segmentarse y por tanto podemos continuar con el análisis Clúster.
+
+Otra forma de justificar la idoneidad de aplicar la técnica de agrupamiento en los datos es mediante el algoritmo de Evaluación visual de la tendencia de agrupación (o VAT). El gráfico de disimilitud utiliza medidas de distancia para dar una visión general de los atributos de agrupación de los datos.
+
+Por ejemplo utilizando el método de pearson, el gráfico muestra que existen posibles clusters.
+
+```{r DistPearson, out.width='50%', out.height='50%'}
+qdist = get_dist(coches.num, stand = T, method = "pearson")
+fviz_dist(qdist, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4E07"), lab_size = 5) +
+  labs(title = "Distancias basado en Pearson")
+```
+
+El método Manhattan nos muestra que hay un grupo que tiene poca distancia (sectores celestes).
+
+```{r DisManhattan, out.width='50%', out.height='50%'}
+qdist.manhattan <- get_dist(coches.num, stand = T, method = 'manhattan')
+fviz_dist(qdist.manhattan, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4E07"), lab_size = 5) +
+  labs(title = "Distancias basado en Manhattan")
+```
+
+El método Minkowski muestra una gráfica similar a Manhattan, con un sector muy marcado de observaciones con poca distancia entre si.
+
+```{r DistMink, out.width='50%', out.height='50%'}
+qdist.mink <- get_dist(coches.num, stand = T, method = 'minkowski')
+fviz_dist(qdist.mink, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4E07"), lab_size = 5) +
+  labs(title = "Distancias basado en Minkowski")
+```
+
+## C.Validación de Cluster 
+
+Antes de aplicar algoritmos de agrupación en los datos, es necesario comprender qué tipo de algoritmo de agrupación es adecuado para los datos. Este análisis selecciona entre los 3 métodos de agrupamiento, jerárquico, kmeans y pam para encontrar el más adecuado para los datos.
+
+El paquete clValid compara algoritmos de agrupamiento utilizando dos medidas de validación de agrupamiento:
+
+* `Medidas internas,` que utilizan información intrínseca en los datos para evaluar la calidad de la agrupación. Las medidas internas incluyen la conectividad, el coeficiente de silueta y el índice Dunn.
+
+* `Medidas de estabilidad,` una versión especial de medidas internas, que evalúa la consistencia de un resultado de agrupación comparándolo con los grupos obtenidos después de eliminar cada columna, uno a la vez.
+
+Las medidas de estabilidad del clúster incluyen:
+
+  * `La proporción promedio de no solapamiento (APN)` mide la proporción promedio de observaciones no colocadas en el mismo grupo agrupando en base a los datos completos y agrupando en base a los datos con una sola columna eliminada.
+ 
+ * `La distancia promedio (AD)` mide la distancia promedio entre las observaciones colocadas en el mismo grupo en ambos casos (conjunto de datos completo y eliminación de una columna).
+
+ * `La distancia promedio entre medias (ADM)` mide la distancia promedio entre los centros de los grupos para las observaciones colocadas en el mismo grupo en ambos casos.
+ 
+ * `La figura del mérito (FOM)` mide la varianza promedio dentro del clúster de la columna eliminada, donde la agrupación se basa en las columnas restantes (no eliminadas).
+ 
+APN, AD y ADM se basan en la tabla de clasificación cruzada de la agrupación original en los datos completos con la agrupación basada en la eliminación de una columna.
+
+```{r ClsValid}
+clmethods <- c("hierarchical", "kmeans", "pam")
+coches.m <- as.matrix.data.frame(coches.num)
+valid_clus_coches <- clValid(coches.m, nClust = 2:10, clMethods = clmethods, metric = "euclidean", validation = "internal", maxitems = 125)
+summary(valid_clus_coches)
+```
+
+```{r PlotCls}
+plot(valid_clus_coches)
+```
+
+Las medidas internas de validación incluyen conectividad, ancho de silueta e índice Dunn. `Conectividad` tiene un valor entre 0 e infinito y es mejor minimizarlo. El `índice de Dunn` es la relación entre la distancia más pequeña entre observaciones en un grupo diferente y la distancia más grande dentro del grupo. Tiene un valor entre 0 e infinito y es mejor maximizarlo. El `ancho de silueta` mide cuán similar es un objeto al otro objeto en su propio grupo frente a los del grupo vecino. Tiene el rango de 1 a -1. un valor cercano a 1 indica que las observaciones están bien agrupadas. Un valor cercano a -1 indica que las observaciones están mal agrupadas.
+
+Basado en el análisis usando la función `clValid`, el método Jerárquico es eficiente en las métricas Connectividad e índice Dunn. En cambio Pam es más efectivo en el ancho de silueta o perfil. Sin embargo, muestran 2 o 3 clusters como número óptimo de grupos, lo que es ineficiente en este caso por que implicaría tener grupos de más de 15 vehículos.
+
+## D.Número de Clusters
+Como punto importante del análisis es identificar en cuantos grupos se segmentara la muestra, de forma que las observaciones del mismo grupo sean internamente homogéneas.
+Se utilizará la librería NbClust, que proporciona 30 índices para determinar este número, con los tres algoritmos (KMeans, PAM, Jerárquico) bajo la métrica de la silueta.
+
+```{r}
+coches.num <- coches[,-c(1,2,15)]
+rownames(coches.num) <- rownames(coches)
+a <- fviz_nbclust(coches.num, FUNcluster = kmeans, method = "s") + labs(title = "K-means")
+b <- fviz_nbclust(coches.num, FUNcluster = pam, method = "s") + labs(title = "PAM")
+c <- fviz_nbclust(coches.num, FUNcluster = hcut, method = "s") + labs(title = "Jerárquico")
+
+grid.arrange(a,b,c, top = "Optimal number of clusters")
+```
+
+Todos los algoritmos indican que 2 es el número óptimo de clusters. Pero esta cantidad no es eficiente para la muestra por que implicaría que cada grupo tendría 62 coches en promedio. 
+
+Dado ambos enfoques de revisión, continuamos el análisis con la evaluación detallada de cada algoritmo para encontrar el más adecuado.
+
+## E.Algoritmos de Clustering
+
+### E.1.Cluster Jerárquico
+
+A continuación se distribuirá los vehículos con el método jerárquico. Se utiliza el método de varianza mínima Ward.
+
+```{r ClusJer1}
+coches.k3.j <- eclust(coches.num, "hclust", stand=T, k = 3, graph = FALSE, hc_method = "ward.D2")
+fviz_dend(coches.k3.j, rect = TRUE, cex = 0.5, k_colors = c("#00AFBB", "#E7B800", "#D95F02"), show_labels = TRUE, main = "Clustering de 125 vehículos en 3 clusters", xlab = "Coche ID") 
+
+```
+
+```{r ClusJer2}
+fviz_silhouette(coches.k3.j)
+```
+
+Y el grafico eclust se muestra así:
+
+```{r ClusJer3}
+fviz_cluster(eclust(coches.num, "hclust", stand=T, k = 2, graph = FALSE, hc_method = "ward.D2"))
+fviz_cluster(coches.k3.j)
+fviz_cluster(eclust(coches.num, "hclust", stand=T, k = 4, graph = FALSE, hc_method = "ward.D2"))
+fviz_cluster(eclust(coches.num, "hclust", stand=T, k = 5, graph = FALSE, hc_method = "ward.D2"))
+fviz_cluster(eclust(coches.num, "hclust", stand=T, k = 6, graph = FALSE, hc_method = "ward.D2"))
+```
+Se observa que hay solapamiento apartir de 3 clusters. Si se clasifican en 3 grupos según el método jeráraquico se tienen grupos con más de 15 vehículos, no es eficiente para el caso.
+
+```{r ClusJer4}
+grp1 <- cutree(coches.k3.j, k = 3)
+table(grp1)
+```
+
+### E.2.Cluster PAM
+
+El algoritmo PAM se basa en la búsqueda de k objetos representativos o medoides entre las observaciones del conjunto de datos. Después de encontrar un conjunto de k medoides, los grupos se construyen asignando cada observación al medoide más cercano. A continuación, cada medoide seleccionado my cada punto de datos no medoides se intercambian y se calcula la función objetivo. La función objetivo corresponde a la suma de las diferencias de todos los objetos con su medoide más cercano.
+
+```{r PAM1}
+set.seed(789)
+fviz_nbclust(x = coches.num, FUNcluster = pam, method = "silhouette", k.max = 10, diss = dist(coches.num, method = "euclidean"))
+```
+
+Se observa con la función NbClust, que a partir del 2 clusters sería un valor adecuado. A continuación, se grafica las diferentes distribuciones desde 2 hasta 6 clusters.
+
+```{r PAM2}
+set.seed(789)
+coches.num <- coches[,-c(1,2,15)]
+coches.k6.pam <- pam(x = coches.num, stand=TRUE, k = 6, metric = "euclidean")
+k2 <- eclust(coches.num, FUNcluster = "pam", stand = TRUE, hc_metric = "euclidean",k = 2)
+k3 <- eclust(coches.num, FUNcluster = "pam", stand = TRUE, hc_metric = "euclidean", k = 3)
+k4 <- eclust(coches.num, FUNcluster = "pam", stand = TRUE, hc_metric = "euclidean", k = 4)
+k5 <- eclust(coches.num, FUNcluster = "pam", stand = TRUE, hc_metric = "euclidean", k = 5)
+k6 <- eclust(coches.num, FUNcluster = "pam", stand = TRUE, hc_metric = "euclidean", k = 6)
+k8 <- eclust(coches.num, FUNcluster = "pam", stand = TRUE, hc_metric = "euclidean", k = 8)
+k10 <- eclust(coches.num, FUNcluster = "pam", stand = TRUE, hc_metric = "euclidean", k = 10)
+```
+
+Para visualizar los resultados de la distribución, se usa la función fviz_cluster () [paquete factoextra]. Dibuja un diagrama de dispersión de puntos de datos coloreados por números de clúster. En este caso, se utiliza el 
+algoritmo de Análisis de componentes principales (PCA) se utiliza para reducir la dimensionalidad de los datos. Se observa que con dos dimensiones como se trazan los datos.
+
+```{r PAM3}
+medoids <- prcomp(coches.num)$x
+medoids <- medoids[rownames(coches.k6.pam$medoids), c("PC1", "PC2")]
+medoids <- as.data.frame(medoids)
+colnames(medoids) <- c("x", "y")
+fviz_cluster(object = coches.k6.pam, data = coches.num, ellipse.type = "t",
+             repel = TRUE) +
+  theme_bw() +
+  geom_point(data = medoids, color = "firebrick", size = 2) +
+  labs(title = "Resultados clustering PAM") +
+  theme(legend.position = "none")
+```
+
+De similar manera al método jerárquico, se tiene solapamiento a partir de 5 clusters. Vamos a revisar con K Means.
+
+
+### E.3.Cluster K-Means
+
+Si bien este algoritmo no resulto eficiente según la prueba de ClValid. Se prueba con clusters que no hay solapamiento cuando se tiene 6 clusters. A comparación de los otros métodos.
+
+```{r }
+set.seed(789)
+coches.num <- coches[,-c(1,2,15)]
+k2 <- eclust(coches.num, FUNcluster = "kmeans", stand = TRUE, hc_metric = "euclidean", nstart = 25,k = 2)
+k3 <- eclust(coches.num, FUNcluster = "kmeans", stand = TRUE, hc_metric = "euclidean", nstart = 25,k = 3)
+k4 <- eclust(coches.num, FUNcluster = "kmeans", stand = TRUE, hc_metric = "euclidean", nstart = 25,k = 4)
+k5 <- eclust(coches.num, FUNcluster = "kmeans", stand = TRUE, hc_metric = "euclidean", nstart = 25,k = 5)
+k6 <- eclust(coches.num, FUNcluster = "kmeans", stand = TRUE, hc_metric = "euclidean", nstart = 25,k = 6)
+k7 <- eclust(coches.num, FUNcluster = "kmeans", stand = TRUE, hc_metric = "euclidean", nstart = 25,k = 7)
+k8 <- eclust(coches.num, FUNcluster = "kmeans", stand = TRUE, hc_metric = "euclidean", nstart = 25,k = 8)
+k10 <- eclust(coches.num, FUNcluster = "kmeans", stand = TRUE, hc_metric = "euclidean", nstart = 25,k = 10)
+```
+
+A partir del K=7 se tiene solapamientos. Asi que consideraremos 6 clusters para revisar el perfil.
+
+```{r}
+fviz_silhouette(k4)
+fviz_silhouette(k5)
+fviz_silhouette(k6)
+```
+
+Se visualiza que algunos coches del grupo 3 y 4 no se agrupan bien, sin embargo este método nos permite agrupar los coches en 6 clusters.
+
+```{r End}
+coches.k6.km <- eclust(coches.num, FUNcluster = "kmeans", stand = TRUE, hc_metric = "euclidean", nstart = 25,k = 6, graph = F)
+coches$cls <- coches.k6.km$cluster
+```
+
+A continuación se grafica las características de los coches con respectos a los clusters elegidos por el método K-means.
+
+```{r}
+groupBWplot(coches[,-c(1,2,16)], as.factor(coches$cls), alpha=0.05)
+```
+
+# Conclusiones
+La distribución de los coches según el análisis cluster no ha sido sencilla, dado las distintas características que tiene, pero se puede concluir en lo siguiente:
+
+* El Método KMeans, a pesar de no ser el óptimo en conservar medidas internas de cada cluster que si lo hace los otros métodos, permitió clasificar la muestra en 6 grupos.
+
+* Si bien el jefe solicitó 10 grupos de coches, desde el punto estadístico hubiera sido correcto elegir 2 o 3 clusters, pero finalmente desde el punto de vista del negocio y ahorro de coste es preferible 6 grupos.
+
+* Dado que no se tiene otro criterio que la distancia geográfica, se considera el costo de transporte para distribuir los clusters:
+
+        + Punto 3 y Casa 5, se asignan los clusters 1 y 2 debido a que su peso es menor y permitirá ahorrar en costes de transporte dado que puede realizarse por barco.
+        + Punto 9, los coches del cluster 5 debido a que tienen mayor consumo y es más apropiado para ahorrar costes asignarlos más cerca de españa.
+        
+        + Punto 8, de manera similar asignaremos a los coches del cluster 6 que son los segundos de mayor consumo.
+        
+        + Punto 2, continuando con el ahorro de transporte (costo de gasolina), se deben colocar los coches del cluster 4
+        
+        + Punto 1, se colocaran los coches del cluster 3 que son los restantes.
+        
+        
+Bibliografía
+---
+- Clustering Pokemon, en RPubs: https://rpubs.com/Buczman/ClusteringPokemon
+- Electric Vehicles Analytics - part (3/3) - Machine Learning on 80 EVs driving behaviour, en RPubs: https://rpubs.com/jianlee/ev03_clustering

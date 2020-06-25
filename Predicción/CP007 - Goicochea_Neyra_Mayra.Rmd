@@ -1,0 +1,177 @@
+---
+output:
+  word_document: default
+  pdf_document: default
+---
+# Resumen Ejecutivo
+
+Los mercados financieros mundiales se han integrado rápidamente debido a la globalización y avances tecnológicos (como Internet). Esto influye en el funcionamiento de cada mercado, por que son mas dependientes entre sí. 
+Los modelos VAR permiten crear grupos de ecuaciones sin restricción, en base a la información de un grupo de variables, sin que estas se conviertan en las variables explicativas. Se estiman luego los coeficientes de cada ecuación y de esa forma se puede incluir la relación de dependencia de las variables para estimar pronósticos.
+Considere el estudio del mercado japonés por que desde la segunda guerra mundial se ha fortalecido y ha obtenido un puesto muy importante en referencias de gestión económica. A pesar de ser conservador, mantiene cierta solidez ante los problemas mundiales de índole económico.
+El aporte de la información obtenida desde FRED como el marco práctico del modelo VAR publicado en Bankunderground, permite tener unos graficos de abanico (fancharts) que muestra como los ratios de PIB y IPC de Japón se mantienen estables en el tiempo.
+
+
+```{r, include=FALSE}
+##Data Wrangling Libraries
+library(tidyverse)
+library(dplyr)
+##Time Series Libraries
+library(quantmod)
+knitr::opts_chunk$set(echo = F, warning=F, fig.align = "center")
+```
+
+# Introducción
+
+Debido a la globalización, los mercados financieros mundiales se han integrado rápidamente. Como por ejemplo, se puede ver que los movimientos de precios en un mercado pueden extenderse fácil e instantáneamente a otro. Por esta razón, se puede concluir que los mercados financieros son más dependientes entre sí que nunca, y uno debe considerarlos conjuntamente para comprender mejor la estructura dinámica de las finanzas globales.
+
+Podemos utilizar un modelo del tipo vector autoregresivo (VAR) cuando queremos caracterizar las interacciones simultáneas entre un grupo de variables (en este informe tomamos las variables Crecimiento del PIB, o Producto Interno Bruto, e Inflación del IPC, ó índice de precios al Consumidor, en el mercado Japonés). El PIB y el IPC son dos de los aspectos más importantes de una economía saludable. Estos se afectan directamente entre ellos (se puede decir que cuando la economía crece esto puede ocasionar una alza de precios), y solamente el crecimiento estable puede compensar los efectos negativos que pueden tener entre sí.
+
+Un VAR es un modelo de ecuaciones simultáneas formado por un sistema de ecuaciones de forma reducida sin restringir. Que sean ecuaciones de forma reducida quiere decir que los valores contemporáneos de las variables del modelo no aparecen como variables explicativas en ninguna de las ecuaciones. Por el contrario, el conjunto de variables explicativas de cada ecuación está constituido por un bloque de retardos de cada una de las variables del modelo. Que sean ecuaciones no restringidas significa que aparece en cada una de ellas el mismo grupo de variables explicativas.
+
+# Pronóstico del PIB e Inflación del IPC de Japón
+
+Primero se inicia con información general de Japón, se le reconoce como la tercera economía del mundo por volumen de PIB según portales como datosmacro.com, otro dato importante es que es uno de los países con menos porcentaje de persona desempleadas del mundo. El PIB per cápita es un muy buen índicador del nivel de vida y en el caso de Japón, en 2018, fue de 33.271€ euros, por lo que se encuentra en el puesto 28 de los 196 países del ranking de PIB per cápita. La última tasa de variación anual del IPC publicada en Japón es de octubre de 2019 y fue del 0,2%.
+
+Teniendo en cuenta los datos de Japón, primero obtenemos la información trimestral de las variables PIB y Inflación del IPC de Japón del portal web FRED mediante la función getSymbols.
+
+```{r include=FALSE}
+### Data
+series = c('NAEXKP01JPQ657S', 'CPALTT01JPQ661S') #FRED codes for Japan GDP growth and CPI
+Growth = getSymbols(series[1], src = 'FRED', auto.assign = FALSE)
+CPI    = getSymbols(series[2], src = 'FRED', auto.assign = FALSE)
+```
+
+La información es almacenada en series temporales para realizar el modelo apropiadamente. Adicionalmente se creará la tasa de inflación anual que será útil para el modelo.
+
+```{r}
+Data = inner_join(tibble(Date = time(Growth), Growth = coredata(Growth)), tibble(Date = time(CPI), CPI = coredata(CPI)), by = c("Date")) %>% 
+  mutate(Inflation = 100*(CPI/lag(CPI,4) - 1)) %>%
+  select(Date, Growth, Inflation) %>% 
+  drop_na() # Drop missing obs to balance dataset
+```
+
+A continuación, es importante graficar el comportamiento de las variables en el tiempo.
+
+```{r}
+centre_colour = c("#ff7f7f","#e4dc8a") # Colours for time series/centre of fancharts
+tail_colour   = "gray95"               # Colour for the tails, used later but defined here 
+pivot_longer(Data, cols = -Date, names_to="Variables", values_to = "Values") %>% 
+  ggplot() + 
+  geom_line(aes(x = Date, y = Values, group = Variables, colour = Variables), size = 1, show.legend = TRUE) +
+  scale_colour_manual(values = centre_colour) +
+  theme_bw() + 
+  theme(legend.title = element_blank()) +
+  labs(title = "Japan GDP growth and CPI inflation", x = "", y = "",
+       caption = paste0("Source: FRED series ", paste(series, collapse = ", ")))
+```
+
+La información es ajustada estacionalmente para observar que las variables tienen cierta dependencia.
+
+
+Después, se crean los vectores de Crecimiento del PIB y de la Inflación anual. Se estima manualmente el número máximo de rezagos que es 4. 
+
+```{r Forecast_1}
+m     = 4  # maximum lag in VAR
+Datal = Data %>%
+  pivot_longer(cols = -Date, names_to = "Names", values_to = "Values") %>%
+  mutate(lag_value = list(0:m)) %>%
+  unnest(cols = lag_value) %>%
+  group_by(Names, lag_value) %>%
+  mutate(Values = lag(Values, unique(lag_value))) %>%
+  ungroup() %>%
+  mutate(Names = if_else(lag_value == 0, Names, # No suffix at lag 0
+  paste0(Names, "_", str_pad(lag_value, 2, pad = "0")))) %>% # All other lags 
+  select(-lag_value) %>%      # Drop the redundant lag index
+  pivot_wider(names_from = Names, values_from = Values) %>%
+  slice(-c(1:m)) %>%          # Remove missing lagged initial values
+  mutate(constant = 1)           # Add column of ones at end
+```
+
+Para formar adecuadamente el modelo VAR, se crean las matrices X e Y. Con el uso de la función solve se estiman los Betas de cada ecuación:
+
+```{r Forecast}
+s = paste(paste0(str_pad(1:m, 2, pad = "0"), "$"), collapse = "|")
+X = data.matrix(select(Datal, matches(paste0(s,"|constant"))))
+Y = data.matrix(select(Datal, -matches(paste0(s,"|constant|Date"))))
+
+(bhat = solve(crossprod(X), crossprod(X,Y)))
+```
+
+Ahora teniendo ya las ecuaciones, se procede a calcular los pronósticos y las variaciones de error mediante un bucle.
+
+```{r}
+nv    = ncol(Y) # Number of variables
+nf    = 12      # Periods to forecast
+nb    = 16      # Periods of back data to plot, used later
+
+v     = crossprod(Y - X %*% bhat)/(nrow(Y) - m*nv - 1)               # Calculate error variance
+bhat2 = bhat[rep(seq(1,m*nv,m),m) + rep(seq(0,m - 1), each = nv),] # Reorder for simulation
+A     = rbind(t(bhat2), diag(1,nv*(m - 1), nv*m))                  # First order form - A 
+B     = diag(1,nv*m,nv)                                            # First order form - B
+cnst  = c(t(tail(bhat,1)), rep(0,nv*(m - 1)))                      # First order constants
+
+Yf     = matrix(0,nv*m,nf + 1)                # Stores forecasts
+Yf[,1] = c(t(tail(Y,m)[m:1,]))              # Lagged data
+Pf     = matrix(0,nv,nf + 1)                  # Stores variances
+P      = matrix(0,nv*m,nv*m)                # First period state covariance
+
+for (k in 1:nf) { 
+  Yf[,k + 1] = cnst + A %*% Yf[,k]
+  P        = A %*% P %*% t(A) + B %*% v %*% t(B)
+  Pf[,k + 1] = diag(P)[1:nv]
+}
+```
+
+El resultado del bucle, es que se obtiene dos matrices: Yf  que contiene los niveles de pronóstico de cada variable, y Pf, los errores estándar de pronóstico.
+
+Finalmente, creamos el Fanchart. Los Fancharts, también llamado Diagrama de abanico, se compone de 5 áreas sombreadas: la más oscura es la que tiene probabilidad del 30%, las adyacentes, con probabilidad del 15% y las líneas de borde son las los cuantiles pronosticados.
+
+```{r}
+qu     = c(.05,.2,.35,.65,.8,.95)  # Chosen quantiles ensures 30% of the distribution each colour
+nq     = length(qu)
+fdates = seq.Date(tail(Data$Date,1), by = "quarter", length.out = nf + 1) # Forecast dates
+
+forecast_data = tibble(Date     = rep(fdates, 2), 
+                       Variable = rep(colnames(Data)[-1], each = (nf + 1)), 
+                       Forecast = c(t(Yf[1:nv,])),
+                       Variance = c(t(sqrt(Pf)))) %>% 
+  bind_cols(map(qu, qnorm, .$Forecast, .$Variance)) %>%         # Calculate quantiles
+  select(-c("Forecast", "Variance")) %>% 
+  {bind_rows(select(., -(nq + 2)),                                # Drop last quantile 
+             select(., -3) %>%                                  # Drop first quantile
+               arrange(Variable, desc(Date)) %>%                # Reverse order
+               rename_at(-(1:2), ~paste0("V",1:(nq-1))) )} %>%  # Shift names of reversed ones 
+  pivot_longer(cols = -c(Date, Variable), names_to = "Area", values_to = "Coordinates") %>% 
+  unite(VarArea, Variable, Area, remove = FALSE) %>%              # Create variable to index polygons
+  bind_rows(pivot_longer(tail(Data,nb), cols = -Date, names_to = "Variable", values_to = "Backdata"), .)
+
+band_colours = colorRampPalette(c(rbind(tail_colour, centre_colour), tail_colour),space = "Lab")(nv*nq + 1)[-seq(1, nv*nq + 1, nq)]
+
+ggplot(forecast_data) + 
+  geom_rect(aes(xmin = Date[nv*nb], xmax = max(Date), ymin = -Inf, ymax = Inf), fill = tail_colour, alpha = .2) +  
+  geom_polygon(aes(x = Date, y = Coordinates, group = VarArea, fill = VarArea)) +
+  scale_fill_manual(values = band_colours) +
+  geom_line(aes(x = Date, y = Backdata, group = Variable, colour = Variable)) +
+  scale_colour_manual(values = centre_colour) +
+  scale_x_date(expand = c(0,0)) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  facet_wrap(~ Variable, ncol = 1) +
+  labs(title = "Pronósticos del crecimiento del PIB y la inflación del IPC en Japón", 
+       subtitle = paste("Data Trimestral, Ratio anual de cambio, VAR con", m, "rezagos"), 
+       caption = paste("Fuente: FRED series", paste(series, collapse = ", ")), x = "", y = "")
+```
+
+
+# Conclusiones
+
+* El modelo VAR es muy útil cuando existe evidencia de simultaneidad entre un grupo de variables, y que sus relaciones se transmiten a lo largo de un determinado número de períodos. Al no imponer ninguna restricción sobre la versión estructural del modelo, no se incurre en los errores de especificación que dichas restricciones pudieran causar al ejercicio empírico. 
+
+* La técnica de elaboración de los fancharts escrita por Andrew Blake, es sencilla y muy clara, además que los diagramas resultantes son fácil de interpretar
+
+* Sobre la economía japonesa, mantiene una posición muy conservadora a comparación de otras economías pero le permite mantenerse de forma cómoda ante los actuales factores del entorno.
+
+## Bibliografía
+* Build your own fancharts in R, sitio web: https://bankunderground.co.uk/2019/11/19/build-your-own-fancharts-in-r/
+* Multivariate Time Series Analysis and Its Applications, por Ruey S. Tsay.
+

@@ -1,0 +1,192 @@
+---
+title: 'Reservas de Hotel - Informe Modelo Predictivo Series Temporales'
+author: 'Elaborado por: Mayra Goicochea Neyra'
+date: "23/01/2020"
+output:
+  word_document: default
+  pdf_document: default
+---
+# Anexo: Codigo R
+## Librerias
+```{r, include=FALSE}
+library(readr)
+library(dplyr)
+library(kknn)
+library(tidyverse)
+library(data.table)
+##Graphic and Summary Libraries
+library(ggplot2)
+library(skimr)
+library(corrplot)
+library(ggfortify)
+##TimeSeries Libraries
+library(TSA)
+library(forecast)
+library(xts)
+library(zoo)
+library(lmtest)
+library(dynlm)
+library(quantmod)
+library(TSstudio) 
+knitr::opts_chunk$set(echo = F, warning = F, fig.align = "center")
+bookings.ts  <- read_csv("BookingsTimeSeries.csv")
+```
+
+## Configuracion de la Serie Temporal 
+
+```{r include=FALSE}
+bookings.comp <- as.xts(bookings.ts$reservations,order.by=as.Date(bookings.ts$DateReservation))
+bookings.comp <- apply.weekly(bookings.comp,sum)
+bookings.comp <- as.data.frame(bookings.comp)
+setDT(bookings.comp, keep.rownames = TRUE)[]  #semanal
+bookings.comp$rn <- as.Date(bookings.comp$rn)
+df.bookings.comp <- bookings.comp
+ts.bookings.comp <- ts(as.numeric(df.bookings.comp$V1), start = c(2013,6,30), frequency = 52) #se crea el objeto ts para
+
+```
+
+### Caracteristicas de la Serie Completa
+
+```{r}
+ts_plot(ts.bookings.comp)
+```
+
+
+Primero se grafica la descomposicion de la serie temporal, presenta las siguientes caracteristicas:
+
+```{r plotDecompose}
+ts_decompose(ts.bookings.comp)
+```
+
+
+#### Estacionalidad
+
+```{r}
+#Seasonal Plot
+  ggfreqplot(ts.bookings.comp, freq=4,nrow=1,facet.labeller=c("1T","2T","3T","4T"))+ggtitle("Number of Reservations - Reservation Date ")+theme_bw()
+```
+
+Grafico de estacionalidad a traves de los años por semanas
+```{r}
+ggseasonplot(ts.bookings.comp,polar=TRUE,main="Reservas" )+theme_bw()
+```
+
+
+```{r}
+#Difference
+ggtsdisplay(ts.bookings.comp)
+```
+
+
+## Desarrollo del Modelo
+
+Se separa la información del dataset en dos subconjuntos:
+
+* `Train :` Incluirá la información de 24 de Junio del 2013 hasta 14 de Mayo del 2017. Este subset se utilizará como entrenamiento para el modelo predictivo.
+
+* `Test :` Incluirá la información de 21 de Mayo del 2017 hasta 31 de Agosto del 2017. Este subset se utilizará como validación de los modelos predictivos.
+
+```{r include=FALSE}
+#Select number of observation to compare forecast
+cOmit <- 20 #1 año
+
+#Data Size
+#nbookings <- length(zbookings)
+#bookings.train <- window(zbookings,start=index(zbookings[1]),end=index(zbookings[nbookings-cOmit]))
+
+nbookings.comp <- length(ts.bookings.comp)
+
+split_data.comp <- ts_split(ts.bookings.comp, sample.out = cOmit)
+bookings.comp.train  <- split_data.comp$train
+bookings.comp.test <- split_data.comp$test
+
+```
+
+### ETS
+Primero se prueba con un modelo ETS sin lambda. Se obtiene un AIC de 2912.654
+```{r warning=FALSE}
+set.seed(123)
+ets.comp.fit  <- ets(bookings.comp.train)
+summary(ets.comp.fit)
+```
+Se genera el grafico de residuos del modelo ETS, se puede visualizar que se tiene un pico negativo en el lag 3, lo que puede que el modelo resultante no se optimo.
+```{r}
+tsdisplay(residuals(ets.comp.fit), lag.max=12)
+```
+
+Se estima la prediccion, la grafica no demuestra variabilidad como la serie temporal, puede deberse a que los datos no tienen estacionalidad y solo determina tendencia.
+
+```{r}
+ets.c.pred <- forecast(ets.comp.fit,h=cOmit)
+
+df_plot <- data.frame(value = as.vector(ts.bookings.comp),time = time(ts.bookings.comp))
+
+#Grafico
+plot <- ggplot(df_plot)
+pets <-  autolayer(ets.c.pred, alpha = 0.5, col = "midnightblue")
+plot + pets +
+  ggtitle("Predicción Reservas H1: Modelo ETS(A,N,N)") +
+  geom_point(aes(x = time,y = value)) +
+  geom_line(aes(x = time,y = value)) +
+  theme_bw()
+```
+
+En cuanto a los errores se tiene un MAPE de 131.7569.
+
+```{r}
+bookings.c.test <- ts.bookings.comp[(nbookings.comp-cOmit+1):nbookings.comp]
+accuracy(ets.c.pred, bookings.test)
+```
+
+
+### ARIMA
+
+El primer modelo es un ARIMA sin lambda (ARIMA (2,1,1)), se obtuvo un AIC de 2402.78.
+```{r echo=FALSE}
+set.seed(123)
+arima.c.fit <- auto.arima(bookings.comp.train, seasonal = FALSE, stepwise = FALSE, approximation = FALSE)
+summary(arima.c.fit)
+```
+El siguiente modelo es un ARIMA con lambda automatico (ARIMA (1,1,3)), se obtuvo un AIC de 1924.91.
+```{r echo=FALSE}
+set.seed(123)
+arima2.c.fit <- auto.arima(bookings.comp.train, lambda = "auto", seasonal = FALSE, stepwise = FALSE, approximation = FALSE)
+summary(arima2.c.fit)
+```
+Los valores residuales de ambos modelos, no demuestran correlaciones significativas.
+```{r}
+tsdisplay(residuals(arima.c.fit), lag.max=12)
+tsdisplay(residuals(arima2.c.fit), lag.max=12)
+```
+La grafica del primer modelo no se acerca a los valores de la muestra Test.
+```{r}
+arima.c.pred <- forecast(arima.c.fit,h=cOmit)
+parima <-  autolayer(arima.c.pred, alpha = 0.5, col = "maroon3")
+plot + parima +
+  ggtitle("Predicción Reservas H1: Modelo ARIMA(2,1,2)") +
+  geom_point(aes(x = time,y = value)) +
+  geom_line(aes(x = time,y = value)) +
+  theme_bw()
+```
+La grafica del segundo modelo ARIMA predice bien la segunda semana de la muestra test. Es mejor que los otros modelos.
+```{r}
+arima2.c.pred <- forecast(arima2.c.fit,h=cOmit)
+parima <-  autolayer(arima2.c.pred, alpha = 0.5, col = "darkorchid4")
+plot + parima +
+  ggtitle("Predicción Reservas H1: Modelo ARIMA(2,1,2)") +
+  geom_point(aes(x = time,y = value)) +
+  geom_line(aes(x = time,y = value)) +
+  theme_bw()
+```
+
+
+A continuacion se estiman sus metricas de desempeño de los modelos ARIMA:
+
+```{r}
+bookings.c.test <- ts.bookings.comp[(nbookings.comp-cOmit+1):nbookings.comp]
+accuracy(arima.c.pred, bookings.comp.test)
+accuracy(arima2.c.pred, bookings.comp.test)
+```
+
+
+

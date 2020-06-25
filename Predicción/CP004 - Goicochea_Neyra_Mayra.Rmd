@@ -1,0 +1,397 @@
+---
+title: "CP004 - Préstamos y GLM"
+author: "Mayra Goicochea Neyra"
+date: "4/11/2019"
+output: pdf_document
+---
+# 1. Introducción
+
+Se tiene un conjunto de datos de todos los préstamos emitidos en el periodo 2008-2015, que incluye el estado actual del préstamo (Current, Late, Fully Paid, etc.), los datos del prestatario, y la información más reciente de pago.
+La toma de decisiones con respecto a los riesgos crediticios es una de las operaciones cruciales para los negocios de banca y finanzas.
+En este análisis, se realiza un análisis exploratorio de datos, visualizaciones, predicción de resultados de préstamos y la representación de la matriz de confusión.
+
+## 1.1 Dataset Overview
+
+El dataset se encuentra en un archivo database.sqlite. Incluye 887383 casos con 75 variables, entre las que se consideran relevantes para el modelo predictivo:
+
+* `loan_amnt :` El monto del préstamo solicitado por el prestatario.
+* `term :` El número de pagos del préstamo.
+* `int_rate :` Tasa de interés del préstamo.
+* `grade :` Grado de préstamo.
+* `sub_grade :` Préstamo asignado.
+* `emp_length :` Duración del empleo en años.
+* `home_ownership :` El estado de propiedad de la vivienda proporcionado por el prestatario durante el registro.
+* `annual_inc :` El ingreso anual autoinformado proporcionado por el prestatario durante el registro.
+* `verification_status :` Si el registro ha pasado por el proceso de verificación.
+* `issue_d :` Mes en que se financió el préstamo.
+* `loan_status :` Estado actual del préstamo.
+* `purpose :` Propósito del préstamo proporcionado por el prestatario para la solicitud de préstamo.
+
+* `addr_state :` Código del estado de residencia proporcionado por el prestario.
+* `dti :` Ratio calculado en base a los pagos mensuales totales de la deuda sobre las obligaciones de la deuda total, excluyendo la hipoteca y el préstamo LC solicitado, dividido por el ingreso mensual autoinformado del prestatario.
+* `delinq_2yrs :` Número de incidencias de morosidad (mayor a 30 días) durante los 2 últimos años.
+* `inq_last_6mths :` Número de consultas en los últimos 6 meses (excluyendo consultas de automóviles e hipotecas).
+* `mths_since_last_delinq :` Número de meses desde la última morosidad del prestatario.
+* `mths_since_last_record :` Número de meses desde el último registro público.
+* `open_acc :` Número de líneas de crédito abiertas en el archivo de crédito del prestatario.
+* `pub_rec :` Número de registros públicos derrogados.
+* `revol_bal :` Saldo rotativo total de crédito.
+* `revol_util :` Tasa de utilización de línea rotativa, o la cantidad de crédito que el prestatario está usando en relación con todo el crédito rotativo disponible.
+* `total_acc :` Número total de líneas de crédito actualmente en el archivo de crédito del prestatario.
+* `out_prncp :` Capital pendiente restante por el monto total financiado.
+* `application_type :` Indica si el préstamo es una solicitud individual o una solicitud conjunta con dos coprestatarios.
+* `tot_cur_bal :` Saldo total actual de todas las cuentas.
+
+
+```{r, include=FALSE}
+library(skimr)
+library(RSQLite)
+library(kknn)
+library(dplyr)
+library(tidyverse)
+library(rminer)
+library(ggplot2)
+library(faraway)
+library(verification)
+rm(list = ls())
+
+con <- dbConnect(SQLite(),"../Data/database.sqlite")
+dbListTables(con)
+raw_data <- dbGetQuery(con,"SELECT * FROM loan")
+loan <- raw_data[,c(4,7,8,10,11,13:18,22,25:27,29:36,38,54,60)]
+loan <- loan %>% mutate(term = as.factor(term),
+                        grade = as.factor(ifelse(is.na(grade),"(Other)",grade)),
+                        sub_grade = as.factor(ifelse(is.na(sub_grade),"(Other)",sub_grade)),
+                        emp_length = as.factor(ifelse(is.na(emp_length),"(Other)",emp_length)),
+                        home_ownership = as.factor(ifelse(is.na(home_ownership),"OTHER",home_ownership)),
+                        verification_status = as.factor(verification_status),
+                        loan_status = as.factor(ifelse(is.na(loan_status),"(Other)",loan_status)),
+                        purpose = as.factor(ifelse(is.na(purpose),"(Other)",purpose)),
+                        int_rate = as.numeric(trimws(gsub("%","",int_rate)))/100,
+                        revol_util = as.numeric(trimws(gsub("%","",revol_util)))/100,
+                        #Los valores ausentes se convierten en 0.
+                        mths_since_last_delinq = ifelse(is.na(mths_since_last_delinq),0,mths_since_last_delinq),
+                        mths_since_last_record = ifelse(is.na(mths_since_last_record),0,mths_since_last_record),
+                        )
+loan <- na.omit(loan) 
+```
+
+### 1.1.1. Loan Status
+Existen 8 estados de préstamo. Para realizar el modelo de riesgo crediticio se considera sólo la información histórica (estados diferente a Current).
+La variable Objetivo será creada en base a ésta información. Los casos default serán aquellos con etiqueta Default o Charged Off (que se considera créditos impagos).
+
+* `1 (Yes) :` Default o Charged Off.
+* `0 (No) :` Fully Paid, In Grace Period, Issued, Late.
+
+
+```{r, echo=FALSE}
+ggplot(loan, aes(loan_status, loan_amnt)) +
+  geom_boxplot(aes(fill = loan_status)) +
+  labs(title = "Monto del Préstamo por Estado del Préstamo", x = "Préstamo", y = "Monto") +
+  theme_bw() +
+  theme(axis.text.x = element_blank())
+```
+
+Los casos que se tienen en el dataset son los siguientes:
+```{r echo=FALSE}
+loan.df <- as.data.frame(loan[loan$loan_status != "Current", ])
+loan.df$loan_status <- as.character(loan.df$loan_status)
+loan.df$loan_status[loan.df$loan_status == "Charged Off" | loan.df$loan_status == "Default" ] <- "Yes"
+loan.df$loan_status[loan.df$loan_status != "Yes"] <- "No"
+loan.df$loan_status <- as.factor(loan.df$loan_status)
+xtabs(~loan_status, data = loan.df)
+```
+
+### 1.1.2. Loan Amount
+Se tiene mucha variabilidad en los montos otorgados de préstamos con una desviación típica de 8446.32. Siendo el monto promedio de 14998.54.
+
+```{r, echo=FALSE}
+ggplot(loan,aes(loan_amnt)) +
+  geom_histogram(breaks = seq(0 , 35000, by = 1000),col="black", aes(fill = ..count..))+
+  scale_fill_gradient("Count", low = "#adeae2", high = "#1796a1")+
+  labs(title = "Monto del Préstamo", x = "Monto", y = "Numero de préstamos")+
+  theme_bw()
+```
+
+### 1.1.3. Annual Income
+También tiene alta variabilidad (desviación típica de 65307.91) e ingreso anual promedio de 75544.93.
+
+```{r, echo=FALSE}
+ggplot(loan.df,aes(annual_inc)) +
+  geom_histogram(breaks = seq(0 , 35000, by = 1000),col = "black", aes(fill = ..count..))+
+  scale_fill_gradient("Count", low = "#adeae2", high = "#1796a1")+
+  labs(title = "Ingreso Anual", x = "Ingreso anual", y = "Frecuencia")+
+  theme_bw()
+```
+
+### 1.1.4. Home Ownership
+Hay 6 tipos de propiedad: Vivienda propia, renta, vivienda hipotecada, ninguna vivienda, otros.
+Se clasificarán en dos grupos:
+
+* `1 (Yes) :` OWN o Mortgage.
+* `0 (No) :` Rent, Any, Other, None.
+
+```{r, echo=FALSE}
+ggplot(loan.df,aes(home_ownership)) +
+  geom_bar(col="black", aes(fill = ..count..))+
+  scale_fill_gradient("Count", low = "#adeae2", high = "#1796a1")+
+  labs(title = "Vivienda", x = "Propiedad o No", y = "Cantidad")+
+  theme_bw()
+```
+Se tienen los siguientes casos:
+```{r echo=FALSE}
+loan.df$home_ownership <- as.character(loan.df$home_ownership)
+loan.df$home_ownership[loan.df$home_ownership == "OWN" | loan.df$home_ownership == "MORTGAGE"] <- "Yes"   
+loan.df$home_ownership[loan.df$home_ownership != "Yes"] <- "No"
+loan.df$home_ownership <- as.factor(loan.df$home_ownership)
+xtabs(~home_ownership, data = loan.df)
+```
+
+### 1.1.5. Delinq 2yrs
+Se clasificara los casos en dos grupos:
+
+* `1 (Yes) :` Hay o hubo incidencias de morosidad.
+* `0 (No) :` Ninguna incidencia.
+
+```{r, echo=FALSE}
+ggplot(loan.df,aes(delinq_2yrs)) +
+  geom_bar(col="black", aes(fill = ..count..))+
+  scale_fill_gradient("Count", low = "#adeae2", high = "#1796a1")+
+  labs(title = "Incidencias de morosidad", x = "Dias de incidencias", y = "Cantidad")+
+  theme_bw()
+```
+
+Los casos se distribuyen de la siguiente manera:
+```{r echo=FALSE}
+loan.df$delinq_2yrs <- as.character(loan.df$delinq_2yrs)
+loan.df$delinq_2yrs[loan.df$delinq_2yrs=="0"] <- "Yes"
+loan.df$delinq_2yrs[loan.df$delinq_2yrs!= "Yes"] <- "No"
+loan.df$delinq_2yrs <- as.factor(loan.df$delinq_2yrs)
+xtabs(~delinq_2yrs, data = loan.df)
+
+```
+
+### 1.1.6. Verification status
+Se clasificara los casos en dos grupos:
+
+* `1 (Yes) :` Verified, Source Verified.
+* `0 (No) :` Not Verified.
+
+```{r, echo=FALSE}
+ggplot(loan.df,aes(verification_status)) +
+  geom_bar(col="black", aes(fill = ..count..))+
+  scale_fill_gradient("Count", low = "#adeae2", high = "#1796a1")+
+  labs(title = "Estado de Verificacion", x = "Estado Verificacion", y = "Cantidad")+
+  theme_bw()
+```
+
+Los casos se distribuyen de la siguiente manera:
+```{r echo=FALSE}
+loan.df$verification_status <- as.character(loan.df$verification_status)
+loan.df$verification_status[loan.df$verification_status == "Verified" | loan.df$verification_status == "Source Verified"] = "Yes"
+loan.df$verification_status[loan.df$verification_status != "Yes"] = "No"
+loan.df$verification_status <- as.factor(loan.df$verification_status)
+xtabs(~verification_status, data = loan.df)
+```
+
+### 1.1.7. Purpose
+Se clasificara los casos en tres grupos:
+
+* `0 :` Moving, small business, renewable energy.
+* `1 :` Car, major purpose, home improvement, credit card.
+* `2 :` Educational, debt consolidation, medical, house, vacation, wedding, other.
+
+```{r, echo=FALSE}
+ggplot(loan.df,aes(purpose)) +
+  geom_bar(col="black", aes(fill = ..count..))+
+  scale_fill_gradient("Count", low = "#adeae2", high = "#1796a1")+
+  labs(title = "Objetivo del prestamo", x = "Objetivo", y = "Cantidad")+
+  theme_bw()
+```
+
+Los casos se distribuyen de la siguiente manera:
+
+```{r echo=FALSE}
+loan.df$purpose <- as.character(loan.df$purpose)
+loan.df$purpose[loan.df$purpose == "car" | loan.df$purpose == "major_purchase" | 
+                  loan.df$purpose == "home_improvement"| loan.df$purpose == "credit_card" ] <- 1
+loan.df$purpose[loan.df$purpose == "moving" | loan.df$purpose == "small_business" | 
+                  loan.df$purpose == "renewable_energy" ] <- 0
+loan.df$purpose[loan.df$purpose!= 0 & loan.df$purpose != 1 ] <- 2
+loan.df$purpose <- as.factor(loan.df$purpose)
+xtabs(~purpose, data = loan.df)
+```
+```{r include=FALSE}
+rm("loan","raw_data","labels","limits_inc","na_rate")
+#Asignar valores numericos a la variable loan_status
+loan.df$loan_status <- as.character(loan.df$loan_status)
+loan.df$loan_status[loan.df$loan_status == "Yes"]<-1
+loan.df$loan_status[loan.df$loan_status == "No"] <-0
+loan.df$loan_status <- as.numeric(loan.df$loan_status)
+```
+
+# 2. Modelos GLM
+
+Se elaboran tres modelos logisticos:
+
+* `Modelo 0 :` Todas las variables explicativas
+* `Modelo 1 :` Se consideran que las variables loan_amnt, term, grade, home_ownership, annual_inc, purpose, dti, delinq_2yrs, inq_last_6mths, open_acc, revol_util, total_acc, out_prncp y tot_cur_bal son suficientes para explicar variable default.
+* `Modelo 1 :` Se consideran que las variables loan_amnt, term, grade, home_ownership, annual_inc, purpose, dti, delinq_2yrs, inq_last_6mths, open_acc, revol_util, total_acc, out_prncp y tot_cur_bal son suficientes para explicar la variable default.
+
+Se tienen los subsets 
+* `Train`:
+```{r echo=FALSE}
+set.seed(789)
+n <- nrow(loan.df)
+id_train <- sample(1:n , 0.8*n)
+loan.train = loan.df[id_train,]
+loan.test = loan.df[-id_train,]
+dim(loan.train)
+```
+* `Test`:
+
+```{r echo=FALSE}
+dim(loan.test)
+```
+
+## 2.1. Estimando modelos logísticos
+
+### 2.1.1. Modelo 0
+
+```{r include=FALSE}
+loan.glm0 <- glm(loan_status~.,family=binomial,loan.train)
+summary(loan.glm0)
+```
+
+```{r echo=FALSE}
+sumary(loan.glm0)
+```
+
+#### AIC
+```{r echo=FALSE}
+AIC(loan.glm0)
+```
+
+#### BIC
+```{r echo=FALSE}
+BIC(loan.glm0)
+```
+
+### 2.1.2. Modelo 1
+
+```{r include=FALSE}
+loan.glm1 <- glm(loan_status ~ loan_amnt + home_ownership + annual_inc + verification_status + 
+                   purpose + dti + delinq_2yrs + int_rate + inq_last_6mths + mths_since_last_delinq +
+                   revol_bal + revol_util + total_acc,
+              family = binomial(link= "logit"),loan.train)
+summary(loan.glm1)
+```
+
+```{r echo=FALSE}
+sumary(loan.glm1)
+```
+
+#### AIC
+```{r echo=FALSE}
+AIC(loan.glm1)
+```
+
+#### BIC
+```{r echo=FALSE}
+BIC(loan.glm1)
+```
+
+### 2.1.3. Modelo 2
+
+```{r include=FALSE}
+loan.glm2 <- glm(loan_status~loan_amnt + term + grade + home_ownership + annual_inc + purpose + dti +
+delinq_2yrs + inq_last_6mths + open_acc + revol_util + total_acc + out_prncp + tot_cur_bal,family = binomial,loan.train)
+summary(loan.glm2)
+```
+
+```{r echo=FALSE}
+sumary(loan.glm2)
+```
+
+#### AIC
+```{r echo=FALSE}
+AIC(loan.glm2)
+```
+
+#### BIC
+```{r echo=FALSE}
+BIC(loan.glm2)
+```
+
+### Conclusiones
+El modelo con todas las variables (modelo 0) parece ser el mejor según los ratios BIC y AIC.
+
+## 2.2. Pruebas Insample y Curva ROC
+
+```{r echo=FALSE}
+prob.glm0.insample <- predict(loan.glm0,loan.train,type = "response")
+prob.glm1.insample <- predict(loan.glm1,loan.train,type = "response")
+prob.glm2.insample <- predict(loan.glm2,loan.train,type = "response")
+roc.plot(x= loan.train$loan_status == 1, pred=cbind(prob.glm0.insample,prob.glm1.insample,prob.glm2.insample), legend=TRUE, leg.text=c("Full Model","Model 1", "Model 2"))$roc.vol
+
+```
+Según la curva ROC, el modelo con todas las variables es el que mejor explica la información.
+
+## 2.3. Pruebas Outsample y Curva ROC
+
+```{r echo=FALSE}
+prob.glm0.outsample <- predict(loan.glm0,loan.test,type = "response")
+prob.glm1.outsample <- predict(loan.glm1,loan.test,type = "response")
+prob.glm2.outsample <- predict(loan.glm2,loan.test,type = "response")
+roc.plot(x= loan.test$loan_status == 1, pred=cbind(prob.glm0.outsample,prob.glm1.outsample,prob.glm2.outsample), legend=TRUE, leg.text=c("Full Model","Model 1", "Model 2"))$roc.vol
+```
+
+El modelo con todas las variables continua siendo el mejor en la explicación de la variable default en las pruebas del dataset test.
+
+## 2.4. Cross Validation
+
+La tecnica de cross validation entrega más detalle sobre el error medio de los modelos logisticos:
+
+### Modelo 0:
+```{r echo=FALSE}
+cv.error <- rep(0,3)
+cv.error[1] <- cv.glm(loan.test, loan.glm0, K=3)$delta[1]
+cv.error[2] <- cv.glm(loan.test, loan.glm0, K=5)$delta[1]
+cv.error[3] <- cv.glm(loan.test, loan.glm0, K=10)$delta[1]
+mean(cv.error)
+```
+
+### Modelo 1:
+```{r echo=FALSE}
+cv.error[1] <- cv.glm(loan.test, loan.glm1, K=3)$delta[1]
+cv.error[2] <- cv.glm(loan.test, loan.glm1, K=5)$delta[1]
+cv.error[3] <- cv.glm(loan.test, loan.glm1, K=10)$delta[1]
+mean(cv.error)
+```
+
+### Modelo 1:
+```{r echo=FALSE}
+cv.error[1] <- cv.glm(loan.test, loan.glm2, K=3)$delta[1]
+cv.error[2] <- cv.glm(loan.test, loan.glm2, K=5)$delta[1]
+cv.error[3] <- cv.glm(loan.test, loan.glm2, K=10)$delta[1]
+mean(cv.error)
+```
+
+El modelo 0 es el que tiene menor error medio.
+
+# 3. Estimación del Cut Off y Matriz de Confusión
+Con un cutoff de 0.4663192, se tiene una menor cantidad de casos.
+```{r echo=FALSE}
+library(InformationValue)
+model <- glm(loan_status~., data=loan.train, family=binomial) #
+predicted <- predict(loan.glm0, loan.test, type="response")  # predicted scores
+optCutOff <- optimalCutoff(loan.test$loan_status, predicted)[1] 
+optCutOff 
+```
+
+## Bibliografía
+* Machine learning logistic regression for credit modelling in R, Datascience+, en sitio web: https://datascienceplus.com/machine-learning-logistic-regression-for-credit-modelling-in-r/
+
+* Logistic Regression, r-statistics.co, en sitio web: http://r-statistics.co/Logistic-Regression-With-R.html
+
+* Devolución de préstamos, RPUBS, en sitio web: https://rpubs.com/perevales/83897
